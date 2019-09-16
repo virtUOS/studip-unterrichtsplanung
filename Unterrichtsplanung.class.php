@@ -27,10 +27,10 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
      */
     public function perform($unconsumedPath)
     {
-        if (Request::isXhr() || !is_null(Request::get('xhr', null))) {
+        if (substr($unconsumedPath, 0, 3) == 'api') {
             $appFactory = new AppFactory();
             $app = $appFactory->makeApp($this);
-            $app->group('/unterrichtsplanung', new RouteMap($app));
+            $app->group('/unterrichtsplanung/api', new RouteMap($app));
             $app->run();
         } else {
             $trails_root        = $this->getPluginPath() . '/app';
