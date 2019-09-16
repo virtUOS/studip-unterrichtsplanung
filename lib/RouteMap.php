@@ -2,6 +2,8 @@
 
 namespace Unterrichtsplanung;
 
+use Unterrichtsplanung\Providers\StudipServices;
+
 class RouteMap
 {
     public function __construct(\Slim\App $app)
@@ -11,8 +13,10 @@ class RouteMap
 
     public function __invoke()
     {
+        $container = $this->app->getContainer();
+
         $this->app->group('', [$this, 'authenticatedRoutes'])
-            ->add(new Middlewares\Authentication());
+            ->add(new Middlewares\Authentication($container[StudipServices::AUTHENTICATOR]));
     }
 
     public function authenticatedRoutes()

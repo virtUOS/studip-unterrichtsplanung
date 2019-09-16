@@ -13,6 +13,22 @@ class Authentication
     // $user = $request->getAttribute(Authentication::USER_KEY);
     const USER_KEY = 'studip-user';
 
+    // a callable accepting two arguments username and password and
+    // returning either null or a Stud.IP user object
+    private $authenticator;
+
+    /**
+     * Der Konstruktor.
+     *
+     * @param callable $authenticator ein Callable, das den
+     *                                Nutzernamen und das Passwort als Argumente erhält und damit
+     *                                entweder einen Stud.IP-User-Objekt oder null zurückgibt
+     */
+    public function __construct($authenticator)
+    {
+        $this->authenticator = $authenticator;
+    }
+
     /**
      * Hier muss die Autorisierung implementiert werden.
      *
@@ -28,30 +44,32 @@ class Authentication
      */
     public function __invoke(Request $request, Response $response, $next)
     {
-        if (!is_null($this->user())) {
-            $request = $this->provideUser($request, $this->user());
+        $guards = [
+            // new Auth\SessionStrategy(),
+            new Auth\HttpBasicAuthStrategy($request, $this->authenticator)
+        ];
 
-            return $next($request, $response);
-        } else {
-            throw new \AccessDeniedException();
+        foreach ($guards as $guard) {
+            if ($guard->check()) {
+                $request = $this->provideUser($request, $guard->user());
+
+                return $next($request, $response);
+            }
+        }
+
+        return $this->generateChallenges($response, $guards);
+    }
+
+    // according to RFC 2616
+    private function generateChallenges(Response $response, array $guards)
+    {
+        $response = $response->withStatus(401);
+
+        foreach ($guards as $guard) {
+            $response = $guard->addChallenge($response);
         }
 
         return $response;
-    }
-
-    public function user()
-    {
-        if (!is_null($this->user)) {
-            return $this->user;
-        }
-
-        $isAuthenticated = isset($GLOBALS['auth']) && $GLOBALS['auth']->is_authenticated() && 'nobody' !== $GLOBALS['user']->id;
-
-        if ($isAuthenticated) {
-            $this->user = $GLOBALS['user']->getAuthenticatedUser();
-        }
-
-        return $this->user;
     }
 
     /**

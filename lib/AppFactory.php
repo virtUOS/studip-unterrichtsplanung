@@ -51,6 +51,7 @@ class AppFactory
         $container['settings']['displayErrorDetails'] = defined('\\Studip\\ENV') && \Studip\ENV === 'development';
 
         $container->register(new Providers\StudipConfig());
+        $container->register(new Providers\StudipServices());
 
         return $app;
     }

@@ -28,5 +28,8 @@
         "zip": [
             "zip -r unterrichtsplanung.zip *"
         ]
+    },
+    "require-dev": {
+        "codeception/codeception": "^3.1"
     }
 }
