@@ -16,8 +16,8 @@
         "vendor-dir": "composer_modules"
     },
     "require": {
-        "guzzlehttp/psr7": "~6.0",
-        "slim/slim": "~4.2.1"
+        "guzzlehttp/psr7": "~1.6.1",
+        "slim/slim": "~4.2.0"
     },
     "autoload": {
         "psr-4": {
