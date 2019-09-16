@@ -9,6 +9,14 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
     {
         parent::__construct();
 
+
+        $main = new Navigation(_('Unterrichtsplanung'));
+        $main->setImage(Icon::create('doctoral-cap'));
+        $main->setURL(PluginEngine::getURL('unterrichtsplanung'));
+
+        Navigation::addItem('/start/unterrichtsplanung', $main);
+        Navigation::addItem('/unterrichtsplanung', $main);
+
         require __DIR__.'/composer_modules/autoload.php';
     }
 
