@@ -1,0 +1,32 @@
+{
+    "name": "elan-ev/studip-unterrichtsplanung",
+    "description": "Stud.IP plugin Unterrichtsplanung",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "gloeggler",
+            "email": "gloeggler@elan-ev.de"
+        },
+        {
+            "name": "lucke",
+            "email": "lucke@elan-ev.de"
+        }
+    ],
+    "config": {
+        "vendor-dir": "composer_modules"
+    },
+    "require": {
+        "guzzlehttp/psr7": "~6.0",
+        "slim/slim": "~4.2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Unterrichtsplanung\\": "lib/"
+        }
+    },
+    "scripts": {
+        "zip": [
+            "zip -r unterrichtsplanung.zip *"
+        ]
+    }
+}
