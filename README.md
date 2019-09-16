@@ -1,1 +1,1 @@
-# studip-unterrichtsplanung
+# Stud.IP Plugin Unterrichtsplanung
