@@ -27,9 +27,18 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
      */
     public function perform($unconsumedPath)
     {
-        $appFactory = new AppFactory();
-        $app = $appFactory->makeApp($this);
-        $app->group('/unterrichtsplanung', new RouteMap($app));
-        $app->run();
+        if (Request::isXhr()) {
+            $appFactory = new AppFactory();
+            $app = $appFactory->makeApp($this);
+            $app->group('/unterrichtsplanung', new RouteMap($app));
+            $app->run();
+        } else {
+            $trails_root        = $this->getPluginPath() . '/app';
+            $dispatcher         = new Trails_Dispatcher($trails_root,
+                rtrim(PluginEngine::getURL($this, null, ''), '/'),
+                'index');
+            $dispatcher->current_plugin = $this;
+            $dispatcher->dispatch($unconsumed_path);
+        }
     }
 }

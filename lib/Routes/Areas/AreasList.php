@@ -10,9 +10,9 @@ use Unterrichtsplanung\UnterrichtsplanungTrait;
 use Unterrichtsplanung\UnterrichtsplanungController;
 use Unterrichtsplanung\Models\Areas;
 
-class AreasList extends DSMController
+class AreasList extends UnterrichtsplanungController
 {
-    use DSMTrait;
+    use UnterrichtsplanungTrait;
 
     public function __invoke(Request $request, Response $response, $args)
     {
