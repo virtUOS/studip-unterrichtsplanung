@@ -1,19 +1,10 @@
 <?php
 
-namespace JsonApi\Middlewares;
+namespace Unterrichtsplanung\Middlewares;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-/**
- * Diese Klasse ist eine "leere" Middleware, die noch implementiert
- * werden muss.
- *
- * Allerdings wird sie jetzt schon in \JsonApi\RouteMap
- * verwendet, um dort die autorisierten Routen abzusichern.
- *
- * @todo muss zu einem späteren Zeitpunk implementiert werden
- */
 class Authentication
 {
     // der Schlüssel des Request-Attributs, in dem der Stud.IP-Nutzer
@@ -21,22 +12,6 @@ class Authentication
 
     // $user = $request->getAttribute(Authentication::USER_KEY);
     const USER_KEY = 'studip-user';
-
-    // a callable accepting two arguments username and password and
-    // returning either null or a Stud.IP user object
-    private $authenticator;
-
-    /**
-     * Der Konstruktor.
-     *
-     * @param callable $authenticator ein Callable, das den
-     *                                Nutzernamen und das Passwort als Argumente erhält und damit
-     *                                entweder einen Stud.IP-User-Objekt oder null zurückgibt
-     */
-    public function __construct($authenticator)
-    {
-        $this->authenticator = $authenticator;
-    }
 
     /**
      * Hier muss die Autorisierung implementiert werden.
@@ -53,33 +28,30 @@ class Authentication
      */
     public function __invoke(Request $request, Response $response, $next)
     {
-        $guards = [
-            new Auth\SessionStrategy(),
-            new Auth\HttpBasicAuthStrategy($request, $this->authenticator),
-            new Auth\OAuth1Strategy($request, $this->authenticator),
-        ];
+        if (!is_null($this->user())) {
+            $request = $this->provideUser($request, $guard->user());
 
-        foreach ($guards as $guard) {
-            if ($guard->check()) {
-                $request = $this->provideUser($request, $guard->user());
-
-                return $next($request, $response);
-            }
-        }
-
-        return $this->generateChallenges($response, $guards);
-    }
-
-    // according to RFC 2616
-    private function generateChallenges(Response $response, array $guards)
-    {
-        $response = $response->withStatus(401);
-
-        foreach ($guards as $guard) {
-            $response = $guard->addChallenge($response);
+            return $next($request, $response);
+        } else {
+            throw new \AccessDeniedException();
         }
 
         return $response;
+    }
+
+    public function user()
+    {
+        if (!is_null($this->user)) {
+            return $this->user;
+        }
+
+        $isAuthenticated = isset($GLOBALS['auth']) && $GLOBALS['auth']->is_authenticated() && 'nobody' !== $GLOBALS['user']->id;
+
+        if ($isAuthenticated) {
+            $this->user = $GLOBALS['user']->getAuthenticatedUser();
+        }
+
+        return $this->user;
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace DSM;
+namespace Unterrichtsplanung;
 
 class Routemap
 {
@@ -12,18 +12,11 @@ class Routemap
     public function __invoke()
     {
         $this->app->group('', [$this, 'authenticatedRoutes'])
-            ->add(new Middlewares\Authentication())
-            ->add(new Middlewares\Authority());
-        // $this->app->group('', [$this, 'unauthenticatedRoutes']);
+            ->add(new Middlewares\Authentication());
     }
 
     public function authenticatedRoutes()
     {
         $this->app->get('/', Routes\Areas\AresList::class);
-    }
-
-    public function unauthenticatedRoutes()
-    {
-
     }
 }
