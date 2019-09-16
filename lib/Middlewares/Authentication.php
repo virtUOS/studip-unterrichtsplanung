@@ -29,7 +29,7 @@ class Authentication
     public function __invoke(Request $request, Response $response, $next)
     {
         if (!is_null($this->user())) {
-            $request = $this->provideUser($request, $guard->user());
+            $request = $this->provideUser($request, $this->user());
 
             return $next($request, $response);
         } else {

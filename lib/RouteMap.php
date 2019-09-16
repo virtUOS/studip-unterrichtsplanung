@@ -2,7 +2,7 @@
 
 namespace Unterrichtsplanung;
 
-class Routemap
+class RouteMap
 {
     public function __construct(\Slim\App $app)
     {
@@ -17,6 +17,6 @@ class Routemap
 
     public function authenticatedRoutes()
     {
-        $this->app->get('/', Routes\Areas\AresList::class);
+        $this->app->get('/areas', Routes\Areas\AreasList::class);
     }
 }

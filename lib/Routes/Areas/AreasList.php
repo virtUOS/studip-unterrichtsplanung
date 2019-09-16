@@ -1,6 +1,6 @@
 <?php
 
-namespace Unterrichtsplanung\Routes\Users;
+namespace Unterrichtsplanung\Routes\Areas;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,5 +16,6 @@ class AreasList extends UnterrichtsplanungController
 
     public function __invoke(Request $request, Response $response, $args)
     {
+        $this->createResponse(['test'], $response);
     }
 }

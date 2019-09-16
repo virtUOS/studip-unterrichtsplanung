@@ -27,7 +27,7 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
      */
     public function perform($unconsumedPath)
     {
-        if (Request::isXhr()) {
+        if (Request::isXhr() || !is_null(Request::get('xhr', null))) {
             $appFactory = new AppFactory();
             $app = $appFactory->makeApp($this);
             $app->group('/unterrichtsplanung', new RouteMap($app));
