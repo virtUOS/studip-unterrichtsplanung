@@ -22,5 +22,31 @@ class ApiCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains('{"id":"1","user_id":"0b2d7e24bfee348b28b4efc8baa2eaf8","name":"Test 1","templates_id":"1"}');
+
+        $I->sendGET('/plans');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContains('{"id":"1","user_id":"0b2d7e24bfee348b28b4efc8baa2eaf8","name":"Test 1","templates_id":"1"}');
+    }
+
+    public function editPlan(ApiTester $I)
+    {
+        $I->amHttpAuthenticated('tester', 'tester');
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPUT('/plans/1', [
+            'templates_id' => 2,
+            'name'         => 'Test 2'
+        ]);
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContains('{"id":"1","user_id":"0b2d7e24bfee348b28b4efc8baa2eaf8","name":"Test 2","templates_id":"2"}');
+
+        $I->sendGET('/plans');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContains('{"id":"1","user_id":"0b2d7e24bfee348b28b4efc8baa2eaf8","name":"Test 2","templates_id":"2"}');
+
     }
 }

@@ -34,4 +34,15 @@ Trait UnterrichtsplanungTrait
         )
         ->write(json_encode($data));
     }
+
+    public function toArray($data)
+    {
+        $result = [];
+
+        foreach ($data as $entry) {
+            $result[] = $entry->toArray();
+        }
+
+        return $result;
+    }
 }

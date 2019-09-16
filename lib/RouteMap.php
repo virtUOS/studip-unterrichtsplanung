@@ -23,5 +23,6 @@ class RouteMap
     {
         $this->app->get('/plans', Routes\Plans\PlansList::class);
         $this->app->post('/plans', Routes\Plans\PlansCreate::class);
+        $this->app->put('/plans/{id}', Routes\Plans\PlansUpdate::class);
     }
 }

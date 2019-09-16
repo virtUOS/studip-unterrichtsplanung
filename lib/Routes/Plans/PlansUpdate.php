@@ -10,7 +10,7 @@ use Unterrichtsplanung\UnterrichtsplanungTrait;
 use Unterrichtsplanung\UnterrichtsplanungController;
 use Unterrichtsplanung\Models\Plans;
 
-class PlansList extends UnterrichtsplanungController
+class PlansUpdate extends UnterrichtsplanungController
 {
     use UnterrichtsplanungTrait;
 
@@ -18,8 +18,21 @@ class PlansList extends UnterrichtsplanungController
     {
         global $user;
 
-        $plans = Plans::findByUser_id($user->id);
+        $json = $this->getRequestData($request, ['templates_id', 'name']);
 
-        return $this->createResponse($this->toArray($plans), $response);
+        $plan = Plans::find($args['id']);
+
+        if ($plan->user_id != $user->id) {
+            throw new Error('Access denied!', 403);
+        }
+
+        $plan->setData([
+            'name'         => $json['name'],
+            'templates_id' => $json['templates_id']
+        ]);
+
+        $plan->store();
+
+        return $this->createResponse($plan->toArray(), $response);
     }
 }
