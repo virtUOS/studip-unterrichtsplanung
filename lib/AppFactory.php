@@ -50,6 +50,11 @@ class AppFactory
         $container['plugin'] = $plugin;
         $container['settings']['displayErrorDetails'] = defined('\\Studip\\ENV') && \Studip\ENV === 'development';
 
+        // error handler
+        $container['errorHandler'] = function ($container) {
+            return new Errors\ExceptionHandler($container);
+        };
+
         $container->register(new Providers\StudipConfig());
         $container->register(new Providers\StudipServices());
 

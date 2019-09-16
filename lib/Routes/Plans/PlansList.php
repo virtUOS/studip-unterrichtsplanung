@@ -1,6 +1,6 @@
 <?php
 
-namespace Unterrichtsplanung\Routes\Areas;
+namespace Unterrichtsplanung\Routes\Plans;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -8,14 +8,16 @@ use Unterrichtsplanung\Errors\AuthorizationFailedException;
 use Unterrichtsplanung\Errors\Error;
 use Unterrichtsplanung\UnterrichtsplanungTrait;
 use Unterrichtsplanung\UnterrichtsplanungController;
-use Unterrichtsplanung\Models\Areas;
+use Unterrichtsplanung\Models\Plans;
 
-class AreasList extends UnterrichtsplanungController
+class PlansList extends UnterrichtsplanungController
 {
     use UnterrichtsplanungTrait;
 
     public function __invoke(Request $request, Response $response, $args)
     {
-        return $this->createResponse(['test'], $response);
+        global $user;
+
+        return $this->createResponse(Plans::findByUser_id($user->id), $response);
     }
 }

@@ -5,6 +5,19 @@ suites:
         path: .
         modules:
             enabled:
+                - Db:
+                    dsn: 'mysql:host=127.0.0.1;dbname=studip'
+                    user: 'root'
+                    password: ''
+                    populate: false
+                    cleanup: false
+                    initial_queries:
+                        - 'TRUNCATE du_infotexts;'
+                        - 'TRUNCATE du_textfields;'
+                        - 'TRUNCATE du_structures;'
+                        - 'TRUNCATE du_interdeps;'
+                        - 'TRUNCATE du_plans;'
+                        - 'TRUNCATE du_templates;'
                 - REST:
                     url: https://localhost/api
                     depends: PhpBrowser

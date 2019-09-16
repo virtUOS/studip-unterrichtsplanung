@@ -2,9 +2,11 @@
 
 namespace Unterrichtsplanung;
 
+use Unterrichtsplanung\Errors\Error;
+
 Trait UnterrichtsplanungTrait
 {
-    public function getRequestData($request)
+    public function getRequestData($request, $required_fields = [])
     {
         $body = (string) $request->getBody();
         if ('' === $body) {
@@ -13,6 +15,12 @@ Trait UnterrichtsplanungTrait
         $result = json_decode($body, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new UnprocessableEntityException(json_last_error_msg());
+        }
+
+        foreach ($required_fields as $field) {
+            if (!isset($result[$field])) {
+                throw new Error('missing field in json-data: ' . $field, 422);
+            }
         }
 
         return $result;
