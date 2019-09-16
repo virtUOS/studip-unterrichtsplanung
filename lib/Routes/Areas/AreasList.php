@@ -16,6 +16,6 @@ class AreasList extends UnterrichtsplanungController
 
     public function __invoke(Request $request, Response $response, $args)
     {
-        $this->createResponse(['test'], $response);
+        return $this->createResponse(['test'], $response);
     }
 }
