@@ -1,0 +1,64 @@
+.content-wrapper {
+    display: flex;
+}
+
+/****************
+ O V E R V I E W
+****************/
+.overview-boxes {
+    width: 864px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.overview-box {
+    background-repeat: no-repeat;
+    background-position-x: 165px;
+    background-position-y: 1em;
+    background-size: 86px;
+    border: solid thin #ccc;
+    width: 416px;
+    height: 200px;
+    margin: 0 1em 1em 0;
+}
+.overview-box.content {
+    background-image: url('../../../../../assets/images/icons/blue/files.svg');
+}
+.overview-box.media {
+    background-image: url('../../../../../assets/images/icons/blue/literature.svg');
+}
+.overview-box.methods {
+    background-image: url('../../../../../assets/images/icons/blue/admin.svg');
+}
+.overview-box.intention {
+    background-image: url('../../../../../assets/images/icons/blue/radar.svg');
+}
+.overview-box.situation {
+    background-image: url('../../../../../assets/images/icons/blue/home.svg');
+}
+.overview-box.individual {
+    background-image: url('../../../../../assets/images/icons/blue/headache.svg');
+}
+
+.overview-box h1{
+    margin-top: 6em;
+    border: none;
+    text-align: center;
+}
+
+/**************
+ I N F O B O X
+**************/
+.infobox-wrapper {
+    width: 420px;
+    height: 632px;
+    border: solid thin #ccc;
+}
+.infobox-wrapper h3 {
+    margin: 0;
+    padding: 1em;
+    background: #ccc;
+}
+.infobox-wrapper p {
+    padding: 1em 2em;
+    text-align: justify;
+}
