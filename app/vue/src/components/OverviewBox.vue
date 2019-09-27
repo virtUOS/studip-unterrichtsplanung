@@ -1,7 +1,9 @@
 <template>
-    <div class="overview-box" :class="catName">
-        <router-link :to="'/plan/'+planId+'/'+catName"><h1>{{title}}</h1></router-link>
-    </div>
+    <router-link :to="'/plan/'+planId+'/'+catName">
+        <div class="overview-box" :class="catName">
+            <h1>{{title}}</h1>
+        </div>
+    </router-link>
 </template>
 
 <script>
@@ -10,7 +12,7 @@ export default {
     props: {
         title: String,
         catName: String,
-        state: Object,
+        interdep: Object,
         planId: Number
     }
 }

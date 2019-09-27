@@ -6,11 +6,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     // just some dummy content ... soon we need real stuff
     state: {
-        count: 0
+        plan: {}
     },
     mutations: {
-        increment(state) {
-            state.count++;
+        loadPlan(state, planId) {
+            if (planId == 1) {
+                state.plan = { title: 'Plan A' };
+            } else {
+                state.plan = { title: 'default Plan' };
+            }
+            // todo
         }
     }
 });

@@ -1,6 +1,6 @@
 <template>
-  <div class="plan-individual">
-      <h1><router-link to='/'><span class="nav home"></span></router-link> / <router-link :to="'/plan/'+planId">{{plan.title}} </router-link> / individuelle Voraussetzungen</h1>
+  <div class="plan-method">
+      <h1><router-link to='/'><span class="nav home"></span></router-link> / <router-link :to="'/plan/'+planId">{{plan.title}} </router-link> / Methodik</h1>
       <div class="content-wrapper">
             <div class="content-container">
 
@@ -14,7 +14,7 @@
 import InfoBox from './InfoBox.vue'
 
 export default {
-    name: 'Individual',
+    name: 'Method',
     components: {
         InfoBox
     },

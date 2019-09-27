@@ -1,6 +1,66 @@
+/********************
+ B R E A D C R U M B
+********************/
+.nav.home {
+    display: inline-block;
+    background-image: url('../../../../../assets/images/icons/blue/home.svg');
+    background-repeat: no-repeat;
+    background-size: 24px;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+
+/*************
+C O N T E N T
+*************/ 
 .content-wrapper {
     display: flex;
 }
+.content-container {
+    width: 864px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+/********
+ H O M E
+********/
+.homebox {
+    border: solid thin #e7ebf1;
+    min-height: 600px;
+    width: 416px;
+    margin-right: 1em;
+}
+.homebox header {
+    margin: 0;
+    padding: 1em 1em 1em 2.5em;
+    background: #e7ebf1;
+    background-repeat: no-repeat;
+    background-position: 1em;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #444;
+}
+.homebox.plans header {
+    background-image: url('../../../../../assets/images/icons/black/edit.svg');
+}
+.homebox.add-plan header {
+    background-image: url('../../../../../assets/images/icons/black/add.svg');
+}
+.homebox .homebox-link {
+    margin: 1em;
+    padding: 1em;
+    border: solid thin #e7ebf1;
+    font-weight: 600;
+    color: #28497c;
+}
+.homebox .homebox-link:hover {
+    border: solid thin #28497c;
+}
+
 
 /****************
  O V E R V I E W
@@ -12,13 +72,16 @@
 }
 .overview-box {
     background-repeat: no-repeat;
-    background-position-x: 165px;
+    background-position-x: 176px;
     background-position-y: 1em;
-    background-size: 86px;
-    border: solid thin #ccc;
+    background-size: 64px;
+    border: solid thin #e7ebf1;
     width: 416px;
     height: 200px;
     margin: 0 1em 1em 0;
+}
+.overview-box:hover {
+    border: solid thin #28497c;
 }
 .overview-box.content {
     background-image: url('../../../../../assets/images/icons/blue/files.svg');
@@ -26,24 +89,24 @@
 .overview-box.media {
     background-image: url('../../../../../assets/images/icons/blue/literature.svg');
 }
-.overview-box.methods {
+.overview-box.method {
     background-image: url('../../../../../assets/images/icons/blue/admin.svg');
 }
 .overview-box.intention {
     background-image: url('../../../../../assets/images/icons/blue/radar.svg');
 }
 .overview-box.situation {
-    background-image: url('../../../../../assets/images/icons/blue/home.svg');
+    background-image: url('../../../../../assets/images/icons/blue/zoom-in2.svg');
 }
 .overview-box.individual {
     background-image: url('../../../../../assets/images/icons/blue/headache.svg');
 }
-
 .overview-box h1{
-    margin-top: 6em;
+    margin-top: 5em;
     border: none;
     text-align: center;
 }
+
 
 /**************
  I N F O B O X
@@ -51,12 +114,12 @@
 .infobox-wrapper {
     width: 420px;
     height: 632px;
-    border: solid thin #ccc;
+    border: solid thin #e7ebf1;
 }
 .infobox-wrapper h3 {
     margin: 0;
     padding: 1em;
-    background: #ccc;
+    background: #e7ebf1;;
 }
 .infobox-wrapper p {
     padding: 1em 2em;

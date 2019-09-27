@@ -7,7 +7,7 @@ import Situation from './../components/Situation.vue';
 import Individual from './../components/Individual.vue';
 import Intention from './../components/Intention.vue';
 import Content from './../components/Content.vue';
-import Methods from './../components/Methods.vue';
+import Method from './../components/Method.vue';
 import Media from './../components/Media.vue';
 
 Vue.use(VueRouter);
@@ -38,10 +38,9 @@ const routes = [
                 component: Content
             },
             {
-                path: 'methods',
-                component: Methods
+                path: 'method',
+                component: Method
             },
-
             {
                 path: 'media',
                 component: Media

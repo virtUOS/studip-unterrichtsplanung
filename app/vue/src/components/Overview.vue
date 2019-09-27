@@ -1,14 +1,14 @@
 <template>
   <div class="overview">
-      <h1>{{plan.title}} {{planId}}: Übersicht</h1>
+      <h1><router-link to='/'><span class="nav home"></span></router-link> / {{plan.title}}</h1>
     <div class="content-wrapper">
         <div class="overview-boxes">
-            <OverviewBox :title="'situative Voraussetzungen'" :state="stateInhalt" :catName="'situation'" :planId="planId"/>
-            <OverviewBox :title="'individuelle Voraussetzungen'" :state="stateInhalt" :catName="'individual'" :planId="planId"/>
-            <OverviewBox :title="'Intentionalität'" :state="stateInhalt" :catName="'intention'" :planId="planId" />
-            <OverviewBox :title="'Inhalt'" :state="stateInhalt" :catName="'content'" :planId="planId" />
-            <OverviewBox :title="'Methodik'" :state="stateInhalt" :catName="'methods'" :planId="planId" />
-            <OverviewBox :title="'Medien'" :state="stateInhalt" :catName="'media'" :planId="planId" />
+            <OverviewBox :title="'situative Voraussetzungen'" :interdep="interdepInhalt" :catName="'situation'" :planId="planId"/>
+            <OverviewBox :title="'individuelle Voraussetzungen'" :interdep="interdepInhalt" :catName="'individual'" :planId="planId"/>
+            <OverviewBox :title="'Intentionalität'" :interdep="interdepInhalt" :catName="'intention'" :planId="planId" />
+            <OverviewBox :title="'Inhalt'" :interdep="interdepInhalt" :catName="'content'" :planId="planId" />
+            <OverviewBox :title="'Methodik'" :interdep="interdepInhalt" :catName="'method'" :planId="planId" />
+            <OverviewBox :title="'Medien'" :interdep="interdepInhalt" :catName="'media'" :planId="planId" />
         </div>
         <InfoBox />
         </div>
@@ -25,18 +25,15 @@ export default {
         InfoBox,
         OverviewBox
     },
-    props: {
-    },
     data() {
         return {
-            stateInhalt: {"Inhalt": false, "Medien": false},
-            plan: {'title': 'Plan with routes'}
+            interdepInhalt: {"Inhalt": false, "Medien": false},
         };
     },
     computed: {
-        count() {
-            this.$store.commit('increment');
-            return this.$store.state.count;
+        plan() {
+            this.$store.commit('loadPlan', this.planId)
+            return this.$store.state.plan;
         },
         planId() {
             return this.$route.params.planId;
@@ -44,7 +41,3 @@ export default {
     },
 }
 </script>
-
-<style>
-
-</style>
