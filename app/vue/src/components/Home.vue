@@ -8,7 +8,10 @@
             </nav>
             <nav class="homebox add-plan">
                 <header>Plan hinzufügen</header>
-                <router-link to="/addplan/default"><p class="homebox-link">default</p></router-link>
+                <router-link to="/addplan/default"><p class="homebox-link">Bildungswissenschaftlich</p></router-link>
+                <router-link to="/addplan/math"><p class="homebox-link">Fachdidaktik Mathematik</p></router-link>
+                <router-link to="/addplan/sport"><p class="homebox-link">Fachdidaktik Sport</p></router-link>
+                <router-link to="/addplan/geo"><p class="homebox-link">Fachdidaktik Geologie</p></router-link>
             </nav>
             <InfoBox />
         </div>
@@ -16,12 +19,12 @@
 </template>
 
 <script>
-import InfoBox from './InfoBox.vue'
+import InfoBox from './InfoBox.vue';
 
 export default {
-    name: 'Home', 
+    name: 'Home',
     components: {
         InfoBox
     }
-}
+};
 </script>

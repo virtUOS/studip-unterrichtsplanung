@@ -25,6 +25,31 @@ C O N T E N T
 }
 
 
+/*********************
+N O T E E L E M E N T
+*********************/
+.note-element {
+    width: 850px;
+    height: 18em;
+    border:solid thin #e7ebf1;
+    margin-right: 1em;
+}
+.note-element .note-element-title {
+    background-color: #e7ebf1;
+    margin: 0;
+    padding: 1em;
+    font-weight: 600;
+}
+.note-element .note-element-content {
+    border: none;
+    background-color: #fff;
+    padding: 1em;
+    width: 820px;
+    height: 12em;
+    resize: none;
+}
+
+
 /********
  H O M E
 ********/

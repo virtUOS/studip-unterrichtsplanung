@@ -1,7 +1,7 @@
 <template>
-    <router-link :to="'/plan/'+planId+'/'+catName">
+    <router-link :to="'/plan/' + planId + '/' + catName">
         <div class="overview-box" :class="catName">
-            <h1>{{title}}</h1>
+            <h1>{{ title }}</h1>
         </div>
     </router-link>
 </template>
@@ -15,5 +15,5 @@ export default {
         interdep: Object,
         planId: Number
     }
-}
+};
 </script>
