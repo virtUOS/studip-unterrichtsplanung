@@ -22,17 +22,21 @@ class PlansUpdate extends UnterrichtsplanungController
 
         $plan = Plans::find($args['id']);
 
-        if ($plan->user_id != $user->id) {
-            throw new Error('Access denied!', 403);
+        if ($plan) {
+            if ($plan->user_id != $user->id) {
+                throw new Error('Access denied!', 403);
+            }
+
+            $plan->setData([
+                'name'     => $json['name'],
+                'metadata' =>  $json['metadata']
+            ]);
+
+            $plan->store();
+
+            return $this->createResponse($plan->toArray(), $response);
+        } else {
+            throw new Error('Template not found', 404);
         }
-
-        $plan->setData([
-            'name'     => $json['name'],
-            'metadata' =>  $json['metadata']
-        ]);
-
-        $plan->store();
-
-        return $this->createResponse($plan->toArray(), $response);
     }
 }

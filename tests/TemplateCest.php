@@ -1,22 +1,6 @@
 <?php
-class ApiCest
+class TemplateCest
 {
-    public function tryApi(ApiTester $I)
-    {
-        $I->amHttpAuthenticated(
-            $GLOBALS['container']['USERNAME'],
-            $GLOBALS['container']['PASSWORD']
-        );
-
-        $I->sendGET('/user');
-        $user = json_decode($I->grabResponse());
-
-        $this->user = $user;
-
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-    }
-
     public function createPlan(ApiTester $I)
     {
         $I->amHttpAuthenticated(
@@ -26,18 +10,17 @@ class ApiCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/plans', [
-            'templates_id' => 1,
+        $I->sendPOST('/templates', [
             'name'         => 'Test 1'
         ]);
 
-        $expected = '{"id":"1","user_id":"'. $this->user->id .'","name":"Test 1","templates_id":"1","metadata":null}';
+        $expected = '{"id":"1","name":"Test 1"}';
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);
 
-        $I->sendGET('/plans');
+        $I->sendGET('/templates');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);
@@ -52,17 +35,17 @@ class ApiCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/plans/1', [
-            'name'     => 'Test 2',
-            'metadata' => '{"somestuff":"somevalue"}'
+        $I->sendPUT('/templates/1', [
+            'name'     => 'Test 2'
         ]);
 
-        $expected = '{"id":"1","user_id":"'. $this->user->id .'","name":"Test 2","templates_id":"1","metadata":"{\"somestuff\":\"somevalue\"}"}';
+        $expected = '{"id":"1","name":"Test 2"}';
+
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);
 
-        $I->sendGET('/plans');
+        $I->sendGET('/templates');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);

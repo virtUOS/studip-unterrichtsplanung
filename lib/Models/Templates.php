@@ -2,7 +2,7 @@
 
 namespace Unterrichtsplanung\Models;
 
-class Templats extends \SimpleOrMap
+class Templates extends \SimpleOrMap
 {
     protected static function configure($config = array())
     {
