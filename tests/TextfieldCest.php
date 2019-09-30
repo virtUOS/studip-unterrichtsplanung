@@ -36,11 +36,6 @@ class TextfieldCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);
-
-        $I->sendGET('/textfields');
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
     }
 
     public function editNonExisting(ApiTester $I)
@@ -73,13 +68,8 @@ class TextfieldCest
             'text'          => 'Test 2'
         ]);
 
-        $expected = '{"id":"1","structures_id":"1","text":"Test 1","user_id":"'. $this->user->id .'"}';
+        $expected = '{"id":"1","structures_id":"2","text":"Test 2","user_id":"'. $this->user->id .'"}';
 
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
-
-        $I->sendGET('/textfields');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);
