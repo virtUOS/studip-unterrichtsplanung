@@ -10,7 +10,7 @@ use Unterrichtsplanung\UnterrichtsplanungTrait;
 use Unterrichtsplanung\UnterrichtsplanungController;
 use Unterrichtsplanung\Models\Textfields;
 
-class TextfieldsUpdate extends UnterrichtsplanungController
+class TextfieldsGetById extends UnterrichtsplanungController
 {
     use UnterrichtsplanungTrait;
 

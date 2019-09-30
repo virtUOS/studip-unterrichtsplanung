@@ -74,4 +74,39 @@ class TextfieldCest
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);
     }
+
+    public function getById(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendGET('/textfields/1');
+
+        $expected = '{"id":"1","structures_id":"2","text":"Test 2","user_id":"'. $this->user->id .'"}';
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContains($expected);
+    }
+
+
+    public function getByIdStructureId(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendGET('/structures/2/textfields');
+
+        $expected = '{"id":"1","structures_id":"2","text":"Test 2","user_id":"'. $this->user->id .'"}';
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContains($expected);
+    }
 }
