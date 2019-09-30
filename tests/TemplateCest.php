@@ -26,6 +26,21 @@ class TemplateCest
         $I->seeResponseContains($expected);
     }
 
+    public function editNonExistingTemplate(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPUT('/templates/2', [
+            'name'     => 'Test 2',
+        ]);
+
+        $I->seeResponseCodeIs(404);
+    }
+
     public function editAndListPlans(ApiTester $I)
     {
         $I->amHttpAuthenticated(
