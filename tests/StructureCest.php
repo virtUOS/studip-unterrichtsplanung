@@ -65,4 +65,40 @@ class StructureCest
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);
     }
+
+    public function addChildStructureWithMissingParent(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/structures', [
+            'name'         => 'Test 3',
+            'parent_id'    => 3
+        ]);
+
+        $I->seeResponseCodeIs(404);
+    }
+
+    public function addChildStructure(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/structures', [
+            'name'         => 'Test 3',
+            'parent_id'    => 1
+        ]);
+
+        $expected = '{"id":"2","parent_id":"1","name":"Test 3"}';
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContains($expected);
+    }
 }

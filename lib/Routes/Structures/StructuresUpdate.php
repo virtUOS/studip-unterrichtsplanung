@@ -18,16 +18,16 @@ class StructuresUpdate extends UnterrichtsplanungController
     {
         $json = $this->getRequestData($request, ['name']);
 
-        $template = Structures::find($args['id']);
+        $structure = Structures::find($args['id']);
 
-        if ($template) {
-            $template->setData([
+        if ($structure) {
+            $structure->setData([
                 'name'     => $json['name']
             ]);
 
-            $template->store();
+            $structure->store();
 
-            return $this->createResponse($template->toArray(), $response);
+            return $this->createResponse($structure->toArray(), $response);
         } else {
             throw new Error('Template not found', 404);
         }

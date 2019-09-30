@@ -18,6 +18,15 @@ class StructuresCreate extends UnterrichtsplanungController
     {
         $json = $this->getRequestData($request, ['name']);
 
+        // check, if parent_id exists
+        if ($json['parent_id'] && $json['parent_id'] != 0) {
+            $structure = Structures::find($json['parent_id']);
+
+            if (!$structure) {
+                throw new Error('Parent structure not found!', 404);
+            }
+        }
+
         $structure = Structures::create([
             'name'      => $json['name'],
             'parent_id' => $json['parent_id'] ?: 0

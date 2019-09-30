@@ -16,8 +16,8 @@ class StructuresList extends UnterrichtsplanungController
 
     public function __invoke(Request $request, Response $response, $args)
     {
-        $templates = Structures::findBySQL(1);
+        $structures = Structures::findBySQL(1);
 
-        return $this->createResponse($this->toArray($templates), $response);
+        return $this->createResponse($this->toArray($structures), $response);
     }
 }
