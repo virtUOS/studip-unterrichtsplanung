@@ -50,6 +50,8 @@ class AddTables extends Migration
           `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
           `name` varchar(32) NOT NULL
         )');
+
+        SimpleORMap::expireTableScheme();
     }
 
     public function down()
@@ -62,5 +64,7 @@ class AddTables extends Migration
         ] as $table) {
             $db->exec(sprintf('DROP TABLE IF EXISTS `%s`', $table));
         }
+
+        SimpleORMap::expireTableScheme();
     }
 }

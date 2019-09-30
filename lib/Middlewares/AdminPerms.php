@@ -28,7 +28,7 @@ class AdminPerms
         if (!\RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
                 $container['role']['admin']))
         {
-            //throw new Error('Access Denied', 403);
+            throw new Error('Access Denied', 403);
         }
 
         return $next($request, $response);
