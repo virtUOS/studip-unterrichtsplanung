@@ -39,5 +39,9 @@ class RouteMap
         $this->app->get('/templates', Routes\Templates\TemplatesList::class);
         $this->app->post('/templates', Routes\Templates\TemplatesCreate::class);
         $this->app->put('/templates/{id}', Routes\Templates\TemplatesUpdate::class);
+
+        $this->app->get('/structures', Routes\Structures\StructuresList::class);
+        $this->app->post('/structures', Routes\Structures\StructuresCreate::class);
+        $this->app->put('/structures/{id}', Routes\Structures\StructuresUpdate::class);
     }
 }
