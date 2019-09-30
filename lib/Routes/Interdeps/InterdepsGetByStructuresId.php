@@ -16,7 +16,11 @@ class InterdepsGetByStructuresId extends UnterrichtsplanungController
 
     public function __invoke(Request $request, Response $response, $args)
     {
-        $interdeps = Interdeps::findByStructures_id($args['structure_id']);
+        global $user;
+
+        $interdeps = Interdeps::findBySQL('structures_id = ? AND user_id = ?', [
+            $args['structures_id'], $user->id
+        ]);
 
         if (!empty($interdeps)) {
             return $this->createResponse($this->toArray($interdeps), $response);
