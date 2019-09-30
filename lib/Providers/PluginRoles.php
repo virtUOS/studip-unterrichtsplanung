@@ -2,7 +2,7 @@
 
 namespace Unterrichtsplanung\Providers;
 
-class StudipConfig implements \Pimple\ServiceProviderInterface
+class PluginRoles implements \Pimple\ServiceProviderInterface
 {
     /**
      * Diese Methode wird automatisch aufgerufen, wenn diese Klasse dem
@@ -16,6 +16,6 @@ class StudipConfig implements \Pimple\ServiceProviderInterface
     {
         $container['roles'] = [
             'admin' => 'Unterrichtsplanung_Admin'
-        ]
+        ];
     }
 }

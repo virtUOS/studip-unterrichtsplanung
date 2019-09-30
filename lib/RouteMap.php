@@ -20,9 +20,9 @@ class RouteMap
             ->add(new Middlewares\RemoveTrailingSlashes);
 
         $this->app->group('', [$this, 'adminRoutes'])
+            ->add(new Middlewares\AdminPerms($container))
             ->add(new Middlewares\Authentication($container[StudipServices::AUTHENTICATOR]))
-            ->add(new Middlewares\RemoveTrailingSlashes)
-            ->add(new Middlewares\AdminPerms);
+            ->add(new Middlewares\RemoveTrailingSlashes);
     }
 
     public function authenticatedRoutes()

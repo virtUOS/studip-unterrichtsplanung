@@ -8,6 +8,19 @@ use Unterrichtsplanung\Errors\Error;
 
 class AdminPerms
 {
+    // the container
+    private $container;
+
+    /**
+     * Der Konstruktor.
+     *
+     * @param callable $container the global slim container
+     */
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
     /**
      * Checks, if the current user has the admin role
      *
@@ -25,9 +38,12 @@ class AdminPerms
     {
         $container = $this->container;
 
-        if (!\RolePersistence::isAssignedRole($GLOBALS['user']->user_id,
-                $container['role']['admin']))
-        {
+        if (!$GLOBALS['perm']->have_perm('root')
+            && !\RolePersistence::isAssignedRole(
+                $GLOBALS['user']->user_id,
+                $container['roles']['admin']
+            )
+        ) {
             throw new Error('Access Denied', 403);
         }
 

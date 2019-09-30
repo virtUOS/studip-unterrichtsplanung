@@ -57,6 +57,7 @@ class AppFactory
 
         $container->register(new Providers\StudipConfig());
         $container->register(new Providers\StudipServices());
+        $container->register(new Providers\PluginRoles());
 
         return $app;
     }
