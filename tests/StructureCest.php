@@ -1,7 +1,7 @@
 <?php
 class StructureCest
 {
-    public function createPlan(ApiTester $I)
+    public function create(ApiTester $I)
     {
         $I->amHttpAuthenticated(
             $GLOBALS['container']['USERNAME'],
@@ -26,7 +26,7 @@ class StructureCest
         $I->seeResponseContains($expected);
     }
 
-    public function editNonExistingTemplate(ApiTester $I)
+    public function editNonExisting(ApiTester $I)
     {
         $I->amHttpAuthenticated(
             $GLOBALS['container']['USERNAME'],
@@ -41,7 +41,7 @@ class StructureCest
         $I->seeResponseCodeIs(404);
     }
 
-    public function editAndListPlans(ApiTester $I)
+    public function editAndList(ApiTester $I)
     {
         $I->amHttpAuthenticated(
             $GLOBALS['container']['USERNAME'],

@@ -21,7 +21,10 @@ class UsersShow extends UnterrichtsplanungController
             'id'       => $user->id,
             'username' => $user->username,
             'fullname' => get_fullname($user->id),
-            'status'   => $user->perms
+            'status'   => $user->perms,
+            'admin'    => \RolePersistence::isAssignedRole(
+                $GLOBALS['user']->user_id,
+                $this->container['roles']['admin'])
         ];
 
         return $this->createResponse($data, $response);

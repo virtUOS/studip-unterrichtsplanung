@@ -1,5 +1,5 @@
 <?php
-class PlanCest
+class TextfieldCest
 {
     public function tryApi(ApiTester $I)
     {
@@ -26,18 +26,18 @@ class PlanCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/plans', [
-            'templates_id' => 1,
-            'name'         => 'Test 1'
+        $I->sendPOST('/textfields', [
+            'structures_id' => 1,
+            'text'          => 'Test 1'
         ]);
 
-        $expected = '{"id":"1","user_id":"'. $this->user->id .'","name":"Test 1","templates_id":"1","metadata":null}';
+        $expected = '{"id":"1","structures_id":"1","text":"Test 1","user_id":"'. $this->user->id .'"}';
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);
 
-        $I->sendGET('/plans');
+        $I->sendGET('/textfields');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);
@@ -50,16 +50,14 @@ class PlanCest
             $GLOBALS['container']['PASSWORD']
         );
 
-
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/plans/2', [
-            'name'     => 'Test 2',
-            'metadata' => '{"somestuff":"somevalue"}'
+        $I->sendPUT('/textfields/2', [
+            'structures_id' => 2,
+            'text'          => 'Test 2'
         ]);
 
         $I->seeResponseCodeIs(404);
     }
-
 
     public function editAndList(ApiTester $I)
     {
@@ -70,18 +68,18 @@ class PlanCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/plans/1', [
-            'name'     => 'Test 2',
-            'metadata' => '{"somestuff":"somevalue"}'
+        $I->sendPUT('/textfields/1', [
+            'structures_id' => 2,
+            'text'          => 'Test 2'
         ]);
 
-        $expected = '{"id":"1","user_id":"'. $this->user->id .'","name":"Test 2","templates_id":"1","metadata":"{\"somestuff\":\"somevalue\"}"}';
+        $expected = '{"id":"1","structures_id":"1","text":"Test 1","user_id":"'. $this->user->id .'"}';
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);
 
-        $I->sendGET('/plans');
+        $I->sendGET('/textfields');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains($expected);

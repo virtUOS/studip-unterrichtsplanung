@@ -13,7 +13,7 @@ class AddTables extends Migration
 
         $db->exec('CREATE TABLE IF NOT EXISTS `du_infotexts` (
           `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-          `structures_id` int(11) NOT NULL,
+          `structures_id` int(11) NOT NULL DEFAULT 0,
           `templates_id` int(11) NOT NULL DEFAULT 0,
           `text` text NOT NULL
         )');
