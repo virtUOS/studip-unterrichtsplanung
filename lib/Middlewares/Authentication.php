@@ -45,7 +45,7 @@ class Authentication
     public function __invoke(Request $request, Response $response, $next)
     {
         $guards = [
-            // new Auth\SessionStrategy(),
+            new Auth\SessionStrategy(),
             new Auth\HttpBasicAuthStrategy($request, $this->authenticator)
         ];
 
