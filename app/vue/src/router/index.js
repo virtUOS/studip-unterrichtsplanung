@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from './../components/Home.vue';
 import Plan from './../components/Plan.vue';
+import AddPlan from './../components/AddPlan.vue';
 import Overview from './../components/Overview.vue';
 import Situation from './../components/Situation.vue';
 import Individual from './../components/Individual.vue';
@@ -46,8 +47,19 @@ const routes = [
                 component: Media
             }
         ]
+    },
+    {
+        path: '/addplan/:planType',
+        component: AddPlan
     }
 ];
-export default new VueRouter({
+var router = new VueRouter({
     routes
 });
+router.beforeEach((to, from, next) => {
+    if (to.params.planId) {
+        // check if plan in store is the plan we want
+    }
+    next();
+});
+export default router;

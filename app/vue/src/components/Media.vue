@@ -2,14 +2,14 @@
     <div class="plan-media">
         <h1>
             <router-link to="/"><span class="nav home"></span></router-link> /
-            <router-link :to="'/plan/' + planId">{{ plan.title }} </router-link> / Medien
+            <router-link :to="'/plan/' + plan.id">{{ plan.name }} </router-link> / Medien
         </h1>
         <div class="content-wrapper">
             <div class="content-container">
                 <!--- create component for each note extract from plan--->
-                <NoteElement :element="this.element"/>
+                <NoteElement :element="this.element" />
             </div>
-            <InfoBox />
+            <InfoBox :title="infoBoxTitle" />
         </div>
     </div>
 </template>
@@ -25,16 +25,16 @@ export default {
         NoteElement
     },
     data() {
-        return{
-            element: {title: 'lorem ipsum', content: '123'}
-        }
+        return {
+            element: { title: 'lorem ipsum', content: '123' }
+        };
     },
     computed: {
         plan() {
             return this.$store.state.plan;
         },
-        planId() {
-            return this.$route.params.planId;
+        infoBoxTitle() {
+            return 'Medien';
         }
     }
 };

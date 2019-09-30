@@ -1,7 +1,7 @@
 <template>
     <div class="overview">
         <h1>
-            <router-link to="/"><span class="nav home"></span></router-link> / {{ plan.title }}
+            <router-link to="/"><span class="nav home"></span></router-link> / {{ plan.name }}
         </h1>
         <div class="content-wrapper">
             <div class="overview-boxes">
@@ -9,25 +9,25 @@
                     :title="'situative Voraussetzungen'"
                     :interdep="interdepInhalt"
                     :catName="'situation'"
-                    :planId="planId"
+                    :planId="plan.id"
                 />
                 <OverviewBox
                     :title="'individuelle Voraussetzungen'"
                     :interdep="interdepInhalt"
                     :catName="'individual'"
-                    :planId="planId"
+                    :planId="plan.id"
                 />
                 <OverviewBox
                     :title="'Intentionalität'"
                     :interdep="interdepInhalt"
                     :catName="'intention'"
-                    :planId="planId"
+                    :planId="plan.id"
                 />
-                <OverviewBox :title="'Inhalt'" :interdep="interdepInhalt" :catName="'content'" :planId="planId" />
-                <OverviewBox :title="'Methodik'" :interdep="interdepInhalt" :catName="'method'" :planId="planId" />
-                <OverviewBox :title="'Medien'" :interdep="interdepInhalt" :catName="'media'" :planId="planId" />
+                <OverviewBox :title="'Inhalt'" :interdep="interdepInhalt" :catName="'content'" :planId="plan.id" />
+                <OverviewBox :title="'Methodik'" :interdep="interdepInhalt" :catName="'method'" :planId="plan.id" />
+                <OverviewBox :title="'Medien'" :interdep="interdepInhalt" :catName="'media'" :planId="plan.id" />
             </div>
-            <InfoBox />
+            <InfoBox :title="infoBoxTitle" />
         </div>
     </div>
 </template>
@@ -49,11 +49,10 @@ export default {
     },
     computed: {
         plan() {
-            this.$store.commit('loadPlan', this.planId);
             return this.$store.state.plan;
         },
-        planId() {
-            return this.$route.params.planId;
+        infoBoxTitle() {
+            return 'Planübersicht';
         }
     }
 };

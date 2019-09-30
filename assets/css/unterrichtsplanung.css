@@ -25,6 +25,42 @@ C O N T E N T
 }
 
 
+/************
+A D D P L A N
+************/
+.plan-metadata {
+    width: 850px;
+    margin-right: 1em;
+    border: solid thin #e7ebf1;
+}
+.plan-metadata-header {
+    margin: 0;
+    padding: 1em;
+    background-color: #e7ebf1;
+}
+.plan-metadata-fieldset {
+    padding: 1em;
+}
+.plan-metadata-fieldset label{
+    display: inline-block;
+    width: 14em;
+}
+.plan-metadata-fieldset input{
+    width: 20em;
+    padding: 0.5em;
+    margin: 0.5em;
+    border: solid thin #e7ebf1;
+}
+.plan-metadata-buttons {
+    padding: 1em;
+}
+.plan-metadata-errors {
+    padding: 1em;
+    color: red;
+    font-size: 600;
+}
+
+
 /*********************
 N O T E E L E M E N T
 *********************/
@@ -44,9 +80,14 @@ N O T E E L E M E N T
     border: none;
     background-color: #fff;
     padding: 1em;
+    margin: 0;
     width: 820px;
-    height: 12em;
+    height: 12.5em;
     resize: none;
+}
+.note-element .note-element-content:focus {
+    border: solid thin #28497c;
+    margin: -1px;
 }
 
 
@@ -84,6 +125,12 @@ N O T E E L E M E N T
 }
 .homebox .homebox-link:hover {
     border: solid thin #28497c;
+    background-color: #28497c;
+    color: #fff;
+}
+
+.homebox-link-subtitle {
+    color: #e7ebf1;
 }
 
 
@@ -107,6 +154,9 @@ N O T E E L E M E N T
 }
 .overview-box:hover {
     border: solid thin #28497c;
+}
+.overview-box:hover h1{
+    color: #28497c;
 }
 .overview-box.content {
     background-image: url('../../../../../assets/images/icons/blue/files.svg');
@@ -143,8 +193,12 @@ N O T E E L E M E N T
 }
 .infobox-wrapper h3 {
     margin: 0;
-    padding: 1em;
-    background: #e7ebf1;;
+    padding: 1em 1em 1em 3em;
+    background-color: #e7ebf1;;
+    background-image: url('../../../../../assets/images/icons/black/info-circle.svg');
+    background-repeat: no-repeat;
+    background-position: 1em center;
+    background-size: 24px;
 }
 .infobox-wrapper p {
     padding: 1em 2em;
