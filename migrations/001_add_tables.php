@@ -42,7 +42,8 @@ class AddTables extends Migration
           `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
           `user_id` varchar(32) NOT NULL,
           `name` varchar(255) NOT NULL,
-          `templates_id` int NOT NULL
+          `templates_id` int NOT NULL,
+          `metadata` text NULL
         )');
 
         $db->exec('CREATE TABLE IF NOT EXISTS `du_templates` (

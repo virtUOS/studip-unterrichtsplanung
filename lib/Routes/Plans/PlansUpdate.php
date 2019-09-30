@@ -27,8 +27,8 @@ class PlansUpdate extends UnterrichtsplanungController
         }
 
         $plan->setData([
-            'name'         => $json['name'],
-            'templates_id' => $json['templates_id']
+            'name'     => $json['name'],
+            'metadata' =>  $json['metadata']
         ]);
 
         $plan->store();
