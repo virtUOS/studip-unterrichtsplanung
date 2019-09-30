@@ -23,7 +23,8 @@ class PlansCreate extends UnterrichtsplanungController
         $plan = Plans::create([
             'user_id'      => $user->id,
             'name'         => $json['name'],
-            'templates_id' => $json['templates_id']
+            'templates_id' => $json['templates_id'],
+            'metadata'     => $json['metadata']
         ]);
 
         return $this->createResponse($plan->toArray(), $response);

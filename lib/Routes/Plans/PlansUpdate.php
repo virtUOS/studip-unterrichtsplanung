@@ -18,7 +18,7 @@ class PlansUpdate extends UnterrichtsplanungController
     {
         global $user;
 
-        $json = $this->getRequestData($request, ['templates_id', 'name']);
+        $json = $this->getRequestData($request, ['metadata', 'name']);
 
         $plan = Plans::find($args['id']);
 

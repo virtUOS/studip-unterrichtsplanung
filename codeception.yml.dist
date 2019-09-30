@@ -31,3 +31,5 @@ paths:
 settings:
     shuffle: false
     lint: true
+
+bootstrap: _bootstrap.php
