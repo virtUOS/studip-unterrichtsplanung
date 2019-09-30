@@ -1,6 +1,6 @@
 <?php
 
-namespace Unterrichtsplanung\Routes\Textfields;
+namespace Unterrichtsplanung\Routes\Interdeps;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -8,20 +8,21 @@ use Unterrichtsplanung\Errors\AuthorizationFailedException;
 use Unterrichtsplanung\Errors\Error;
 use Unterrichtsplanung\UnterrichtsplanungTrait;
 use Unterrichtsplanung\UnterrichtsplanungController;
-use Unterrichtsplanung\Models\Textfields;
+use Unterrichtsplanung\Models\Interdeps;
 
-class TextfieldsGetByStructureId extends UnterrichtsplanungController
+class InterdepsGetByStructuresId extends UnterrichtsplanungController
 {
     use UnterrichtsplanungTrait;
 
     public function __invoke(Request $request, Response $response, $args)
     {
-        $textfields = Textfields::findByStructures_id($args['structure_id']);
+        $interdeps = Interdeps::findByStructures_id($args['structure_id']);
 
-        if (!empty($textfields)) {
-            return $this->createResponse($this->toArray($textfields), $response);
+        if (!empty($interdeps)) {
+            return $this->createResponse($this->toArray($interdeps), $response);
         } else {
-            throw new Error('Textfield not found', 404);
+            $this->createResponse([], $response);
         }
+
     }
 }

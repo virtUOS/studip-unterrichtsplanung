@@ -16,9 +16,15 @@ class TextfieldsGetById extends UnterrichtsplanungController
 
     public function __invoke(Request $request, Response $response, $args)
     {
+        global $user;
+
         $textfield = Textfields::find($args['id']);
 
         if ($textfield) {
+            if ($textfield->user_id != $user->id) {
+                throw new Error('Access denied!', 403);
+            }
+
             return $this->createResponse($textfield->toArray(), $response);
         } else {
             throw new Error('Textfield not found', 404);

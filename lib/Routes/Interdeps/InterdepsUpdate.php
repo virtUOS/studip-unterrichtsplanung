@@ -16,20 +16,29 @@ class InterdepsUpdate extends UnterrichtsplanungController
 
     public function __invoke(Request $request, Response $response, $args)
     {
-        $json = $this->getRequestData($request, ['name']);
+        global $user;
 
-        $interdep = Interdeps::find($args['id']);
+        $json = $this->getRequestData($request, ['references']);
+
+        $interdep = Interdeps::findOneBySQL('structures_id = ? AND user_id = ?', [
+            $args['structures_id'], $user->id
+        ]);
 
         if ($interdep) {
+            if ($interdep->user_id != $user->id) {
+                throw new Error('Access denied!', 403);
+            }
+
             $interdep->setData([
-                'name'     => $json['name']
+                'structures_id' => $args['structures_id'],
+                'references'    => $json['references']
             ]);
 
             $interdep->store();
 
             return $this->createResponse($interdep->toArray(), $response);
         } else {
-            throw new Error('Template not found', 404);
+            throw new Error('Interdep not found', 404);
         }
     }
 }

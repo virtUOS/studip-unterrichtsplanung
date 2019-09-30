@@ -37,13 +37,13 @@ class RouteMap
 
         $this->app->get('/structures', Routes\Structures\StructuresList::class);
 
-        $this->app->get('/structures/{structure_id}/textfields', Routes\Textfields\TextfieldsGetByStructureId::class);
+        $this->app->get('/structures/{structures_id}/textfields', Routes\Textfields\TextfieldsGetByStructuresId::class);
+
+        $this->app->get('/structures/{structures_id}/interdeps', Routes\Interdeps\InterdepsGetByStructuresId::class);
+        $this->app->post('/structures/{structures_id}/interdeps', Routes\Interdeps\InterdepsCreate::class);
+        $this->app->put('/structures/{structures_id}/interdeps', Routes\Interdeps\InterdepsUpdate::class);
 
         $this->app->get('/infotexts', Routes\Infotexts\InfotextsList::class);
-
-        $this->app->get('/interdeps', Routes\Interdeps\InterdepsList::class);
-        $this->app->post('/interdeps', Routes\Interdeps\InterdepsCreate::class);
-        $this->app->put('/interdeps/{id}', Routes\Interdeps\InterdepsUpdate::class);
 
         $this->app->get('/textfields/{id}', Routes\Textfields\TextfieldsGetById::class);
         $this->app->post('/textfields', Routes\Textfields\TextfieldsCreate::class);

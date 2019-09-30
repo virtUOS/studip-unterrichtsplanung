@@ -16,11 +16,17 @@ class TextfieldsUpdate extends UnterrichtsplanungController
 
     public function __invoke(Request $request, Response $response, $args)
     {
+        global $user;
+
         $json = $this->getRequestData($request, ['structures_id', 'text']);
 
         $textfield = Textfields::find($args['id']);
 
         if ($textfield) {
+            if ($textfield->user_id != $user->id) {
+                throw new Error('Access denied!', 403);
+            }
+
             $textfield->setData([
                 'structures_id' => $json['structures_id'],
                 'text'          => $json['text']
