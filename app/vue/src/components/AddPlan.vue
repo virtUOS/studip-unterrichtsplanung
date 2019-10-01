@@ -5,7 +5,7 @@
         </h1>
         <div class="content-wrapper">
             <div class="plan-metadata">
-                <h3 class="plan-metadata-header">{{ planTypeFullText }}</h3>
+                <h3 class="plan-metadata-header">{{ getPlanTemplateName(this.$route.params.planType) }}</h3>
                 <div class="plan-metadata-fieldset">
                     <label for="planTitle">Plantitel:</label>
                     <input type="text" name="planTitle" v-model="planTitle" /> <br />
@@ -35,9 +35,11 @@
 <script>
 import InfoBox from './InfoBox.vue';
 import axios from 'axios';
+import mixin from './../mixins/mixin.js';
 
 export default {
     name: 'AddPlan',
+    mixins: [mixin],
     components: {
         InfoBox
     },
@@ -47,24 +49,6 @@ export default {
         };
     },
     computed: {
-        planTypeFullText() {
-            let fullText = '';
-            switch (this.$route.params.planType) {
-                case '1':
-                    fullText = 'Bildungswissenschaftlich';
-                    break;
-                case '2':
-                    fullText = 'Fachdidaktik Mathematik';
-                    break;
-                case '3':
-                    fullText = 'Fachdidaktik Sport';
-                    break;
-                case '4':
-                    fullText = 'Fachdidaktik Geologie';
-                    break;
-            }
-            return fullText;
-        },
         infoBoxTitle() {
             return 'Einen Plan erstellen';
         }

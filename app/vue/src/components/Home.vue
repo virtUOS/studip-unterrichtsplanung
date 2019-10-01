@@ -6,7 +6,8 @@
                 <header>Plan bearbeiten</header>
                 <router-link :to="'/plan/' + plan.id" v-for="plan in this.plans" :key="plan.id">
                     <p class="homebox-link">
-                        {{ plan.name }} <span class="homebox-link-subtitle">- {{ plan.templates_id }}</span>
+                        {{ plan.name }}
+                        <span class="homebox-link-subtitle">- {{ getPlanTemplateName(plan.templates_id) }}</span>
                     </p>
                 </router-link>
             </nav>
@@ -25,9 +26,11 @@
 <script>
 import InfoBox from './InfoBox.vue';
 import axios from 'axios';
+import mixin from './../mixins/mixin.js';
 
 export default {
     name: 'Home',
+    mixins: [mixin],
     components: {
         InfoBox
     },
