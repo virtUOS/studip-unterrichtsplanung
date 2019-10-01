@@ -4,12 +4,7 @@
         <div class="content-wrapper">
             <nav class="homebox plans">
                 <header>Plan bearbeiten</header>
-                <router-link
-                    :to="'/plan/' + plan.id"
-                    v-for="plan in this.plans"
-                    :key="plan.id"
-                    @click.native="setPlan(plan)"
-                >
+                <router-link :to="'/plan/' + plan.id" v-for="plan in this.plans" :key="plan.id">
                     <p class="homebox-link">
                         {{ plan.name }} <span class="homebox-link-subtitle">- {{ plan.templates_id }}</span>
                     </p>
@@ -57,10 +52,6 @@ export default {
                 .catch(function(error) {
                     console.log(error);
                 });
-        },
-        setPlan(plan) {
-            // use this until router takes care
-            this.$store.state.plan = plan;
         }
     }
 };

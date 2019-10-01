@@ -10,6 +10,15 @@
     height: 24px;
     vertical-align: middle;
 }
+.nav.edit-plan {
+    display: inline-block;
+    background-image: url('../../../../../assets/images/icons/blue/edit.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
 
 
 /*************
