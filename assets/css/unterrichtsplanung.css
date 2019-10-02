@@ -68,7 +68,56 @@ A D D P L A N
     color: red;
     font-size: 600;
 }
+/***************************
+A D D N O T E E L E M E N T
+***************************/
+.note-element-adder {
+    height: 380px;
+}
+.add-note {
+    display: inline-block;
+    vertical-align: top;
+    border: solid thin #e7ebf1;
+    background-color: #fff;
+    background-image: url('../../../../../assets/images/icons/blue/add.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 32px;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+}
+.add-note.active, 
+.add-note:hover {
+    border-right: none;
+    background-color: #28497c;
+    background-image: url('../../../../../assets/images/icons/white/add.svg');
+}
 
+.note-element-list {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: solid thin #e7ebf1;
+}
+.note-element-list li{
+    margin: 1em;
+    padding: 1em ;
+    border: solid thin #e7ebf1;
+    list-style: none;
+    color: #28497c;
+    background-color: #fff;
+    cursor: pointer;
+}
+.note-element-list li:hover{
+    color: #fff;
+    background-color: #28497c;
+}
+.note-element-list li.inactive-element,
+.note-element-list li.inactive-element:hover{
+    color: #e7ebf1;
+    cursor: not-allowed;
+}
 
 /*********************
 N O T E E L E M E N T
