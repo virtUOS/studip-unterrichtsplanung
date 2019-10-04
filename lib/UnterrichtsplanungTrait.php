@@ -49,7 +49,9 @@ Trait UnterrichtsplanungTrait
             'attributes' => $entry->toArray()
         ];
 
-        $data['relationships'] = $entry->getRelationships();
+        if (!empty($relationships = $entry->getRelationships())) {
+            $data['relationships'] = $relationships;
+        }
 
         return $data;
     }
