@@ -12,11 +12,21 @@ class Structures extends \SimpleOrMap
     {
         $config['db_table'] = 'du_structures';
 
+        $config['has_many']['structures'] = [
+            'class_name'        => Structures::class,
+            'assoc_foreign_key' => 'parent_id'
+        ];
+
         parent::configure($config);
     }
 
     public function getRelationships()
     {
-        return [];
+        $data = [];
+
+        $data['structures']['links']['related'] =
+            $this->getRelLink('structures/' . $this->id);
+
+        return $data;
     }
 }

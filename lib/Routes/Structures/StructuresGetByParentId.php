@@ -10,14 +10,20 @@ use Unterrichtsplanung\UnterrichtsplanungTrait;
 use Unterrichtsplanung\UnterrichtsplanungController;
 use Unterrichtsplanung\Models\Structures;
 
-class StructuresList extends UnterrichtsplanungController
+class StructuresGetByParentId extends UnterrichtsplanungController
 {
     use UnterrichtsplanungTrait;
 
     public function __invoke(Request $request, Response $response, $args)
     {
-        $structures = Structures::findByParent_id(0);
+        global $user;
 
-        return $this->createResponse($this->toArray($structures), $response);
+        $structures = Structures::findByParent_id($args['id']);
+
+        if ($structures) {
+            return $this->createResponse($this->toArray($structures), $response);
+        } else {
+            throw new Error('Structure not found', 404);
+        }
     }
 }

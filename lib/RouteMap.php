@@ -40,6 +40,7 @@ class RouteMap
         $this->app->get('/templates', Routes\Templates\TemplatesList::class);
 
         $this->app->get('/structures', Routes\Structures\StructuresList::class);
+        $this->app->get('/structures/{id}', Routes\Structures\StructuresGetByParentId::class);
 
         $this->app->get('/structures/{structures_id}/textfields', Routes\Textfields\TextfieldsGetByStructuresId::class);
 
