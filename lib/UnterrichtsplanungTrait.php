@@ -6,6 +6,7 @@ use Unterrichtsplanung\Errors\Error;
 
 Trait UnterrichtsplanungTrait
 {
+
     public function getRequestData($request, $required_fields = [])
     {
         $body = (string) $request->getBody();
@@ -35,14 +36,32 @@ Trait UnterrichtsplanungTrait
         ->write(json_encode($data));
     }
 
-    public function toArray($data)
+    public function createEmptyResponse($response)
+    {
+        return $this->createResponse(['data' => []], $response);
+    }
+
+    public function transform($entry, $relations = [])
+    {
+        $data = [
+            'type'       => strtolower((new \ReflectionClass($entry))->getShortName()),
+            'id'         => $entry->getId(),
+            'attributes' => $entry->toArray()
+        ];
+
+        $data['relationships'] = $entry->getRelationships();
+
+        return $data;
+    }
+
+    public function toArray($data, $relations = [])
     {
         $result = [];
 
         foreach ($data as $entry) {
-            $result[] = $entry->toArray();
+            $result[] = $this->transform($entry);
         }
 
-        return $result;
+        return ['data' => $result];
     }
 }

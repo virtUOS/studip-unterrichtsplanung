@@ -23,6 +23,8 @@ class RouteMap
             ->add(new Middlewares\AdminPerms($container))
             ->add(new Middlewares\Authentication($container[StudipServices::AUTHENTICATOR]))
             ->add(new Middlewares\RemoveTrailingSlashes);
+
+        $this->app->get('/discovery', Routes\DiscoveryIndex::class);
     }
 
     public function authenticatedRoutes()
@@ -30,8 +32,10 @@ class RouteMap
         $this->app->get('/user', Routes\Users\UsersShow::class);
 
         $this->app->get('/plans', Routes\Plans\PlansList::class);
+        $this->app->get('/plans/{id}', Routes\Plans\PlansGetById::class);
         $this->app->post('/plans', Routes\Plans\PlansCreate::class);
         $this->app->put('/plans/{id}', Routes\Plans\PlansUpdate::class);
+        $this->app->get('/plans/{id}/textfields', Routes\Textfields\TextfieldsGetByPlansId::class);
 
         $this->app->get('/templates', Routes\Templates\TemplatesList::class);
 

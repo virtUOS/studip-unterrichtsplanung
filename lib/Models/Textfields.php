@@ -2,8 +2,12 @@
 
 namespace Unterrichtsplanung\Models;
 
+use Unterrichtsplanung\RelationshipTrait;
+
 class Textfields extends \SimpleOrMap
 {
+    use RelationshipTrait;
+
     protected static function configure($config = array())
     {
         $config['db_table'] = 'du_textfields';
@@ -14,5 +18,15 @@ class Textfields extends \SimpleOrMap
         ];
 
         parent::configure($config);
+    }
+
+    public function getRelationships()
+    {
+        $data = [];
+
+        $data['plans']['links']['related'] =
+            $this->getRelLink('plans/' . $this->plans_id);
+
+        return $data;
     }
 }

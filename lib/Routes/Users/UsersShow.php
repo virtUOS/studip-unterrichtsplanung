@@ -27,6 +27,10 @@ class UsersShow extends UnterrichtsplanungController
                 $this->container['roles']['admin'])
         ];
 
-        return $this->createResponse($data, $response);
+        return $this->createResponse([
+            'type' => 'user',
+            'id'   => $user->id,
+            'data' => $data
+        ], $response);
     }
 }
