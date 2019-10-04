@@ -12,8 +12,10 @@ class AddRoles extends Migration
     public function up()
     {
         $role = new Role();
+
         $role->setRolename(self::rolename);
         $role->setSystemtype(false);
+
         RolePersistence::saveRole($role);
     }
 
@@ -25,7 +27,6 @@ class AddRoles extends Migration
         $stmt->execute([self::rolename]);
 
         while ($data = $stmt->fetch()) {
-            var_dump($data);
             $role = new Role($data['roleid'], $data['rolename']);
 
             RolePersistence::deleteRole($role);

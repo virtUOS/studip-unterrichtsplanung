@@ -21,7 +21,7 @@ class TextfieldsGetById extends UnterrichtsplanungController
         $textfield = Textfields::find($args['id']);
 
         if ($textfield) {
-            if ($textfield->user_id != $user->id) {
+            if ($textfield->plans->user_id != $user->id) {
                 throw new Error('Access denied!', 403);
             }
 

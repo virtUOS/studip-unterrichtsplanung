@@ -8,6 +8,11 @@ class Textfields extends \SimpleOrMap
     {
         $config['db_table'] = 'du_textfields';
 
+        $config['belongs_to']['plans'] = [
+            'class_name'  => Plans::class,
+            'foreign_key' => 'plans_id'
+        ];
+
         parent::configure($config);
     }
 }

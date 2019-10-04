@@ -22,7 +22,7 @@ class AddTables extends Migration
           `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
           `structures_id` int NOT NULL,
           `text` text NOT NULL,
-          `user_id` varchar(32) NOT NULL
+          `plans_id` int NOT NULL
         )');
 
         $db->exec('CREATE TABLE IF NOT EXISTS `du_structures` (
