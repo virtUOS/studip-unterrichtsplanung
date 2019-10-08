@@ -1,7 +1,7 @@
 <template>
     <div class="overview">
         <h1>
-            <router-link to="/"><span class="nav home"></span></router-link> / {{ plan.name }}
+            <router-link to="/"><span class="nav home"></span></router-link> / {{ plan.attributes.name }}
             <router-link :to="'/editplan/' + plan.id"><span class="nav edit-plan"></span></router-link>
         </h1>
         <div class="content-wrapper">

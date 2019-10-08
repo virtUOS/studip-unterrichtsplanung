@@ -5,21 +5,23 @@
         </h1>
         <div class="content-wrapper">
             <div class="plan-metadata">
-                <h3 class="plan-metadata-header">{{ plan.templates_name }}</h3>
+                <h3 class="plan-metadata-header">{{ plan.attributes.templates_name }}</h3>
                 <div class="plan-metadata-fieldset">
                     <label for="planTitle">Plantitel:</label>
-                    <input type="text" name="planTitle" v-model="plan.name" /> <br />
+                    <input type="text" name="planTitle" v-model="plan.attributes.name" /> <br />
                     <label for="typeOfSchool">Schulform:</label>
-                    <input type="text" name="typeOfSchool" v-model="plan.metadata.typeOfSchool" /> <br />
+                    <input type="text" name="typeOfSchool" v-model="plan.attributes.metadata.typeOfSchool" /> <br />
                     <label for="gradeLevel">Klassenstufe:</label>
-                    <input type="text" name="gradeLevel" v-model="plan.metadata.gradeLevel" /> <br />
+                    <input type="text" name="gradeLevel" v-model="plan.attributes.metadata.gradeLevel" /> <br />
                     <label for="subject">Fach:</label>
-                    <input type="text" name="subject" v-model="plan.metadata.subject" /> <br />
+                    <input type="text" name="subject" v-model="plan.attributes.metadata.subject" /> <br />
                     <label for="topic">Thema der Unterrichtsstunde:</label>
-                    <input type="text" name="topic" v-model="plan.metadata.topic" /><br />
-                    <label for="date">Datum:</label><input type="date" name="date" v-model="plan.metadata.date" />
+                    <input type="text" name="topic" v-model="plan.attributes.metadata.topic" /><br />
+                    <label for="date">Datum:</label
+                    ><input type="date" name="date" v-model="plan.attributes.metadata.date" />
                     <br />
-                    <label for="time">Uhrzeit:</label> <input type="time" name="time" v-model="plan.metadata.time" />
+                    <label for="time">Uhrzeit:</label>
+                    <input type="time" name="time" v-model="plan.attributes.metadata.time" />
                     <br />
                 </div>
                 <div class="plan-metadata-buttons">
@@ -55,17 +57,21 @@ export default {
         };
     },
     beforeMount() {
-        this.plan.metadata = {};
+        this.plan.attributes = {};
+        this.plan.attributes.metadata = {};
     },
     mounted() {
         this.plan = this.$store.state.plan;
-        if (this.plan != undefined) {
-            this.plan.metadata = JSON.parse(this.plan.metadata);
-            this.plan.templates_name = this.getPlanTemplateName(this.plan.templates_id);
+        if (this.plan.attributes != undefined) {
+            try {
+                this.plan.attributes.metadata = JSON.parse(this.plan.attributes.metadata);
+            } catch {
+                // do nothing
+            }
         } else {
-            this.plan.metadata = {};
+            this.plan.attributes.metadata = {};
         }
-        // this.test();
+        this.plan.attributes.templates_name = this.getPlanTemplateName(this.plan.attributes.templates_id);
     },
     computed: {
         infoBoxTitle() {
@@ -74,7 +80,7 @@ export default {
     },
     methods: {
         storePlan: function() {
-            if (!this.plan.name) {
+            if (!this.plan.attributes.name) {
                 this.errors.push('Bitte geben Sie einen Plantitel ein!');
                 return false;
             } else {
@@ -84,9 +90,9 @@ export default {
 
             axios
                 .put('./api/plans/' + this.plan.id, {
-                    templates_id: this.plan.templates_id,
-                    name: this.plan.name,
-                    metadata: JSON.stringify(this.plan.metadata)
+                    templates_id: this.plan.attributes.templates_id,
+                    name: this.plan.attributes.name,
+                    metadata: JSON.stringify(this.plan.attributes.metadata)
                 })
                 .then(function() {
                     view.$router.push({ path: '/plan/' + view.plan.id });

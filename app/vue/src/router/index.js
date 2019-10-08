@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
             axios
                 .get('./api/plans')
                 .then(function(response) {
-                    plans = response.data;
+                    plans = response.data.data;
                     plans.forEach(function(plan) {
                         if (to.params.planId == plan.id) {
                             store.state.plan = plan;

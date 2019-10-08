@@ -2,11 +2,10 @@
     <div class="plan-situation">
         <h1>
             <router-link to="/"><span class="nav home"></span></router-link> /
-            <router-link :to="'/plan/' + plan.id">{{ plan.name }} </router-link> / situative Voraussetzungen
+            <router-link :to="'/plan/' + plan.id">{{ plan.attributes.name }} </router-link> / situative Voraussetzungen
         </h1>
         <div class="content-wrapper">
             <div class="content-container">
-                <!--- create component for each note extract from plan--->
                 <NoteElement :element="element" v-for="element in elements" :key="element.id" />
                 <NoteElementAdder :structures_id="1" :elementList="this.elementList" @addElement="addElement" />
             </div>
@@ -16,7 +15,7 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 import InfoBox from './InfoBox.vue';
 import NoteElement from './NoteElement.vue';
 import NoteElementAdder from './NoteElementAdder.vue';
@@ -31,14 +30,8 @@ export default {
     data() {
         return {
             // get this from database
-            elementList: [
-                { id: 1, name: 'Klassenkomposition', add: true },
-                { id: 2, name: 'Soziale Situation in der Schulklasse', add: true },
-                { id: 3, name: 'Räumliche und zeitliche Voraussetzungen', add: true },
-                { id: 4, name: 'Situation der Schule', add: true },
-                { id: 5, name: 'Lehrplanvorgaben', add: false }
-            ],
-            elements: [{ id: 5, name: 'Lehrplanvorgaben', text: 'lorem ipsum' }]
+            elementList: [],
+            elements: []
         };
     },
     computed: {
@@ -49,14 +42,49 @@ export default {
             return 'situative Voraussetzungen';
         }
     },
+    mounted() {
+        this.getStructures();
+    },
     methods: {
-        addElement(element_id) {
-            this.elements.push({
-                id: element_id,
-                name: this.elementList.find(x => x.id == element_id).name,
-                text: 'it works'
+        addElement() {
+            this.elementList = [];
+            this.elements = [];
+            this.getStructures();
+        },
+        getStructures() {
+            let view = this;
+            axios
+                .get('./api/structures/1')
+                .then(function(response) {
+                    view.elementList = response.data.data;
+                    view.elementList.forEach(function(element) {
+                        element.add = true;
+                    });
+                    view.getElements();
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
+        getElements() {
+            let view = this;
+            this.elementList.forEach(function(element, index) {
+                axios
+                    .get('./api/structures/' + element.id + '/textfields')
+                    .then(function(response) {
+                        if (response.data.data) {
+                            let element = response.data.data[0];
+                            element.name = view.elementList.find(
+                                x => x.id == element.attributes.structures_id
+                            ).attributes.name;
+                            view.elements.push(element);
+                            view.elementList[index].add = false;
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
             });
-            // update element list
         }
     }
 };

@@ -6,8 +6,10 @@
                 <header>Plan bearbeiten</header>
                 <router-link :to="'/plan/' + plan.id" v-for="plan in this.plans" :key="plan.id">
                     <p class="homebox-link">
-                        {{ plan.name }}
-                        <span class="homebox-link-subtitle">- {{ getPlanTemplateName(plan.templates_id) }}</span>
+                        {{ plan.attributes.name }}
+                        <span class="homebox-link-subtitle"
+                            >- {{ getPlanTemplateName(plan.attributes.templates_id) }}</span
+                        >
                     </p>
                 </router-link>
             </nav>
@@ -50,7 +52,7 @@ export default {
             axios
                 .get('./api/plans')
                 .then(function(response) {
-                    view.plans = response.data;
+                    view.plans = response.data.data;
                 })
                 .catch(function(error) {
                     console.log(error);

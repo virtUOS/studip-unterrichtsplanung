@@ -8,7 +8,7 @@
                 @click="addElement(element)"
                 :class="{ 'inactive-element': !element.add }"
             >
-                {{ element.name }}
+                {{ element.attributes.name }}
             </li>
         </ul>
     </div>
@@ -33,7 +33,11 @@ export default {
             if (element.add) {
                 let view = this;
                 axios
-                    .post('./api/textfields', { structures_id: view.structures_id, text: '' })
+                    .post('./api/textfields', {
+                        structures_id: element.id,
+                        text: '',
+                        plan_id: this.$store.state.plan.id
+                    })
                     .then(function(response) {
                         view.$emit('addElement', element.id);
                         view.toggleAdderButton();
