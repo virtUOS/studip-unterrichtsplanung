@@ -2,22 +2,27 @@
     <div class="plan-intention">
         <h1>
             <router-link to="/"><span class="nav home"></span></router-link> /
-            <router-link :to="'/plan/' + plan.id">{{ plan.name }} </router-link> / Intentionalität
+            <router-link :to="'/plan/' + plan.id">{{ plan.attributes.name }} </router-link> / Intentionalität
         </h1>
         <div class="content-wrapper">
             <div class="content-container"></div>
-            <InfoBox :title="infoBoxTitle" />
+            <div class="box-wrapper">
+                <InterdepBox :strucutres_id="3" :title="'Interdependenzen'" />
+                <InfoBox :title="infoBoxTitle" />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import InfoBox from './InfoBox.vue';
+import InterdepBox from './InterdepBox';
 
 export default {
     name: 'Intention',
     components: {
-        InfoBox
+        InfoBox,
+        InterdepBox
     },
     computed: {
         plan() {

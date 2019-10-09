@@ -10,7 +10,10 @@
                 <NoteElement :element="element" v-for="element in elements" :key="element.id" />
                 <NoteElementAdder :structures_id="2" :elementList="this.elementList" @addElement="addElement" />
             </div>
-            <InfoBox :title="infoBoxTitle" />
+            <div class="box-wrapper">
+                <InterdepBox :strucutres_id="2" :title="'Interdependenzen'" />
+                <InfoBox :title="infoBoxTitle" />
+            </div>
         </div>
     </div>
 </template>
@@ -18,6 +21,7 @@
 <script>
 import axios from 'axios';
 import InfoBox from './InfoBox.vue';
+import InterdepBox from './InterdepBox';
 import NoteElement from './NoteElement.vue';
 import NoteElementAdder from './NoteElementAdder.vue';
 
@@ -25,6 +29,7 @@ export default {
     name: 'Individual',
     components: {
         InfoBox,
+        InterdepBox,
         NoteElement,
         NoteElementAdder
     },

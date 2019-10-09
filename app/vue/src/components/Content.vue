@@ -10,7 +10,11 @@
                     <h3 :class="{ active: !toggle }" @click="toggle = false">{{ this.contentStructures[0].name }}</h3>
                     <h3 :class="{ active: toggle }" @click="toggle = true">{{ this.contentStructures[1].name }}</h3>
                     <div class="plan-content-analysis plan-content-analysis-proper" v-show="!toggle">
-                        <!-- <NoteElement :element="elementProper" /> -->
+                        <NoteElement
+                            :element="elementProper"
+                            v-for="elementProper in elementsProper"
+                            :key="elementProper.id"
+                        />
                         <NoteElementAdder
                             :structures_id="this.contentStructures[0].id"
                             :elementList="this.properStructures"
@@ -18,7 +22,11 @@
                         />
                     </div>
                     <div class="plan-content-analysis plan-content-analysis-didactic" v-show="toggle">
-                        <!-- <NoteElement :element="elementDidactic" /> -->
+                        <NoteElement
+                            :element="elementDidactic"
+                            v-for="elementDidactic in elementsDidactic"
+                            :key="elementDidactic.id"
+                        />
                         <NoteElementAdder
                             :structures_id="this.contentStructures[1].id"
                             :elementList="this.didacticStructures"
@@ -27,7 +35,10 @@
                     </div>
                 </div>
             </div>
-            <InfoBox :title="infoBoxTitle" />
+            <div class="box-wrapper">
+                <InterdepBox :strucutres_id="4" :title="'Interdependenzen'" />
+                <InfoBox :title="infoBoxTitle" />
+            </div>
         </div>
     </div>
 </template>
@@ -35,6 +46,7 @@
 <script>
 import axios from 'axios';
 import InfoBox from './InfoBox.vue';
+import InterdepBox from './InterdepBox';
 import NoteElement from './NoteElement.vue';
 import NoteElementAdder from './NoteElementAdder.vue';
 
@@ -42,22 +54,15 @@ export default {
     name: 'Content',
     components: {
         InfoBox,
+        InterdepBox,
         NoteElement,
         NoteElementAdder
     },
     data() {
         return {
             toggle: false,
-            elementProper: {
-                name: 'lorem ipsum',
-                text:
-                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,'
-            },
-            elementDidactic: {
-                name: 'Exemplarische Bedeutung',
-                text:
-                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam'
-            },
+            elementsProper: [],
+            elementsDidactic: [],
             contentStructures: [],
             properStructures: [],
             didacticStructures: []
@@ -100,6 +105,7 @@ export default {
                     view.properStructures.forEach(function(element) {
                         element.add = true;
                     });
+                    view.getElements(view.properStructures, view.elementsProper);
                 })
                 .catch(function(error) {
                     console.log(error);
@@ -112,10 +118,30 @@ export default {
                     view.didacticStructures.forEach(function(element) {
                         element.add = true;
                     });
+                    view.getElements(view.didacticStructures, view.elementsDidactic);
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
+        },
+        getElements(structuresList, elementsList) {
+            structuresList.forEach(function(element, index) {
+                axios
+                    .get('./api/structures/' + element.id + '/textfields')
+                    .then(function(response) {
+                        if (response.data.data) {
+                            let element = response.data.data[0];
+                            element.name = structuresList.find(
+                                x => x.id == element.attributes.structures_id
+                            ).attributes.name;
+                            elementsList.push(element);
+                            structuresList[index].add = false;
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            });
         }
     }
 };

@@ -8,25 +8,20 @@
             <div class="overview-boxes">
                 <OverviewBox
                     :title="'situative Voraussetzungen'"
-                    :interdep="interdepInhalt"
+                    :strucutres_id="1"
                     :catName="'situation'"
                     :planId="plan.id"
                 />
                 <OverviewBox
                     :title="'individuelle Voraussetzungen'"
-                    :interdep="interdepInhalt"
+                    :strucutres_id="2"
                     :catName="'individual'"
                     :planId="plan.id"
                 />
-                <OverviewBox
-                    :title="'Intentionalität'"
-                    :interdep="interdepInhalt"
-                    :catName="'intention'"
-                    :planId="plan.id"
-                />
-                <OverviewBox :title="'Inhalt'" :interdep="interdepInhalt" :catName="'content'" :planId="plan.id" />
-                <OverviewBox :title="'Methodik'" :interdep="interdepInhalt" :catName="'method'" :planId="plan.id" />
-                <OverviewBox :title="'Medien'" :interdep="interdepInhalt" :catName="'media'" :planId="plan.id" />
+                <OverviewBox :title="'Intentionalität'" :strucutres_id="3" :catName="'intention'" :planId="plan.id" />
+                <OverviewBox :title="'Inhalt'" :strucutres_id="4" :catName="'content'" :planId="plan.id" />
+                <OverviewBox :title="'Methodik'" :strucutres_id="5" :catName="'method'" :planId="plan.id" />
+                <OverviewBox :title="'Medien'" :strucutres_id="6" :catName="'media'" :planId="plan.id" />
             </div>
             <InfoBox :title="infoBoxTitle" />
         </div>

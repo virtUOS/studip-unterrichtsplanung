@@ -31,6 +31,8 @@ C O N T E N T
     width: 864px;
     display: flex;
     flex-wrap: wrap;
+    flex-flow: column;
+    margin-right: 1em;
 }
 
 
@@ -71,9 +73,6 @@ A D D P L A N
 /***************************
 A D D N O T E E L E M E N T
 ***************************/
-.note-element-adder {
-    height: 380px;
-}
 .add-note {
     display: inline-block;
     vertical-align: top;
@@ -242,6 +241,10 @@ N O T E E L E M E N T
 }
 
 
+.box-wrapper {
+    width: 420px;
+}
+
 /**************
  I N F O B O X
 **************/
@@ -264,12 +267,78 @@ N O T E E L E M E N T
     text-align: justify;
 }
 
+/*********************
+ I N T E R D E P B O X
+*********************/
+.interdepbox-wrapper {
+    width: 420px;
+    height: 120px;
+    border: solid thin #e7ebf1;
+    margin-bottom: 1em;
+}
+.interdepbox-wrapper h3 {
+    margin: 0;
+    padding: 1em 1em 1em 3em;
+    background-color: #e7ebf1;;
+    background-repeat: no-repeat;
+    background-position: 1em center;
+    background-size: 24px;
+}
+.interdepbox-wrapper .interdep-title-type-1 {background-image: url('../../../../../assets/images/icons/black/zoom-out-1-07.svg');}
+.interdepbox-wrapper .interdep-title-type-2 {background-image: url('../../../../../assets/images/icons/black/headache.svg');}
+.interdepbox-wrapper .interdep-title-type-3 {background-image: url('../../../../../assets/images/icons/black/radar.svg');}
+.interdepbox-wrapper .interdep-title-type-4 {background-image: url('../../../../../assets/images/icons/black/files.svg');}
+.interdepbox-wrapper .interdep-title-type-5 {background-image: url('../../../../../assets/images/icons/black/admin.svg');}
+.interdepbox-wrapper .interdep-title-type-6 {background-image: url('../../../../../assets/images/icons/black/literature.svg');}
+
+.interdeps {
+    margin: 0.5em auto;
+    width: 370px;
+}
+
+.interdeps button{
+    width: 32px;
+    height: 32px;
+    margin: 1em 1.5em;
+    border: none;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 32px;
+    cursor: pointer;
+}
+
+.interdeps .interdep-type-1 {background-image: url('../../../../../assets/images/icons/green/zoom-in2.svg');}
+.interdeps .interdep-type-2 {background-image: url('../../../../../assets/images/icons/green/headache.svg');}
+.interdeps .interdep-type-3 {background-image: url('../../../../../assets/images/icons/green/radar.svg');}
+.interdeps .interdep-type-4 {background-image: url('../../../../../assets/images/icons/green/files.svg');}
+.interdeps .interdep-type-5 {background-image: url('../../../../../assets/images/icons/green/admin.svg');}
+.interdeps .interdep-type-6 {background-image: url('../../../../../assets/images/icons/green/literature.svg');}
+
+.interdeps .interdep-disabled.interdep-type-1 {background-image: url('../../../../../assets/images/icons/red/zoom-in2.svg');}
+.interdeps .interdep-disabled.interdep-type-2 {background-image: url('../../../../../assets/images/icons/red/headache.svg');}
+.interdeps .interdep-disabled.interdep-type-3 {background-image: url('../../../../../assets/images/icons/red/radar.svg');}
+.interdeps .interdep-disabled.interdep-type-4 {background-image: url('../../../../../assets/images/icons/red/files.svg');}
+.interdeps .interdep-disabled.interdep-type-5 {background-image: url('../../../../../assets/images/icons/red/admin.svg');}
+.interdeps .interdep-disabled.interdep-type-6 {background-image: url('../../../../../assets/images/icons/red/literature.svg');}
+
+.overview-box .interdepbox-wrapper {
+    height: unset;
+    border: none;
+}
+.overview-box .interdepbox-wrapper .interdeps{
+    margin: 0.5em auto;
+    width: 160px;
+}
+.overview-box .interdepbox-wrapper .interdeps button{
+    background-size: 16px;
+    margin: 0;
+}
 
 /*************
 C O N T E N T
 *************/
 .plan-content-tabs {
-    width: 864px;
     border: solid thin #e7ebf1;
     margin-right: 1em;
 }
