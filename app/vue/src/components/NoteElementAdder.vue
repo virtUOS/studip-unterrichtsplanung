@@ -48,7 +48,8 @@ export default {
                     });
             }
         },
-        toggleAdderButton() {
+        toggleAdderButton(event) {
+            event.target.scrollIntoView();
             if (this.showAdder) {
                 this.showAdder = false;
             } else {
