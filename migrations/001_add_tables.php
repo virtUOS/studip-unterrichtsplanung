@@ -28,7 +28,7 @@ class AddTables extends Migration
         $db->exec('CREATE TABLE IF NOT EXISTS `du_structures` (
           `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
           `parent_id` int NOT NULL DEFAULT 0,
-          `name` varchar(64) NOT NULL
+          `name` varchar(255) NOT NULL
         )');
 
         $db->exec('CREATE TABLE IF NOT EXISTS `du_interdeps` (
