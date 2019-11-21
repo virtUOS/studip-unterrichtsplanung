@@ -14,16 +14,18 @@ class TemplateCest
             'name'         => 'Test 1'
         ]);
 
-        $expected = '{"id":"1","name":"Test 1"}';
+        $expected = [
+            'name' => 'Test 1'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
 
         $I->sendGET('/templates');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 
     public function editNonExisting(ApiTester $I)
@@ -54,15 +56,17 @@ class TemplateCest
             'name'     => 'Test 2'
         ]);
 
-        $expected = '{"id":"1","name":"Test 2"}';
+        $expected = [
+            'name' => 'Test 2'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
 
         $I->sendGET('/templates');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 }

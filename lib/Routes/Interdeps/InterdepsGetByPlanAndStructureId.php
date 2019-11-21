@@ -9,8 +9,9 @@ use Unterrichtsplanung\Errors\Error;
 use Unterrichtsplanung\UnterrichtsplanungTrait;
 use Unterrichtsplanung\UnterrichtsplanungController;
 use Unterrichtsplanung\Models\Interdeps;
+use Unterrichtsplanung\Models\Plans;
 
-class InterdepsGetByStructuresId extends UnterrichtsplanungController
+class InterdepsGetByPlanAndStructureId extends UnterrichtsplanungController
 {
     use UnterrichtsplanungTrait;
 
@@ -18,9 +19,15 @@ class InterdepsGetByStructuresId extends UnterrichtsplanungController
     {
         global $user;
 
-        $interdeps = Interdeps::findBySQL('structures_id = ? AND user_id = ?', [
-            $args['structures_id'], $user->id
+        $interdeps = Interdeps::findBySQL('structures_id = ? AND plans_id = ?', [
+            $args['structures_id'], $args['plans_id']
         ]);
+
+        $plan = Plans::find($args['plans_id']);
+
+        if ($plan->user_id != $user->id) {
+            throw new Error('Access denied!', 403);
+        }
 
         if (!empty($interdeps)) {
             return $this->createResponse($this->toArray($interdeps), $response);

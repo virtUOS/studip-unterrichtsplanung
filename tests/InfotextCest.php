@@ -16,16 +16,20 @@ class InfotextsCest
             'text'          => 'Test 1'
         ]);
 
-        $expected = '{"id":"1","structures_id":"1","templates_id":"1","text":"Test 1"}';
+        $expected = [
+            'structures_id' => 1,
+            'templates_id'  => 1,
+            'text'          => 'Test 1'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
 
         $I->sendGET('/infotexts');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 
     public function editNonExisting(ApiTester $I)
@@ -60,15 +64,19 @@ class InfotextsCest
             'text'          => 'Test 2'
         ]);
 
-        $expected = '{"id":"1","structures_id":"2","templates_id":"2","text":"Test 2"}';
+        $expected = [
+            'structures_id' => 2,
+            'templates_id'  => 2,
+            'text'          => 'Test 2'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
 
         $I->sendGET('/infotexts');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 }

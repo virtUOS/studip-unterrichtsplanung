@@ -32,11 +32,15 @@ class TextfieldCest
             'plan_id'       => 1
         ]);
 
-        $expected = '{"id":"1","structures_id":"1","text":"Test 1","plans_id":"1"}';
+        $expected = [
+            'structures_id' => 1,
+            'text'          => 'Test 1',
+            'plans_id'      => 1
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 
 
@@ -50,11 +54,16 @@ class TextfieldCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendGET('/textfields/1');
 
-        $expected = '{"id":"1","structures_id":"1","text":"Test 1","plans_id":"1"}';
+        $expected = [
+            'structures_id' => 1,
+            'text'          => 'Test 1',
+            'plans_id'      => 1
+        ];
+
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 
     public function editNonExisting(ApiTester $I)
@@ -89,11 +98,15 @@ class TextfieldCest
             'plans_id'       => 2
         ]);
 
-        $expected = '{"id":"1","structures_id":"2","text":"Test 2","plans_id":"2"}';
+        $expected = [
+            'structures_id' => 2,
+            'text'          => 'Test 2',
+            'plans_id'      => 2
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 
     public function getByPlanIdAndStructureId(ApiTester $I)
@@ -106,10 +119,14 @@ class TextfieldCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendGET('/textfields/2/2');
 
-        $expected = '{"id":"1","structures_id":"2","text":"Test 2","plans_id":"2"}';
+        $expected = [
+            'structures_id' => 2,
+            'text'          => 'Test 2',
+            'plans_id'      => 2
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 }

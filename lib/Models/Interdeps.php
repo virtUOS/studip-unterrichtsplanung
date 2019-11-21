@@ -12,11 +12,21 @@ class Interdeps extends \SimpleOrMap
     {
         $config['db_table'] = 'du_interdeps';
 
+        $config['belongs_to']['plans'] = [
+            'class_name'  => Plans::class,
+            'foreign_key' => 'plans_id'
+        ];
+
         parent::configure($config);
     }
 
     public function getRelationships()
     {
-        return [];
+        $data = [];
+
+        $data['plans']['links']['related'] =
+            $this->getRelLink('plans/' . $this->plans_id);
+
+        return $data;
     }
 }

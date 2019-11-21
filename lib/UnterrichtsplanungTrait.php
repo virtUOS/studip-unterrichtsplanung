@@ -3,6 +3,7 @@
 namespace Unterrichtsplanung;
 
 use Unterrichtsplanung\Errors\Error;
+use Unterrichtsplanung\Errors\UnprocessableEntityException;
 
 Trait UnterrichtsplanungTrait
 {
@@ -11,11 +12,12 @@ Trait UnterrichtsplanungTrait
     {
         $body = (string) $request->getBody();
         if ('' === $body) {
-            throw new UnprocessableEntityException('Empty request');
+            throw new UnprocessableEntityException('Empty request', 500);
         }
         $result = json_decode($body, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new UnprocessableEntityException(json_last_error_msg());
+            throw new UnprocessableEntityException('Error while parsing json: '
+                . json_last_error_msg() . ', Body: ' . $body, 500);
         }
 
         foreach ($required_fields as $field) {

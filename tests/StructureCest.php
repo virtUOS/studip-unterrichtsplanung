@@ -14,16 +14,19 @@ class StructureCest
             'name'         => 'Test 1'
         ]);
 
-        $expected = '{"id":"1","parent_id":"0","name":"Test 1"}';
+        $expected = [
+            'parent_id' => 0,
+            'name'      => 'Test 1'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
 
         $I->sendGET('/structures');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 
     public function editNonExisting(ApiTester $I)
@@ -54,16 +57,19 @@ class StructureCest
             'name'     => 'Test 2'
         ]);
 
-        $expected = '{"id":"1","parent_id":"0","name":"Test 2"}';
+        $expected = [
+            'parent_id' => 0,
+            'name'      => 'Test 2'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
 
         $I->sendGET('/structures');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 
     public function addChildStructureWithMissingParent(ApiTester $I)
@@ -95,10 +101,13 @@ class StructureCest
             'parent_id'    => 1
         ]);
 
-        $expected = '{"id":"2","parent_id":"1","name":"Test 3"}';
+        $expected = [
+            'parent_id' => 1,
+            'name'      => 'Test 3'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 }

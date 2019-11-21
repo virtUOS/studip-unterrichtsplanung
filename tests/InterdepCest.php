@@ -15,6 +15,15 @@ class InterdepCest
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/plans', [
+            'templates_id' => 1,
+            'name'         => 'Test 1'
+        ]);
+
+        $I->seeResponseCodeIs(200);
+        $this->plan = json_decode($I->grabResponse());
     }
 
     public function create(ApiTester $I)
@@ -26,18 +35,38 @@ class InterdepCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/structures/1/interdeps', [
+        $I->sendPOST('/interdeps/' . $this->plan->id . '/1', [
             'references'    => '{"1":true,"2":false}'
         ]);
 
-        $expected = '{"structures_id":"1","references":"{\"1\":true,\"2\":false}","user_id":"'. $this->user->id .'","id":"1_'. $this->user->id .'"}';
+        $expected = [
+            'plans_id'      => $this->plan->id,
+            'structures_id' => 1,
+            'references'    => '{"1":true,"2":false}'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 
-    public function editNonExisting(ApiTester $I)
+    public function createOnNonExistingPlan(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/interdeps/99/1', [
+            'references'    => '{"1":true,"2":false}'
+        ]);
+
+        $I->seeResponseCodeIs(403);
+    }
+
+    public function editNonExistingStructure(ApiTester $I)
     {
         $I->amHttpAuthenticated(
             $GLOBALS['container']['USERNAME'],
@@ -45,7 +74,22 @@ class InterdepCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/structures/5/interdeps', [
+        $I->sendPUT('/interdeps/' . $this->plan->id . '/5', [
+            'references'    => '{"1":true,"2":false}'
+        ]);
+
+        $I->seeResponseCodeIs(404);
+    }
+
+    public function editNonExistingPlan(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPUT('/interdeps/99/1', [
             'references'    => '{"1":true,"2":false}'
         ]);
 
@@ -61,18 +105,22 @@ class InterdepCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/structures/1/interdeps', [
+        $I->sendPUT('/interdeps/' . $this->plan->id . '/1', [
             'references'    => '{"1":false,"2":true}'
         ]);
 
-        $expected = '{"structures_id":"1","references":"{\"1\":false,\"2\":true}","user_id":"'. $this->user->id .'","id":"1_'. $this->user->id .'"}';
+        $expected = [
+            'plans_id'      => $this->plan->id,
+            'structures_id' => 1,
+            'references'    => '{"1":false,"2":true}'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 
-    public function getByIdStructureId(ApiTester $I)
+    public function getByPlandAndStructureId(ApiTester $I)
     {
         $I->amHttpAuthenticated(
             $GLOBALS['container']['USERNAME'],
@@ -80,12 +128,16 @@ class InterdepCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendGET('/structures/1/interdeps');
+        $I->sendGET('/interdeps/' . $this->plan->id . '/1');
 
-        $expected = '{"structures_id":"1","references":"{\"1\":false,\"2\":true}","user_id":"'. $this->user->id .'","id":"1_'. $this->user->id .'"}';
+        $expected = [
+            'plans_id'      => $this->plan->id,
+            'structures_id' => 1,
+            'references'    => '{"1":false,"2":true}'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 }

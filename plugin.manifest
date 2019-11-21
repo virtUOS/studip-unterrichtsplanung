@@ -1,6 +1,6 @@
 pluginname=Unterrichtsplanung
 pluginclassname=Unterrichtsplanung
 origin=elan-ev
-version=0.0.5
+version=0.0.6
 studipMinVersion=4.3
-studipMaxVersion=4.4.101
+studipMaxVersion=4.4.102

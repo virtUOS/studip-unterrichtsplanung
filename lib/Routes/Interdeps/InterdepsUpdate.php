@@ -20,17 +20,18 @@ class InterdepsUpdate extends UnterrichtsplanungController
 
         $json = $this->getRequestData($request, ['references']);
 
-        $interdep = Interdeps::findOneBySQL('structures_id = ? AND user_id = ?', [
-            $args['structures_id'], $user->id
+        $interdep = Interdeps::findOneBySQL('structures_id = ? AND plans_id = ?', [
+            $args['structures_id'], $args['plans_id']
         ]);
 
         if ($interdep) {
-            if ($interdep->user_id != $user->id) {
+            if ($interdep->plans->user_id != $user->id) {
                 throw new Error('Access denied!', 403);
             }
 
             $interdep->setData([
                 'structures_id' => $args['structures_id'],
+                'plans_id'      => $args['plans_id'],
                 'references'    => $json['references']
             ]);
 

@@ -31,16 +31,24 @@ class PlanCest
             'name'         => 'Test 1'
         ]);
 
-        $expected = '{"id":"1","user_id":"'. $this->user->id .'","name":"Test 1","templates_id":"1","metadata":null}';
+        $expected = '{"user_id":"'. $this->user->id .'","name":"Test 1","templates_id":"1","metadata":null}';
+        $expected = [
+            'user_id'      => $this->user->id,
+            'name'         => 'Test 1',
+            'templates_id' => '1',
+            'metadata'     => null
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
+
+        $this->plan = json_decode($I->grabResponse());
 
         $I->sendGET('/plans');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 
     public function editNonExisting(ApiTester $I)
@@ -52,7 +60,7 @@ class PlanCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/plans/2', [
+        $I->sendPUT('/plans/99', [
             'name'     => 'Test 2',
             'metadata' => '{"somestuff":"somevalue"}'
         ]);
@@ -70,20 +78,25 @@ class PlanCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/plans/1', [
+        $I->sendPUT('/plans/' . $this->plan->id, [
             'name'     => 'Test 2',
             'metadata' => '{"somestuff":"somevalue"}'
         ]);
 
-        $expected = '{"id":"1","user_id":"'. $this->user->id .'","name":"Test 2","templates_id":"1","metadata":"{\"somestuff\":\"somevalue\"}"}';
+        $expected = [
+            'user_id'      => $this->user->id,
+            'name'         => 'Test 2',
+            'templates_id' => '1',
+            'metadata'     => '{"somestuff":"somevalue"}'
+        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
 
         $I->sendGET('/plans');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContains($expected);
+        $I->seeResponseContainsJSON($expected);
     }
 }

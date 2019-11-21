@@ -42,9 +42,9 @@ class RouteMap
         $this->app->get('/structures', Routes\Structures\StructuresList::class);
         $this->app->get('/structures/{id}', Routes\Structures\StructuresGetByParentId::class);
 
-        $this->app->get('/structures/{structures_id}/interdeps', Routes\Interdeps\InterdepsGetByStructuresId::class);
-        $this->app->post('/structures/{structures_id}/interdeps', Routes\Interdeps\InterdepsCreate::class);
-        $this->app->put('/structures/{structures_id}/interdeps', Routes\Interdeps\InterdepsUpdate::class);
+        $this->app->get('/interdeps/{plans_id}/{structures_id}', Routes\Interdeps\InterdepsGetByPlanAndStructureId::class);
+        $this->app->post('/interdeps/{plans_id}/{structures_id}', Routes\Interdeps\InterdepsCreate::class);
+        $this->app->put('/interdeps/{plans_id}/{structures_id}', Routes\Interdeps\InterdepsUpdate::class);
 
         $this->app->get('/infotexts', Routes\Infotexts\InfotextsList::class);
 

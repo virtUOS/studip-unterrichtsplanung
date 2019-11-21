@@ -32,10 +32,10 @@ class AddTables extends Migration
         )');
 
         $db->exec('CREATE TABLE IF NOT EXISTS `du_interdeps` (
+          `plans_id` int NOT NULL,
           `structures_id` int NOT NULL,
           `references` text NOT NULL,
-          `user_id` varchar(32) NOT NULL,
-          PRIMARY KEY `structures_id_user_id` (`structures_id`, `user_id`)
+          PRIMARY KEY `structures_id_user_id` (`plans_id`, `structures_id`)
         )');
 
         $db->exec('CREATE TABLE IF NOT EXISTS `du_plans` (
