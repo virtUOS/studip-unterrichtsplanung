@@ -17,7 +17,7 @@ class TextfieldsGetByPlanAndStructureId extends UnterrichtsplanungController
     public function __invoke(Request $request, Response $response, $args)
     {
         $textfields = Textfields::findBySQL('structures_id = ?
-            AND plans_id = ?', [$args['structures_id'], $args['plan_id']]);
+            AND plans_id = ?', [$args['structures_id'], $args['plans_id']]);
 
         if (!empty($textfields)) {
             return $this->createResponse($this->toArray($textfields), $response);
