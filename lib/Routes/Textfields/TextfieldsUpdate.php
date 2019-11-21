@@ -30,7 +30,8 @@ class TextfieldsUpdate extends UnterrichtsplanungController
             $textfield->setData([
                 'structures_id' => $json['structures_id'],
                 'text'          => $json['text'],
-                'plans_id'      => $json['plans_id']
+                'plans_id'      => $json['plans_id'],
+                'metadata'      => $json['metadata'] ?: null
             ]);
 
             $textfield->store();

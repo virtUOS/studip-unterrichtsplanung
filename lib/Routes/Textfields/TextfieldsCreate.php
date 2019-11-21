@@ -19,9 +19,9 @@ class TextfieldsCreate extends UnterrichtsplanungController
     {
         global $user;
 
-        $json = $this->getRequestData($request, ['structures_id', 'text', 'plan_id']);
+        $json = $this->getRequestData($request, ['structures_id', 'text', 'plans_id']);
 
-        $plan = Plans::find($json['plan_id']);
+        $plan = Plans::find($json['plans_id']);
 
         if ($plan->user_id != $user->id) {
                 throw new Error('Access denied!', 403);
@@ -30,7 +30,8 @@ class TextfieldsCreate extends UnterrichtsplanungController
         $textfield = Textfields::create([
             'structures_id' => $json['structures_id'],
             'text'          => $json['text'],
-            'plans_id'      => $json['plan_id']
+            'plans_id'      => $json['plans_id'],
+            'metadata'      => $json['metadata'] ?: null
         ]);
 
         return $this->createResponse($textfield->toArray(), $response);

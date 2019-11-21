@@ -25,6 +25,7 @@ class AddTables extends Migration
           `plans_id` int NOT NULL,
           `structures_id` int NOT NULL,
           `text` text NOT NULL,
+          `metadata` text NULL,
           `mkdate` DATETIME DEFAULT 0 NOT NULL,
           `chdate` DATETIME ON UPDATE CURRENT_TIMESTAMP NOT NULL
         )');

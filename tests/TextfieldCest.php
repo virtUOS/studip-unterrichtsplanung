@@ -26,17 +26,11 @@ class TextfieldCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/textfields', [
-            'structures_id' => 1,
-            'text'          => 'Test 1',
-            'plan_id'       => 1
-        ]);
-
-        $expected = [
+        $I->sendPOST('/textfields', $expected = [
             'structures_id' => 1,
             'text'          => 'Test 1',
             'plans_id'      => 1
-        ];
+        ]);
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
@@ -83,7 +77,7 @@ class TextfieldCest
         $I->seeResponseCodeIs(404);
     }
 
-    public function editAndList(ApiTester $I)
+    public function edit(ApiTester $I)
     {
         $I->amHttpAuthenticated(
             $GLOBALS['container']['USERNAME'],
@@ -92,17 +86,11 @@ class TextfieldCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/textfields/1', [
+        $I->sendPUT('/textfields/1', $expected = [
             'structures_id' => 2,
             'text'          => 'Test 2',
             'plans_id'       => 2
         ]);
-
-        $expected = [
-            'structures_id' => 2,
-            'text'          => 'Test 2',
-            'plans_id'      => 2
-        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
@@ -130,6 +118,41 @@ class TextfieldCest
         $I->seeResponseContainsJSON($expected);
     }
 
+    public function createAndEditWithMetadata(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/textfields', $expected = [
+            'structures_id' => 1,
+            'text'          => 'Test Metadata',
+            'plans_id'      => 1,
+            'metadata'      => 'Testdaten'
+        ]);
+
+        $textfield = json_decode($I->grabResponse());
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJSON($expected);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPUT('/textfields/' . $textfield->id, $expected = [
+            'structures_id' => 1,
+            'text'          => 'Test Metadata',
+            'plans_id'      => 1,
+            'metadata'      => 'andere Testdaten'
+        ]);
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJSON($expected);
+    }
+
     public function delete(ApiTester $I)
     {
         $I->amHttpAuthenticated(
@@ -141,7 +164,7 @@ class TextfieldCest
         $I->sendPOST('/textfields', [
             'structures_id' => 1,
             'text'          => 'Test 1',
-            'plan_id'       => 1
+            'plans_id'      => 1
         ]);
 
         $textfield = json_decode($I->grabResponse());
