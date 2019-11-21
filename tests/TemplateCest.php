@@ -69,4 +69,18 @@ class TemplateCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJSON($expected);
     }
+
+    public function delete(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendDELETE('/templates/1');
+
+        $I->seeResponseCodeIs(200);
+    }
 }

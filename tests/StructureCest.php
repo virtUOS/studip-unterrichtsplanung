@@ -110,4 +110,18 @@ class StructureCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJSON($expected);
     }
+
+    public function delete(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendDELETE('/structures/1');
+
+        $I->seeResponseCodeIs(200);
+    }
 }
