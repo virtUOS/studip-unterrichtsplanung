@@ -42,8 +42,6 @@ class RouteMap
         $this->app->get('/structures', Routes\Structures\StructuresList::class);
         $this->app->get('/structures/{id}', Routes\Structures\StructuresGetByParentId::class);
 
-        $this->app->get('/structures/{structures_id}/textfields', Routes\Textfields\TextfieldsGetByStructuresId::class);
-
         $this->app->get('/structures/{structures_id}/interdeps', Routes\Interdeps\InterdepsGetByStructuresId::class);
         $this->app->post('/structures/{structures_id}/interdeps', Routes\Interdeps\InterdepsCreate::class);
         $this->app->put('/structures/{structures_id}/interdeps', Routes\Interdeps\InterdepsUpdate::class);
@@ -53,6 +51,7 @@ class RouteMap
         $this->app->get('/textfields/{id}', Routes\Textfields\TextfieldsGetById::class);
         $this->app->post('/textfields', Routes\Textfields\TextfieldsCreate::class);
         $this->app->put('/textfields/{id}', Routes\Textfields\TextfieldsUpdate::class);
+        $this->app->get('/textfields/{plan_id}/{structures_id}', Routes\Textfields\TextfieldsGetByPlanAndStructureId::class);
     }
 
     public function adminRoutes()

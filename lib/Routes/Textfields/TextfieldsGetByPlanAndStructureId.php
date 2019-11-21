@@ -10,13 +10,14 @@ use Unterrichtsplanung\UnterrichtsplanungTrait;
 use Unterrichtsplanung\UnterrichtsplanungController;
 use Unterrichtsplanung\Models\Textfields;
 
-class TextfieldsGetByStructuresId extends UnterrichtsplanungController
+class TextfieldsGetByPlanAndStructureId extends UnterrichtsplanungController
 {
     use UnterrichtsplanungTrait;
 
     public function __invoke(Request $request, Response $response, $args)
     {
-        $textfields = Textfields::findByStructures_id($args['structures_id']);
+        $textfields = Textfields::findBySQL('structures_id = ?
+            AND plans_id = ?', [$args['structures_id'], $args['plan_id']]);
 
         if (!empty($textfields)) {
             return $this->createResponse($this->toArray($textfields), $response);

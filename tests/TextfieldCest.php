@@ -96,7 +96,7 @@ class TextfieldCest
         $I->seeResponseContains($expected);
     }
 
-    public function getByIdStructureId(ApiTester $I)
+    public function getByPlanIdAndStructureId(ApiTester $I)
     {
         $I->amHttpAuthenticated(
             $GLOBALS['container']['USERNAME'],
@@ -104,7 +104,7 @@ class TextfieldCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendGET('/structures/2/textfields');
+        $I->sendGET('/textfields/2/2');
 
         $expected = '{"id":"1","structures_id":"2","text":"Test 2","plans_id":"2"}';
 
