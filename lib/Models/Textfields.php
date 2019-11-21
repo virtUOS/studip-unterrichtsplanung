@@ -3,8 +3,9 @@
 namespace Unterrichtsplanung\Models;
 
 use Unterrichtsplanung\RelationshipTrait;
+use Unterrichtsplanung\Models\UPMap;
 
-class Textfields extends \SimpleOrMap
+class Textfields extends UPMap
 {
     use RelationshipTrait;
 
