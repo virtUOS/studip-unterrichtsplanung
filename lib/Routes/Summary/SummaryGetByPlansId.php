@@ -26,7 +26,7 @@ class SummaryGetByPlansId extends UnterrichtsplanungController
                 throw new Error('Access denied!', 403);
             }
 
-            return $this->createResponse($this->toArray($plan->textfields), $response);
+            return $this->createResponse($this->toArray($plan->summary), $response);
         } else {
             return $this->createEmptyResponse($response);
         }

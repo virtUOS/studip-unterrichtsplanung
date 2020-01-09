@@ -18,16 +18,16 @@ class SummaryDelete extends UnterrichtsplanungController
     {
         global $user;
 
-        $textfield = Summary::find($args['id']);
+        $summary = Summary::find($args['id']);
 
-        if ($textfield) {
-            if ($textfield->plans->user_id != $user->id) {
+        if ($summary) {
+            if ($summary->plans->user_id != $user->id) {
                 throw new Error('Access denied!', 403);
             }
 
-            $textfield->delete();
+            $summary->delete();
 
-            return $this->createResponse($textfield->toArray(), $response);
+            return $this->createResponse($summary->toArray(), $response);
         } else {
             throw new Error('Textfield not found', 404);
         }

@@ -16,11 +16,11 @@ class SummaryGetByPlanAndStructureId extends UnterrichtsplanungController
 
     public function __invoke(Request $request, Response $response, $args)
     {
-        $textfields = Summary::findBySQL('structures_id = ?
+        $summarys = Summary::findBySQL('structures_id = ?
             AND plans_id = ?', [$args['structures_id'], $args['plans_id']]);
 
-        if (!empty($textfields)) {
-            return $this->createResponse($this->toArray($textfields), $response);
+        if (!empty($summarys)) {
+            return $this->createResponse($this->toArray($summarys), $response);
         } else {
             $this->createResponse([], $response);
         }

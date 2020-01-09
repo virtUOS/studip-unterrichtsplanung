@@ -27,13 +27,13 @@ class SummaryCreate extends UnterrichtsplanungController
                 throw new Error('Access denied!', 403);
         }
 
-        $textfield = Summary::create([
+        $summary = Summary::create([
             'structures_id' => $json['structures_id'],
             'text'          => $json['text'],
             'plans_id'      => $json['plans_id'],
             'metadata'      => $json['metadata'] ?: null
         ]);
 
-        return $this->createResponse($textfield->toArray(), $response);
+        return $this->createResponse($summary->toArray(), $response);
     }
 }

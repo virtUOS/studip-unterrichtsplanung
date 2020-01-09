@@ -20,23 +20,23 @@ class SummaryUpdate extends UnterrichtsplanungController
 
         $json = $this->getRequestData($request, ['structures_id', 'text', 'plans_id']);
 
-        $textfield = Summary::find($args['id']);
+        $summary = Summary::find($args['id']);
 
-        if ($textfield) {
-            if ($textfield->plans->user_id != $user->id) {
+        if ($summary) {
+            if ($summary->plans->user_id != $user->id) {
                 throw new Error('Access denied!', 403);
             }
 
-            $textfield->setData([
+            $summary->setData([
                 'structures_id' => $json['structures_id'],
                 'text'          => $json['text'],
                 'plans_id'      => $json['plans_id'],
                 'metadata'      => $json['metadata'] ?: null
             ]);
 
-            $textfield->store();
+            $summary->store();
 
-            return $this->createResponse($textfield->toArray(), $response);
+            return $this->createResponse($summary->toArray(), $response);
         } else {
             throw new Error('Textfield not found', 404);
         }
