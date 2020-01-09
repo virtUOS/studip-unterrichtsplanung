@@ -5,10 +5,11 @@ use Unterrichtsplanung\RouteMap;
 
 class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
 {
+    const rolename = 'Unterrichtsplanung_Admin';
+
     public function __construct()
     {
         parent::__construct();
-
 
         $main = new Navigation(_('Unterrichtsplanung'));
         $main->setImage(Icon::create('doctoral-cap'));
@@ -18,6 +19,15 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
         Navigation::addItem('/unterrichtsplanung', $main);
 
         require __DIR__.'/composer_modules/autoload.php';
+    }
+
+    public static function onEnable($plugin_id)
+    {
+        $stmt = DBManager::get()->prepare('SELECT * FROM roles WHERE rolename = ?');
+        $stmt->execute([self::rolename]);
+
+        $role_id = $stmt->fetchColumn();
+        RolePersistence::assignPluginRoles($plugin_id, [$role_id]);
     }
 
     /**

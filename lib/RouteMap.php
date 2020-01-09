@@ -55,6 +55,12 @@ class RouteMap
         $this->app->put('/textfields/{id}', Routes\Textfields\TextfieldsUpdate::class);
         $this->app->delete('/textfields/{id}', Routes\Textfields\TextfieldsDelete::class);
         $this->app->get('/textfields/{plans_id}/{structures_id}', Routes\Textfields\TextfieldsGetByPlanAndStructureId::class);
+
+        $this->app->get('/summary/{id}', Routes\Summary\SummaryGetById::class);
+        $this->app->post('/summary', Routes\Summary\SummaryCreate::class);
+        $this->app->put('/summary/{id}', Routes\Summary\SummaryUpdate::class);
+        $this->app->delete('/summary/{id}', Routes\Summary\SummaryDelete::class);
+        $this->app->get('/summary/{plans_id}/{structures_id}', Routes\Summary\SummaryGetByPlanAndStructureId::class);
     }
 
     public function adminRoutes()

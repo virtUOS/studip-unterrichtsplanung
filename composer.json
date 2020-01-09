@@ -27,6 +27,9 @@
     "scripts": {
         "zip": [
             "zip -r unterrichtsplanung.zip *"
+        ],
+        "test": [
+            "composer_modules/bin/codecept run api"
         ]
     },
     "require-dev": {
