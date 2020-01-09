@@ -53,8 +53,9 @@ class ExceptionHandler
             $httpCode = 500;
             $details = null;
 
+            $message = $exception->getMessage();
+
             if ($this->container['settings']['displayErrorDetails']) {
-                $message = $exception->getMessage();
                 $details = (string) $exception;
             }
 
