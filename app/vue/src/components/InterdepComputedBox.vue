@@ -29,21 +29,34 @@ export default {
     methods: {
         getInterdeps() {
             let view = this;
-            console.log('get interdeps');
-            console.log(view.strucutres_id);
             axios
                 .get('./api/interdeps/' + view.$store.state.plan.id + '/' + view.strucutres_id)
                 .then(function(response) {
-                    console.log(response);
                     if (response.data.data) {
                         view.interdeps = JSON.parse(response.data.data[0].attributes.references);
                     } else {
-                        console.log(response);
+                        view.createInterdep();
                     }
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
+        },
+        createInterdep() {
+            let view = this;
+            let interdeps = { '1': false, '2': false, '3': false, '4': false, '5': false, '6': false };
+            delete interdeps[this.strucutres_id];
+            interdeps = JSON.stringify(interdeps);
+
+            axios
+                .post('./api/interdeps/' + view.$store.state.plan.id + '/' + view.strucutres_id, {
+                    references: interdeps
+                })
+                .then(response => {
+                    console.log(response);
+                    view.getInterdeps();
+                })
+                .catch(error => console.log(error));
         }
     }
 };

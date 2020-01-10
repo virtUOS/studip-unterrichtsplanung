@@ -7,12 +7,18 @@
         </h1>
         <div class="content-wrapper">
             <div class="content-container">
-                <NoteElement :element="element" v-for="element in elements" :key="element.id" />
-                <NoteElementAdder :structures_id="2" :elementList="this.elementList" @addElement="addElement" />
+                <NoteElement
+                    :element="element"
+                    v-for="element in elements"
+                    :key="element.id"
+                    @removeElement="updateElements"
+                />
+                <NoteElementAdder :structures_id="2" :elementList="this.elementList" @addElement="updateElements" />
+                <Summary :structureName="structureName" :structureId="6"></Summary>
             </div>
             <div class="box-wrapper">
                 <InterdepBox :strucutres_id="2" :title="'Interdependenzen'" />
-                <InfoBox :title="infoBoxTitle" />
+                <InfoBox :title="structureName" />
             </div>
         </div>
     </div>
@@ -24,6 +30,7 @@ import InfoBox from './InfoBox.vue';
 import InterdepBox from './InterdepBox';
 import NoteElement from './NoteElement.vue';
 import NoteElementAdder from './NoteElementAdder.vue';
+import Summary from './Summary.vue';
 
 export default {
     name: 'Individual',
@@ -31,28 +38,27 @@ export default {
         InfoBox,
         InterdepBox,
         NoteElement,
-        NoteElementAdder
+        NoteElementAdder,
+        Summary
     },
     data() {
         return {
             // get this from database
             elementList: [],
-            elements: []
+            elements: [],
+            structureName: 'individuelle Voraussetzungen'
         };
     },
     computed: {
         plan() {
             return this.$store.state.plan;
-        },
-        infoBoxTitle() {
-            return 'individuelle Voraussetzungen';
         }
     },
     mounted() {
         this.getStructures();
     },
     methods: {
-        addElement() {
+        updateElements() {
             this.elementList = [];
             this.elements = [];
             this.getStructures();
@@ -76,9 +82,9 @@ export default {
             let view = this;
             this.elementList.forEach(function(element, index) {
                 axios
-                    .get('./api/structures/' + element.id + '/textfields')
+                    .get('./api/textfields/' + view.plan.id + '/' + element.id)
                     .then(function(response) {
-                        if (response.data.data) {
+                        if (response.data.data.length > 0) {
                             let element = response.data.data[0];
                             element.name = view.elementList.find(
                                 x => x.id == element.attributes.structures_id
