@@ -22,7 +22,7 @@ class TextfieldsGetByPlanAndStructureId extends UnterrichtsplanungController
         if (!empty($textfields)) {
             return $this->createResponse($this->toArray($textfields), $response);
         } else {
-            $this->createResponse([], $response);
+            return $this->createEmptyResponse($response);
         }
     }
 }

@@ -22,7 +22,7 @@ class SummaryGetByPlanAndStructureId extends UnterrichtsplanungController
         if (!empty($summarys)) {
             return $this->createResponse($this->toArray($summarys), $response);
         } else {
-            $this->createResponse([], $response);
+            return $this->createEmptyResponse($response);
         }
     }
 }
