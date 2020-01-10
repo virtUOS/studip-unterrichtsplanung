@@ -1,4 +1,12 @@
 /********************
+ P A G E L A Y O U T
+********************/
+#Unterrichtsplanung-index #layout-sidebar {
+    display: none;
+}
+
+
+/********************
  B R E A D C R U M B
 ********************/
 .nav.home {
@@ -28,7 +36,7 @@ C O N T E N T
     display: flex;
 }
 .content-container {
-    width: 864px;
+    width: 950px;
     display: flex;
     flex-wrap: wrap;
     flex-flow: column;
@@ -40,7 +48,7 @@ C O N T E N T
 A D D P L A N
 ************/
 .plan-metadata {
-    width: 850px;
+    width: 950px;
     margin-right: 1em;
     border: solid thin #e7ebf1;
 }
@@ -73,6 +81,10 @@ A D D P L A N
 /***************************
 A D D N O T E E L E M E N T
 ***************************/
+.note-element-adder {
+    margin-bottom: 1em;
+}
+
 .add-note {
     display: inline-block;
     vertical-align: top;
@@ -118,14 +130,20 @@ A D D N O T E E L E M E N T
     cursor: not-allowed;
 }
 
+
 /*********************
 N O T E E L E M E N T
 *********************/
+.note-element-wrapper {
+    margin-bottom: 1em;
+}
 .note-element {
     width: 100%;
-    height: 230px;
     border:solid thin #e7ebf1;
-    margin: 0 1em 1em 0;
+    margin: 0;
+}
+.note-element.unfolded {
+    min-height: 230px;
 }
 .note-element .note-element-title {
     background-color: #e7ebf1;
@@ -133,13 +151,66 @@ N O T E E L E M E N T
     padding: 1em;
     font-weight: 600;
 }
+.note-element .note-element-title .note-element-toolbar {
+    float: right;
+}
+.note-element .note-element-title .note-element-toolbar .remove {
+    display: inline-block;
+    border: none;
+    height: 24px;
+    width: 24px;
+    background-color: transparent;
+    background-image: url('../../../../../assets/images/icons/black/trash.svg');
+    background-repeat: no-repeat;
+    background-size: 20px;
+    vertical-align: top;
+    cursor: pointer;
+}
+.note-element .note-element-title .note-element-toolbar .copy {
+    display: inline-block;
+    border: none;
+    height: 24px;
+    width: 24px;
+    background-color: transparent;
+    background-image: url('../../../../../assets/images/icons/black/files2.svg');
+    background-repeat: no-repeat;
+    background-size: 20px;
+    vertical-align: top;
+    cursor: pointer;
+}
+.note-element-toggle {}
+.note-element-toggle button.folded{
+    display: inline-block;
+    border: none;
+    height: 24px;
+    width: 24px;
+    background-color: transparent;
+    background-image: url('../../../../../assets/images/icons/black/arr_1right.svg');
+    background-repeat: no-repeat;
+    background-size: 20px;
+    vertical-align: top;
+    cursor: pointer;
+}
+.note-element-toggle button.unfolded{
+    display: inline-block;
+    border: none;
+    height: 24px;
+    width: 24px;
+    background-color: transparent;
+    background-image: url('../../../../../assets/images/icons/black/arr_1down.svg');
+    background-repeat: no-repeat;
+    background-size: 20px;
+    vertical-align: top;
+    cursor: pointer;
+}
+
 .note-element .note-element-content {
     border: none;
     background-color: #fff;
     padding: 1em;
     margin: 0;
     width: 100%;
-    height: 182px;
+    min-height: 180px;
     resize: none;
     box-sizing: border-box;
 }
@@ -147,7 +218,15 @@ N O T E E L E M E N T
     border: solid thin #28497c;
     margin: -1px;
 }
-
+.note-element-char-counter {
+    border: solid thin #e7ebf1;
+    border-top: none;
+    padding: 0.25em;
+    width: 4em;
+    float: right;
+    margin-right: -2px;
+    text-align: center;
+}
 
 /********
  H O M E
@@ -157,6 +236,15 @@ N O T E E L E M E N T
     min-height: 600px;
     width: 416px;
     margin-right: 1em;
+}
+.homebox-small {
+    width: 316px;
+}
+.homebox-wide {
+    width: 616px;
+}
+.homebox-fullwidth {
+    width: 950px;
 }
 .homebox header {
     margin: 0;
@@ -188,25 +276,28 @@ N O T E E L E M E N T
 }
 
 .homebox-link-subtitle {
+    color: #6e6e6e;
+    font-weight: 400;
+}
+.homebox .homebox-link:hover .homebox-link-subtitle {
     color: #e7ebf1;
 }
-
 
 /****************
  O V E R V I E W
 ****************/
 .overview-boxes {
-    width: 864px;
+    width: 964px;
     display: flex;
     flex-wrap: wrap;
 }
 .overview-box {
     background-repeat: no-repeat;
-    background-position-x: 176px;
+    background-position-x: 201px;
     background-position-y: 1em;
     background-size: 64px;
     border: solid thin #e7ebf1;
-    width: 416px;
+    width: 466px;
     height: 200px;
     margin: 0 1em 1em 0;
 }
@@ -276,6 +367,9 @@ N O T E E L E M E N T
     border: solid thin #e7ebf1;
     margin-bottom: 1em;
 }
+.interdepcomputedbox-wrapper {
+    width: 470px;
+}
 .interdepbox-wrapper h3 {
     margin: 0;
     padding: 1em 1em 1em 3em;
@@ -308,14 +402,14 @@ N O T E E L E M E N T
     cursor: pointer;
 }
 
-.interdeps .interdep-type-1 {background-image: url('../../../../../assets/images/icons/green/zoom-in2.svg');}
+.interdeps .interdep-type-1 {background-image: url('../img/green/zoom-in2.svg');}
 .interdeps .interdep-type-2 {background-image: url('../../../../../assets/images/icons/green/headache.svg');}
 .interdeps .interdep-type-3 {background-image: url('../../../../../assets/images/icons/green/radar.svg');}
 .interdeps .interdep-type-4 {background-image: url('../../../../../assets/images/icons/green/files.svg');}
 .interdeps .interdep-type-5 {background-image: url('../../../../../assets/images/icons/green/admin.svg');}
 .interdeps .interdep-type-6 {background-image: url('../../../../../assets/images/icons/green/literature.svg');}
 
-.interdeps .interdep-disabled.interdep-type-1 {background-image: url('../../../../../assets/images/icons/red/zoom-in2.svg');}
+.interdeps .interdep-disabled.interdep-type-1 {background-image: url('../img/red/zoom-in2.svg');}
 .interdeps .interdep-disabled.interdep-type-2 {background-image: url('../../../../../assets/images/icons/red/headache.svg');}
 .interdeps .interdep-disabled.interdep-type-3 {background-image: url('../../../../../assets/images/icons/red/radar.svg');}
 .interdeps .interdep-disabled.interdep-type-4 {background-image: url('../../../../../assets/images/icons/red/files.svg');}
@@ -356,4 +450,26 @@ C O N T E N T
 }
 .plan-content-analysis {
     padding: 1em;
+}
+
+/*************
+ B U T T O N S
+ ************/
+button.button-remove {
+    border-color: #cb1800;
+    color: #cb1800;
+    padding-left: 1.75em;
+    background-image: url('../../../../../assets/images/icons/red/trash.svg');
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: left+5px;
+
+}
+button.button-remove:hover {
+    background-color: #cb1800;
+    color: #fff;
+    background-image: url('../../../../../assets/images/icons/white/trash.svg');
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: left+5px;
 }

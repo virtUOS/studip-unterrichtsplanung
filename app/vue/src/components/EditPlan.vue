@@ -25,10 +25,11 @@
                     <br />
                 </div>
                 <div class="plan-metadata-buttons">
-                    <button class="button" @click="storePlan">Plan speichern</button>
-                    <router-link :to="'/plan/' + plan.id"
-                        ><button class="button">zurück zur Planübersicht</button></router-link
-                    >
+                    <button class="button accept" @click="storePlan">Plan speichern</button>
+                    <router-link :to="'/plan/' + plan.id">
+                        <button class="button cancel">zurück zur Planübersicht</button>
+                    </router-link>
+                    <button class="button button-remove" @click="removePlan">Plan löschen</button>
                 </div>
                 <div class="plan-metadata-errors">
                     <p v-for="error in errors" :key="error">{{ error }}</p>
@@ -100,6 +101,18 @@ export default {
                 .catch(function(error) {
                     console.log(error);
                 });
+        },
+        removePlan: function() {
+            let view = this;
+            if (!confirm('Möchten Sie diesen Plan wirklich löschen?')) {
+                return;
+            }
+            axios
+                .delete('./api/plans/' + this.plan.id)
+                .then(function() {
+                    view.$router.push({ path: '/' });
+                })
+                .catch(error => console.log(error));
         }
     }
 };

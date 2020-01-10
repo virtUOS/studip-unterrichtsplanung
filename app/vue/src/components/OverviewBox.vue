@@ -2,23 +2,23 @@
     <router-link :to="'/plan/' + planId + '/' + catName">
         <div class="overview-box" :class="catName">
             <h1>{{ title }}</h1>
-            <InterdepBox :strucutres_id="strucutres_id" :buttonsDisable="true" />
+            <InterdepComputedBox :strucutres_id="strucutres_id" />
         </div>
     </router-link>
 </template>
 
 <script>
-import InterdepBox from './InterdepBox.vue';
+import InterdepComputedBox from './InterdepComputedBox.vue';
 export default {
     name: 'OverviewBox',
     components: {
-        InterdepBox
+        InterdepComputedBox
     },
     props: {
         title: String,
         catName: String,
         strucutres_id: Number,
-        planId: Number
+        planId: String
     }
 };
 </script>

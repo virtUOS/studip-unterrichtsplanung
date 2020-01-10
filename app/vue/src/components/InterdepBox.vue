@@ -19,28 +19,58 @@ export default {
     name: 'InterdepBox',
     props: {
         strucutres_id: Number,
-        title: String,
-        buttonsDisable: Boolean
+        title: String
     },
     data() {
-        return { interdeps: { '2': false, '3': true, '4': false, '5': true, '6': false } };
+        return { interdeps: {} };
+    },
+    mounted() {
+        this.getInterdeps();
     },
     methods: {
         getInterdeps() {
             let view = this;
             axios
-                .get('./api/structures/' + view.strucutres_id + '/interdeps')
+                .get('./api/interdeps/' + view.$store.state.plan.id + '/' + view.strucutres_id)
                 .then(function(response) {
-                    console.log(response.data.data.references);
-                    view.interdeps = response.data.data.references;
+                    if (response.data.data) {
+                        view.interdeps = JSON.parse(response.data.data[0].attributes.references);
+                    } else {
+                        view.createInterdep();
+                    }
                 })
-                .catch(function(error) {});
+                .catch(error => {
+                    console.log(error);
+                });
         },
         switchInterdep(id, value) {
-            if (this.buttonsDisable) {
-                return;
-            }
+            let view = this;
             this.interdeps[id] = !value;
+            axios
+                .put('./api/interdeps/' + view.$store.state.plan.id + '/' + view.strucutres_id, {
+                    references: JSON.stringify(view.interdeps)
+                })
+                .then(response => console.log(response))
+                .catch(error => {
+                    console.log(error);
+                    view.interdeps[id] = !value;
+                });
+        },
+        createInterdep() {
+            let view = this;
+            let interdeps = { '1': false, '2': false, '3': false, '4': false, '5': false, '6': false };
+            delete interdeps[this.strucutres_id];
+            interdeps = JSON.stringify(interdeps);
+
+            axios
+                .post('./api/interdeps/' + view.$store.state.plan.id + '/' + view.strucutres_id, {
+                    references: interdeps
+                })
+                .then(response => {
+                    console.log(response);
+                    view.getInterdeps();
+                })
+                .catch(error => console.log(error));
         }
     }
 };

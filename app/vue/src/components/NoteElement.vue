@@ -1,7 +1,30 @@
 <template>
-    <div class="note-element">
-        <header class="note-element-title">{{ element.name }}</header>
-        <textarea class="note-element-content" v-model="element.attributes.text" @blur="autoSave()" />
+    <div class="note-element-wrapper">
+        <div class="note-element" :class="{ unfolded: unfolded }">
+            <header class="note-element-title">
+                <span class="note-element-toggle">
+                    <button @click="toggleElement" :class="{ unfolded: unfolded, folded: !unfolded }"></button>
+                </span>
+                {{ element.name }}
+                <span class="note-element-toolbar">
+                    <button
+                        @click="copyElement"
+                        class="copy"
+                        title="alles auswählen und in Zischenablage kopieren"
+                    ></button>
+                    <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
+                </span>
+            </header>
+            <textarea
+                ref="noteText"
+                class="note-element-content"
+                v-model="element.attributes.text"
+                @blur="autoSave()"
+                @keyup="countChars()"
+                v-show="unfolded"
+            />
+        </div>
+        <div class="note-element-char-counter" v-show="unfolded" title="Anzahl der Zeichen">{{ charCounter }}</div>
     </div>
 </template>
 
@@ -13,25 +36,55 @@ export default {
     props: {
         element: Object
     },
+    data() {
+        return {
+            charCounter: 0,
+            unfolded: true
+        };
+    },
     mounted() {
         // console.log(this.element);
+        this.countChars();
     },
     methods: {
         autoSave: function() {
             let view = this;
-            console.log('auto save');
             axios
                 .put('./api/textfields/' + view.element.id, {
                     structures_id: view.element.attributes.structures_id,
                     text: view.element.attributes.text,
                     plans_id: this.$store.state.plan.id
                 })
-                .then(function(response) {
-                    console.log(response);
+                .then(function() {})
+                .catch(error => console.log(error));
+        },
+        removeElement: function() {
+            let view = this;
+            console.log('remove element');
+            if (!confirm('Möchten Sie das Textfeld ' + view.element.name + ' wirklich löschen?')) {
+                return;
+            }
+            axios
+                .delete('./api/textfields/' + view.element.id, {
+                    structures_id: view.element.attributes.structures_id,
+                    plans_id: this.$store.state.plan.id
                 })
-                .catch(function(error) {
-                    console.log(error);
-                });
+                .then(function() {
+                    view.$emit('removeElement', view.element.id);
+                })
+                .catch(error => console.log(error));
+        },
+        countChars() {
+            let string = this.$refs.noteText.value;
+            string = string.replace(/\s/g, '');
+            this.charCounter = string.length;
+        },
+        toggleElement() {
+            this.unfolded = !this.unfolded;
+        },
+        copyElement() {
+            this.$refs.noteText.select();
+            document.execCommand('copy');
         }
     }
 };

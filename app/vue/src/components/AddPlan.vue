@@ -45,7 +45,14 @@ export default {
     },
     data() {
         return {
-            errors: []
+            errors: [],
+            planTitle: '',
+            typeOfSchool: '',
+            gradeLevel: '',
+            subject: '',
+            topic: '',
+            date: '',
+            time: ''
         };
     },
     computed: {

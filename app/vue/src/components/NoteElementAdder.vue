@@ -36,7 +36,7 @@ export default {
                     .post('./api/textfields', {
                         structures_id: element.id,
                         text: '',
-                        plan_id: this.$store.state.plan.id
+                        plans_id: view.$store.state.plan.id
                     })
                     .then(function(response) {
                         view.$emit('addElement', element.id);
@@ -49,7 +49,7 @@ export default {
             }
         },
         toggleAdderButton(event) {
-            event.target.scrollIntoView();
+            //event.target.scrollIntoView();
             if (this.showAdder) {
                 this.showAdder = false;
             } else {

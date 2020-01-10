@@ -135,6 +135,10 @@ export default {
                                 x => x.id == element.attributes.structures_id
                             ).attributes.name;
                             elementsList.push(element);
+                            elementsList.sort((a, b) => {
+                                if (a.attributes.id > b.attributes.id) return 1;
+                                if (b.attributes.id > a.attributes.id) return -1;
+                            });
                             structuresList[index].add = false;
                         }
                     })
