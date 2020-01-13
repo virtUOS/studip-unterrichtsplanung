@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="'/plan/' + planId + '/' + catName">
+    <router-link :to="'/plan/' + planId + '/' + catName" class="overview-box-link">
         <div class="overview-box" :class="catName">
             <h1>{{ title }}</h1>
             <InterdepComputedBox :strucutres_id="strucutres_id" />

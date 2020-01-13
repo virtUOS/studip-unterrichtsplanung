@@ -36,7 +36,7 @@ C O N T E N T
     display: flex;
 }
 .content-container {
-    width: 950px;
+    width: 1150px;
     display: flex;
     flex-wrap: wrap;
     flex-flow: column;
@@ -48,7 +48,7 @@ C O N T E N T
 A D D P L A N
 ************/
 .plan-metadata {
-    width: 950px;
+    width: 1150px;
     margin-right: 1em;
     border: solid thin #e7ebf1;
 }
@@ -287,18 +287,19 @@ N O T E E L E M E N T
  O V E R V I E W
 ****************/
 .overview-boxes {
-    width: 964px;
+    width: 1164px;
     display: flex;
     flex-wrap: wrap;
+    height: max-content;
 }
 .overview-box {
     background-repeat: no-repeat;
-    background-position-x: 201px;
-    background-position-y: 1em;
+    background-position-x: 2em;
+    background-position-y: 2em;
     background-size: 64px;
     border: solid thin #e7ebf1;
-    width: 466px;
-    height: 200px;
+    width: 548px;
+    height: 9em;
     margin: 0 1em 1em 0;
 }
 .overview-box:hover {
@@ -324,23 +325,22 @@ N O T E E L E M E N T
 }
 .overview-box.individual {
     background-image: url('../../../../../assets/images/icons/blue/headache.svg');
+    background-position-y: 1.5em;
 }
 .overview-box h1{
-    margin-top: 5em;
+    color: #28497c;
+    margin-top: 2em;
+    margin-bottom: 0;
+    margin-left: 6em;
     border: none;
-    text-align: center;
-}
-
-
-.box-wrapper {
-    width: 420px;
+    text-align: left;
 }
 
 /**************
  I N F O B O X
 **************/
 .infobox-wrapper {
-    width: 420px;
+    max-width: 420px;
     height: 632px;
     border: solid thin #e7ebf1;
 }
@@ -363,14 +363,16 @@ N O T E E L E M E N T
 *********************/
 .interdepbox-wrapper,
 .toolbox-wrapper {
-    width: 420px;
+    max-width: 420px;
     height: 120px;
     border: solid thin #e7ebf1;
     margin-bottom: 1em;
 }
 .interdepcomputedbox-wrapper {
-    width: 470px;
+    width: unset;
+    margin-left: 7.5em;
 }
+
 .interdepbox-wrapper h3,
 .toolbox-wrapper h3 {
     margin: 0;
@@ -391,6 +393,10 @@ N O T E E L E M E N T
 .tools {
     margin: 0.5em auto;
     width: 370px;
+}
+.overview-box .interdepbox-wrapper.interdepcomputedbox-wrapper .interdeps {
+    margin: 0;
+    width: unset;
 }
 
 .interdeps button,
@@ -491,7 +497,7 @@ S C H E D U L E
 .schedule-table {
     display: table;
     table-layout: fixed;
-    width: 100%;
+    width: 1150px;
     border-spacing: 0;
     border-collapse: collapse;
 }
