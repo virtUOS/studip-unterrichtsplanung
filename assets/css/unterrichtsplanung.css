@@ -361,7 +361,8 @@ N O T E E L E M E N T
 /*********************
  I N T E R D E P B O X
 *********************/
-.interdepbox-wrapper {
+.interdepbox-wrapper,
+.toolbox-wrapper {
     width: 420px;
     height: 120px;
     border: solid thin #e7ebf1;
@@ -370,7 +371,8 @@ N O T E E L E M E N T
 .interdepcomputedbox-wrapper {
     width: 470px;
 }
-.interdepbox-wrapper h3 {
+.interdepbox-wrapper h3,
+.toolbox-wrapper h3 {
     margin: 0;
     padding: 1em 1em 1em 3em;
     background-color: #e7ebf1;;
@@ -385,12 +387,15 @@ N O T E E L E M E N T
 .interdepbox-wrapper .interdep-title-type-5 {background-image: url('../../../../../assets/images/icons/black/admin.svg');}
 .interdepbox-wrapper .interdep-title-type-6 {background-image: url('../../../../../assets/images/icons/black/literature.svg');}
 
-.interdeps {
+.interdeps,
+.tools {
     margin: 0.5em auto;
     width: 370px;
 }
 
-.interdeps button{
+.interdeps button,
+.tools a span{
+    display: inline-block;
     width: 32px;
     height: 32px;
     margin: 1em 1.5em;
@@ -401,6 +406,9 @@ N O T E E L E M E N T
     background-size: 32px;
     cursor: pointer;
 }
+
+.tools .toolbox-edit {background-image: url('../../../../../assets/images/icons/blue/edit.svg');}
+.tools .toolbox-schedule {background-image: url('../../../../../assets/images/icons/blue/timetable.svg');}
 
 .interdeps .interdep-type-1 {background-image: url('../img/green/zoom-in2.svg');}
 .interdeps .interdep-type-2 {background-image: url('../../../../../assets/images/icons/green/headache.svg');}
@@ -416,15 +424,18 @@ N O T E E L E M E N T
 .interdeps .interdep-disabled.interdep-type-5 {background-image: url('../../../../../assets/images/icons/red/admin.svg');}
 .interdeps .interdep-disabled.interdep-type-6 {background-image: url('../../../../../assets/images/icons/red/literature.svg');}
 
-.overview-box .interdepbox-wrapper {
+.overview-box .interdepbox-wrapper,
+.overview-box .toolbox-wrapper {
     height: unset;
     border: none;
 }
-.overview-box .interdepbox-wrapper .interdeps{
+.overview-box .interdepbox-wrapper .interdeps,
+.overview-box .toolbox-wrapper .tools{
     margin: 0.5em auto;
     width: 160px;
 }
-.overview-box .interdepbox-wrapper .interdeps button{
+.overview-box .interdepbox-wrapper .interdeps button,
+.overview-box .toolbox-wrapper .tools button{
     background-size: 16px;
     margin: 0;
 }
@@ -472,4 +483,43 @@ button.button-remove:hover {
     background-repeat: no-repeat;
     background-position-y: center;
     background-position-x: left+5px;
+}
+
+/***************
+S C H E D U L E
+***************/
+.schedule-table {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+.schedule-table tr th,
+.schedule-table tr td {
+    border: solid thin #d0d7e3;
+    padding: 0.5em;
+}
+.schedule-table tr td input {
+    border: none;
+    width: -moz-available;
+}
+.schedule-table tr td.schedule-cell-row-remove {
+    border: none;
+}
+.schedule-table tr th.schedule-header-row-remove {
+    width: 24px;
+    border: none;
+}
+.schedule-row-remove {
+    height: 24px;
+    margin-left: 6px;
+    border: none;
+    background-color: transparent;
+    background-image: url('../../../../../assets/images/icons/blue/trash.svg');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position-y: top;
+    background-position-x: right;
+    cursor: pointer;
 }

@@ -2,7 +2,6 @@
     <div class="overview">
         <h1>
             <router-link to="/"><span class="nav home"></span></router-link> / {{ plan.attributes.name }}
-            <router-link :to="'/editplan/' + plan.id"><span class="nav edit-plan"></span></router-link>
         </h1>
         <div class="content-wrapper">
             <div class="overview-boxes">
@@ -23,25 +22,28 @@
                 <OverviewBox :title="'Methodik'" :strucutres_id="5" :catName="'method'" :planId="plan.id" />
                 <OverviewBox :title="'Medien'" :strucutres_id="6" :catName="'media'" :planId="plan.id" />
             </div>
-            <InfoBox :title="infoBoxTitle" />
+            <div class="box-wrapper">
+                <ToolBox :planId="plan.id" />
+                <InfoBox :title="infoBoxTitle" />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import InfoBox from './InfoBox.vue';
+import ToolBox from './ToolBox.vue';
 import OverviewBox from './OverviewBox.vue';
 
 export default {
     name: 'Overview',
     components: {
         InfoBox,
+        ToolBox,
         OverviewBox
     },
     data() {
-        return {
-            interdepInhalt: { Inhalt: false, Medien: false }
-        };
+        return {};
     },
     computed: {
         plan() {

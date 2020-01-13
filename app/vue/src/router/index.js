@@ -12,6 +12,7 @@ import Intention from './../components/Intention.vue';
 import Content from './../components/Content.vue';
 import Method from './../components/Method.vue';
 import Media from './../components/Media.vue';
+import Schedule from './../components/Schedule.vue';
 import store from './../store/index.js';
 
 Vue.use(VueRouter);
@@ -58,6 +59,10 @@ const routes = [
     {
         path: '/editplan/:planId',
         component: EditPlan
+    },
+    {
+        path: '/editschedule/:planId',
+        component: Schedule
     }
 ];
 var router = new VueRouter({
