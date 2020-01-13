@@ -159,6 +159,8 @@ N O T E E L E M E N T
 *********************/
 .note-element-wrapper {
     margin-bottom: 1em;
+}
+.note-element-wrapper.unfolded {
     min-height: 260px;
 }
 .note-element {

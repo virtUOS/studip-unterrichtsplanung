@@ -1,5 +1,5 @@
 <template>
-    <div class="note-element-wrapper">
+    <div class="note-element-wrapper" :class="{ unfolded: unfolded }">
         <div class="note-element" :class="{ unfolded: unfolded }">
             <header class="note-element-title">
                 <span class="note-element-toggle">
