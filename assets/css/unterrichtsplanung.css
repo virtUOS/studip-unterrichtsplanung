@@ -87,26 +87,49 @@ A D D N O T E E L E M E N T
 
 .add-note {
     display: inline-block;
-    vertical-align: top;
     border: solid thin #e7ebf1;
     background-color: #fff;
+    height: 64px;
+    width: 100%;
+    cursor: pointer;
+    padding: 1em;
+}
+.add-note-icon { 
     background-image: url('../../../../../assets/images/icons/blue/add.svg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 32px;
-    height: 48px;
-    width: 48px;
-    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
 }
 .add-note.active, 
-.add-note:hover {
+.add-note:hover{
     border-right: none;
     background-color: #28497c;
+}
+.add-note.active .add-note-icon, 
+.add-note:hover .add-note-icon{
     background-image: url('../../../../../assets/images/icons/white/add.svg');
 }
 
-.note-element-list {
+.add-note-text {
+    font-size: 16px;
+    vertical-align: middle;
+    height: 48px;
     display: inline-block;
+    margin-left: 1.5em;
+    color: #28497c;
+}
+
+.add-note.active .add-note-text, 
+.add-note:hover .add-note-text{
+    color: #fff;
+}
+
+
+
+.note-element-list {
     margin: 0;
     padding: 0;
     border: solid thin #e7ebf1;
@@ -136,6 +159,7 @@ N O T E E L E M E N T
 *********************/
 .note-element-wrapper {
     margin-bottom: 1em;
+    min-height: 260px;
 }
 .note-element {
     width: 100%;
@@ -147,6 +171,7 @@ N O T E E L E M E N T
 }
 .note-element .note-element-title {
     background-color: #e7ebf1;
+    color: #28497c;
     margin: 0;
     padding: 1em;
     font-weight: 600;
@@ -160,7 +185,7 @@ N O T E E L E M E N T
     height: 24px;
     width: 24px;
     background-color: transparent;
-    background-image: url('../../../../../assets/images/icons/black/trash.svg');
+    background-image: url('../../../../../assets/images/icons/blue/trash.svg');
     background-repeat: no-repeat;
     background-size: 20px;
     vertical-align: top;
@@ -172,7 +197,7 @@ N O T E E L E M E N T
     height: 24px;
     width: 24px;
     background-color: transparent;
-    background-image: url('../../../../../assets/images/icons/black/files2.svg');
+    background-image: url('../../../../../assets/images/icons/blue/files2.svg');
     background-repeat: no-repeat;
     background-size: 20px;
     vertical-align: top;
@@ -185,7 +210,7 @@ N O T E E L E M E N T
     height: 24px;
     width: 24px;
     background-color: transparent;
-    background-image: url('../../../../../assets/images/icons/black/arr_1right.svg');
+    background-image: url('../../../../../assets/images/icons/blue/arr_1right.svg');
     background-repeat: no-repeat;
     background-size: 20px;
     vertical-align: top;
@@ -197,7 +222,7 @@ N O T E E L E M E N T
     height: 24px;
     width: 24px;
     background-color: transparent;
-    background-image: url('../../../../../assets/images/icons/black/arr_1down.svg');
+    background-image: url('../../../../../assets/images/icons/blue/arr_1down.svg');
     background-repeat: no-repeat;
     background-size: 20px;
     vertical-align: top;
@@ -254,13 +279,13 @@ N O T E E L E M E N T
     background-position: 1em;
     font-weight: 600;
     font-size: 1.1em;
-    color: #444;
+    color: #28497c;
 }
 .homebox.plans header {
-    background-image: url('../../../../../assets/images/icons/black/edit.svg');
+    background-image: url('../../../../../assets/images/icons/blue/edit.svg');
 }
 .homebox.add-plan header {
-    background-image: url('../../../../../assets/images/icons/black/add.svg');
+    background-image: url('../../../../../assets/images/icons/blue/add.svg');
 }
 .homebox .homebox-link {
     margin: 1em;
@@ -348,10 +373,11 @@ N O T E E L E M E N T
     margin: 0;
     padding: 1em 1em 1em 3em;
     background-color: #e7ebf1;;
-    background-image: url('../../../../../assets/images/icons/black/info-circle.svg');
+    background-image: url('../../../../../assets/images/icons/blue/info-circle.svg');
     background-repeat: no-repeat;
     background-position: 1em center;
     background-size: 24px;
+    color: #28497c;
 }
 .infobox-wrapper p {
     padding: 1em 2em;
@@ -381,13 +407,14 @@ N O T E E L E M E N T
     background-repeat: no-repeat;
     background-position: 1em center;
     background-size: 24px;
+    color: #28497c;
 }
-.interdepbox-wrapper .interdep-title-type-1 {background-image: url('../../../../../assets/images/icons/black/zoom-out-1-07.svg');}
-.interdepbox-wrapper .interdep-title-type-2 {background-image: url('../../../../../assets/images/icons/black/headache.svg');}
-.interdepbox-wrapper .interdep-title-type-3 {background-image: url('../../../../../assets/images/icons/black/radar.svg');}
-.interdepbox-wrapper .interdep-title-type-4 {background-image: url('../../../../../assets/images/icons/black/files.svg');}
-.interdepbox-wrapper .interdep-title-type-5 {background-image: url('../../../../../assets/images/icons/black/admin.svg');}
-.interdepbox-wrapper .interdep-title-type-6 {background-image: url('../../../../../assets/images/icons/black/literature.svg');}
+.interdepbox-wrapper .interdep-title-type-1 {background-image: url('../img/blue/zoom-in2.svg');}
+.interdepbox-wrapper .interdep-title-type-2 {background-image: url('../../../../../assets/images/icons/blue/headache.svg'); background-position: 1em 0.6em;}
+.interdepbox-wrapper .interdep-title-type-3 {background-image: url('../../../../../assets/images/icons/blue/radar.svg');}
+.interdepbox-wrapper .interdep-title-type-4 {background-image: url('../../../../../assets/images/icons/blue/files.svg');}
+.interdepbox-wrapper .interdep-title-type-5 {background-image: url('../../../../../assets/images/icons/blue/admin.svg');}
+.interdepbox-wrapper .interdep-title-type-6 {background-image: url('../../../../../assets/images/icons/blue/literature.svg');}
 
 .interdeps,
 .tools {
@@ -450,12 +477,11 @@ N O T E E L E M E N T
 C O N T E N T
 *************/
 .plan-content-tabs {
-    border: solid thin #e7ebf1;
+    
     margin-right: 1em;
 }
 .plan-content-tabs h3{
     display: inline-block;
-    width: 392px;
     padding: 1em;
     margin: 0;
     background-color: #e7ebf1;
@@ -466,7 +492,9 @@ C O N T E N T
     color: #fff;
 }
 .plan-content-analysis {
+    border: solid thin #e7ebf1;
     padding: 1em;
+    margin-bottom: 1em;
 }
 
 /*************

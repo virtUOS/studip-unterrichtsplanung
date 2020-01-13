@@ -1,6 +1,9 @@
 <template>
     <div class="note-element-adder">
-        <button class="add-note" :class="{ active: showAdder }" @click="toggleAdderButton"></button>
+        <button class="add-note" :class="{ active: showAdder }" @click="toggleAdderButton">
+            <span class="add-note-icon"></span>
+            <span class="add-note-text">Textfeld hinzufügen</span>
+        </button>
         <ul class="note-element-list" v-show="showAdder">
             <li
                 v-for="element in elementList"
