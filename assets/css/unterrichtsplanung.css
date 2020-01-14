@@ -48,9 +48,9 @@ C O N T E N T
 A D D P L A N
 ************/
 .plan-metadata {
-    width: 1150px;
+    width: 1148px;
     margin-right: 1em;
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
 }
 .plan-metadata-header {
     margin: 0;
@@ -68,7 +68,7 @@ A D D P L A N
     width: 20em;
     padding: 0.5em;
     margin: 0.5em;
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
 }
 .plan-metadata-buttons {
     padding: 1em;
@@ -87,7 +87,7 @@ A D D N O T E E L E M E N T
 
 .add-note {
     display: inline-block;
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
     background-color: #fff;
     height: 64px;
     width: 100%;
@@ -132,12 +132,12 @@ A D D N O T E E L E M E N T
 .note-element-list {
     margin: 0;
     padding: 0;
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
 }
 .note-element-list li{
     margin: 1em;
     padding: 1em ;
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
     list-style: none;
     color: #28497c;
     background-color: #fff;
@@ -149,7 +149,7 @@ A D D N O T E E L E M E N T
 }
 .note-element-list li.inactive-element,
 .note-element-list li.inactive-element:hover{
-    color: #e7ebf1;
+    color: #d4dbe5;
     cursor: not-allowed;
 }
 
@@ -165,7 +165,7 @@ N O T E E L E M E N T
 }
 .note-element {
     width: 100%;
-    border:solid thin #e7ebf1;
+    border:solid thin #d4dbe5;
     margin: 0;
 }
 .note-element.unfolded {
@@ -246,7 +246,7 @@ N O T E E L E M E N T
     margin: -1px;
 }
 .note-element-char-counter {
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
     border-top: none;
     padding: 0.25em;
     width: 4em;
@@ -259,19 +259,19 @@ N O T E E L E M E N T
  H O M E
 ********/
 .homebox {
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
     min-height: 600px;
     width: 416px;
     margin-right: 1em;
 }
 .homebox-small {
-    width: 316px;
+    width: 416px;
 }
 .homebox-wide {
-    width: 616px;
+    width: 716px;
 }
 .homebox-fullwidth {
-    width: 950px;
+    width: 1148px;
 }
 .homebox header {
     margin: 0;
@@ -292,7 +292,7 @@ N O T E E L E M E N T
 .homebox .homebox-link {
     margin: 1em;
     padding: 1em;
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
     font-weight: 600;
     color: #28497c;
 }
@@ -307,7 +307,7 @@ N O T E E L E M E N T
     font-weight: 400;
 }
 .homebox .homebox-link:hover .homebox-link-subtitle {
-    color: #e7ebf1;
+    color: #d4dbe5;
 }
 
 /****************
@@ -324,7 +324,7 @@ N O T E E L E M E N T
     background-position-x: 2em;
     background-position-y: 2em;
     background-size: 64px;
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
     width: 548px;
     height: 9em;
     margin: 0 1em 1em 0;
@@ -369,7 +369,7 @@ N O T E E L E M E N T
 .infobox-wrapper {
     max-width: 420px;
     height: 632px;
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
 }
 .infobox-wrapper h3 {
     margin: 0;
@@ -393,7 +393,7 @@ N O T E E L E M E N T
 .toolbox-wrapper {
     max-width: 420px;
     height: 120px;
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
     margin-bottom: 1em;
 }
 .interdepcomputedbox-wrapper {
@@ -411,6 +411,7 @@ N O T E E L E M E N T
     background-size: 24px;
     color: #28497c;
 }
+.toolbox-wrapper h3 {background-image: url('../../../../../assets/images/icons/blue/tools.svg');}
 .interdepbox-wrapper .interdep-title-type-1 {background-image: url('../img/blue/zoom-in2.svg');}
 .interdepbox-wrapper .interdep-title-type-2 {background-image: url('../../../../../assets/images/icons/blue/headache.svg'); background-position: 1em 0.6em;}
 .interdepbox-wrapper .interdep-title-type-3 {background-image: url('../../../../../assets/images/icons/blue/radar.svg');}
@@ -494,7 +495,7 @@ C O N T E N T
     color: #fff;
 }
 .plan-content-analysis {
-    border: solid thin #e7ebf1;
+    border: solid thin #d4dbe5;
     padding: 1em;
     margin-bottom: 1em;
 }
@@ -524,6 +525,9 @@ button.button-remove:hover {
 /***************
 S C H E D U L E
 ***************/
+.schedule-table-wrapper { 
+    margin-right: 1em;
+}
 .schedule-table {
     display: table;
     table-layout: fixed;

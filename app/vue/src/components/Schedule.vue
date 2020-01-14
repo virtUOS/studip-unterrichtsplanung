@@ -3,44 +3,50 @@
         <h1>
             <router-link to="/"><span class="nav home"></span></router-link> / Verlaufsplan
         </h1>
-        <div class="schedule-table-wrapper">
-            <table class="schedule-table">
-                <tr>
-                    <th>Zeit</th>
-                    <th>Phase</th>
-                    <th>Handlungsschritte</th>
-                    <th>Methodik</th>
-                    <th>Medien</th>
-                    <th class="schedule-header-row-remove"></th>
-                </tr>
-                <ScheduleRow
-                    v-for="(row, id) in this.rows"
-                    :key="id"
-                    :row="row"
-                    :rowId="id"
-                    @changeRow="updateRow"
-                    @removeRow="removeRow"
-                />
-            </table>
+        <div class="content-wrapper">
+            <div class="schedule-table-wrapper">
+                <table class="schedule-table">
+                    <tr>
+                        <th>Zeit</th>
+                        <th>Phase</th>
+                        <th>Handlungsschritte</th>
+                        <th>Methodik</th>
+                        <th>Medien</th>
+                        <th class="schedule-header-row-remove"></th>
+                    </tr>
+                    <ScheduleRow
+                        v-for="(row, id) in this.rows"
+                        :key="id"
+                        :row="row"
+                        :rowId="id"
+                        @changeRow="updateRow"
+                        @removeRow="removeRow"
+                    />
+                </table>
 
-            <button class="button add" @click="addRow">Zeile hinzufügen</button>
+                <button class="button add" @click="addRow">Zeile hinzufügen</button>
+                <br />
+                <button class="button accept" @click="updateSchedule">Verlaufsplan speichern</button>
+                <router-link :to="'/plan/' + plan.id">
+                    <button class="button cancel">zurück zur Planübersicht</button>
+                </router-link>
+            </div>
+            <InfoBox :title="infoBoxTitle" />
         </div>
-        <button class="button accept" @click="updateSchedule">Verlaufsplan speichern</button>
-        <router-link :to="'/plan/' + plan.id">
-            <button class="button cancel">zurück zur Planübersicht</button>
-        </router-link>
+
     </div>
 </template>
 
 <script>
 import ScheduleRow from './ScheduleRow.vue';
+import InfoBox from './InfoBox.vue';
 
 export default {
     name: 'Schedule',
-    components: { ScheduleRow },
+    components: { ScheduleRow, InfoBox },
     props: {},
     data() {
-        return { plan: {}, rows: {} };
+        return { plan: {}, rows: {}, infoBoxTitle: 'Verlaufsplan'};
     },
     mounted() {
         this.plan = this.$store.state.plan;
