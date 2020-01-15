@@ -28,18 +28,22 @@ class AddStructuresData extends Migration
             (14, 2, 'psychomotorische Lernvoraussetzungen'),
             (15, 2, 'Lern- und Arbeitsverhalten'),
             (16, 2, 'Sozialverhalten'),
-            (17, 5, 'Makroebene'),
-            (18, 5, 'Mesoebene'),
-            (19, 5, 'Mikroebene'),
-            (20, 5, 'Aufgaben'),
-            (21, 6, 'Art der Sinneserfahrung'),
-            (22, 6, 'Funktion'),
-            (23, 6, 'Darstellungsform'),
-            (24, 4, 'Sachanalyse'),
-            (25, 4, 'Didaktische Analyse'),
-            (26, 25, 'Exemplarische Bedeutung'),
-            (27, 25, 'Zukunftsbedeutung'),
-            (28, 25, 'Zugänglichkeit')");
+            (17, 3, 'Richtziel'),
+            (18, 3, 'Grobziel'),
+            (19, 3, 'Feinziel'),
+            (20, 4, 'Sachanalyse'),
+            (21, 4, 'Didaktische Analyse'),
+            (22, 5, 'Makroebene'),
+            (23, 5, 'Mesoebene'),
+            (24, 5, 'Mikroebene'),
+            (25, 5, 'Aufgaben'),
+            (26, 6, 'Art der Sinneserfahrung'),
+            (27, 6, 'Funktion'),
+            (28, 6, 'Darstellungsform'),
+            (29, 21, 'Exemplarische Bedeutung'),
+            (30, 21, 'Zukunftsbedeutung'),
+            (31, 21, 'Zugänglichkeit')
+        ");
 
         SimpleORMap::expireTableScheme();
     }
