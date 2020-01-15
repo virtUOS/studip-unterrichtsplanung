@@ -205,8 +205,10 @@ N O T E E L E M E N T
     vertical-align: top;
     cursor: pointer;
 }
-.note-element-toggle {}
-.note-element-toggle button.folded{
+.note-element-toggle {
+    padding-left: 2em;
+}
+.note-element-toggle.folded{
     display: inline-block;
     border: none;
     height: 24px;
@@ -218,7 +220,7 @@ N O T E E L E M E N T
     vertical-align: top;
     cursor: pointer;
 }
-.note-element-toggle button.unfolded{
+.note-element-toggle.unfolded{
     display: inline-block;
     border: none;
     height: 24px;
@@ -253,6 +255,24 @@ N O T E E L E M E N T
     float: right;
     margin-right: -2px;
     text-align: center;
+}
+
+/*************
+S U M M A R Y
+*************/
+.note-element-title.summary-title {}
+
+.note-element-title.summary-title .summary-copy-all{
+    float:right;
+    height: 24px;
+    width: 24px;
+    border: none;
+    background-image: url('../../../../../assets/images/icons/blue/install.svg');
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    vertical-align: top;
+    cursor: pointer;
 }
 
 /********

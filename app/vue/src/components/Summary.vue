@@ -1,7 +1,10 @@
 <template>
     <div class="note-element-wrapper">
         <div class="note-element">
-            <header class="note-element-title">Zusammenfassung für {{ structureName }}</header>
+            <header class="note-element-title summary-title">
+                <span>Zusammenfassung für {{ structureName }}</span>
+                <button class="summary-copy-all"></button>
+            </header>
             <textarea ref="summaryText" class="note-element-content" :value="summaryElement.text" />
         </div>
         <div class="note-element-char-counter" title="Anzahl der Zeichen">{{ charCounter }}</div>
