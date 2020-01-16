@@ -1,18 +1,18 @@
 <template>
+<div class="target-wrapper fine-target" :class="{ unfolded: unfolded }">
     <div class="note-element-wrapper" :class="{ unfolded: unfolded }">
         <div class="note-element" :class="{ unfolded: unfolded }">
             <header class="note-element-title">
                 <span class="note-element-toggle" @click="toggleElement" :class="{ unfolded: unfolded, folded: !unfolded }">
                     Feinziel
                 </span>
-                
                 <span class="note-element-toolbar">
-                    <select v-model="dimension" @change="autoSave()">
+                    <select v-model="dimension" @change="changeDimension">
                         <option value="kognitiv">kognitiv</option>
                         <option value="affektiv">affektiv</option>
                         <option value="psychomotorisch">psychomotorisch</option>
                     </select>
-                    <select v-model="level" @change="autoSave()">
+                    <select v-model="level" @change="autoSave">
                         <option
                             v-show="dimension == 'kognitiv'"
                             v-for="val in kognitivLevels" 
@@ -57,6 +57,7 @@
         </div>
         <div class="note-element-char-counter" v-show="unfolded" title="Anzahl der Zeichen">{{ charCounter }}</div>
     </div>
+</div>
 </template>
 
 <script>
@@ -139,6 +140,10 @@ export default {
         copyElement() {
             this.$refs.noteText.select();
             document.execCommand('copy');
+        },
+        changeDimension() {
+            this.level = '';
+            this.autoSave();
         }
     }
 }

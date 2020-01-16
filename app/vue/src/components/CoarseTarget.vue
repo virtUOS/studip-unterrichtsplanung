@@ -1,14 +1,14 @@
 <template>
-    <div class="target-wrapper">
+    <div class="target-wrapper coarse-target" :class="{ unfolded: unfolded }">
         <div class="note-element-wrapper" :class="{ unfolded: unfolded }">
             <div class="note-element" :class="{ unfolded: unfolded }">
                 <header class="note-element-title">
                     <span class="note-element-toggle" @click="toggleElement" :class="{ unfolded: unfolded, folded: !unfolded }">
                         Grobziel
                     </span>
-                    
+
                     <span class="note-element-toolbar">
-                        <select v-model="dimension" @change="autoSave()">
+                        <select v-model="dimension" @change="autoSave">
                             <option value="kognitiv">kognitiv</option>
                             <option value="affektiv">affektiv</option>
                             <option value="psychomotorisch">psychomotorisch</option>
@@ -25,21 +25,21 @@
                     ref="noteText"
                     class="note-element-content"
                     v-model="element.attributes.text"
-                    @blur="autoSave()"
-                    @keyup="countChars()"
+                    @blur="autoSave"
+                    @keyup="countChars"
                     v-show="unfolded"
                 />
             </div>
             <div class="note-element-char-counter" v-show="unfolded" title="Anzahl der Zeichen">{{ charCounter }}</div>
         </div>
-                <FineTarget
-                    v-show="unfolded"
-                    :element="fineElement"
-                    :parentId="element.id"
-                    v-for="fineElement in currentFineTargets"
-                    :key="fineElement.id"
-                    @removeElement="updateElements"
-                />
+            <FineTarget
+                v-show="unfolded"
+                :element="fineElement"
+                :parentId="element.id"
+                v-for="fineElement in currentFineTargets"
+                :key="fineElement.id"
+                @removeElement="updateElements"
+            />
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="target-wrapper">
+    <div class="target-wrapper indicative-target" :class="{ unfolded: unfolded }">
         <div class="note-element-wrapper" :class="{ unfolded: unfolded }">
             <div class="note-element" :class="{ unfolded: unfolded }">
                 <header class="note-element-title">
