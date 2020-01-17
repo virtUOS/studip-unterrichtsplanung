@@ -10,7 +10,7 @@
                     <button
                         @click="copyElement"
                         class="copy"
-                        title="alles auswählen und in Zischenablage kopieren"
+                        title="Inhalt in Zischenablage kopieren"
                     ></button>
                     <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
                 </span>
@@ -83,8 +83,12 @@ export default {
             this.unfolded = !this.unfolded;
         },
         copyElement() {
-            this.$refs.noteText.select();
-            document.execCommand('copy');
+            let text = this.element.attributes.text;
+            text = this.element.name + '\n' + text;
+            navigator.clipboard.writeText(text).then(function() {
+            }, error => {
+                console.log(error);
+            });
         }
     }
 };
