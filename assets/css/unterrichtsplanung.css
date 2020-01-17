@@ -301,21 +301,42 @@ I N T E N T I O N
     border-right: none;
 }
 
+.target-wrapper.indicative-target .note-element-adder,
+.target-wrapper.coarse-target .note-element-adder {
+    margin: 1em;
+}
+
 .target-wrapper.fine-target.unfolded {
     padding-bottom: 3px;
 }
 .target-wrapper.fine-target {
-    border: solid thin #d4dbe5;
     margin: 1em;
     padding-bottom: 0;
 }
 
 .target-wrapper.fine-target .note-element{
+    border: solid thin #d4dbe5;
+}
+.target-wrapper.fine-target .note-element-char-counter {
+    border: solid thin #d4dbe5;
     border-top: none;
-    border-left: none;
-    border-right: none;
+    margin-right: -2px; 
 }
 
+.target-metadata-box {
+    padding: 0.5em;
+    background-color: #d4dbe5;
+    color: #28497c;
+}
+
+.target-wrapper.coarse-target .note-element-wrapper.unfolded, 
+.target-wrapper.fine-target .note-element-wrapper.unfolded {
+    min-height: 310px;
+}
+
+.target-metadata-box label {
+    margin: 0 0.5em;
+}
 /*************
 S U M M A R Y
 *************/

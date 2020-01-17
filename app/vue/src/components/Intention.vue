@@ -14,6 +14,12 @@
                     :key="element.id"
                     @removeElement="updateElements"
                 />
+                <div class="note-element-adder">
+                    <button class="add-note" @click="addIndicativeTarget">
+                        <span class="add-note-icon"></span>
+                        <span class="add-note-text">Richtziel hinzufügen</span>
+                    </button>
+                </div>
                 <Summary :structureName="structureName" :structureId="3"></Summary>
             </div>
             <div class="box-wrapper">
@@ -75,6 +81,20 @@ export default {
             .catch(function(error) {
                 console.log(error);
             });
+        },
+        addIndicativeTarget() {
+            let view = this;
+            axios
+            .post('./api/textfields', {
+                structures_id: 17,
+                text: '',
+                plans_id: view.$store.state.plan.id
+            })
+            .then(function() {
+                view.elements = [];
+                view.getIndicativeTargets();
+            })
+            .catch(error => console.log(error));
         }
     }
 };

@@ -8,11 +8,6 @@
                     </span>
 
                     <span class="note-element-toolbar">
-                        <select v-model="dimension" @change="autoSave">
-                            <option value="kognitiv">kognitiv</option>
-                            <option value="affektiv">affektiv</option>
-                            <option value="psychomotorisch">psychomotorisch</option>
-                        </select>
                         <button
                             @click="copyElement"
                             class="copy"
@@ -21,6 +16,14 @@
                         <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
                     </span>
                 </header>
+                <div class="target-metadata-box" v-show="unfolded">
+                    <label for="dimension">Dimension</label>
+                    <select name="dimension" v-model="dimension" @change="autoSave">
+                        <option value="kognitiv">kognitiv</option>
+                        <option value="affektiv">affektiv</option>
+                        <option value="psychomotorisch">psychomotorisch</option>
+                    </select>
+                </div>
                 <textarea
                     ref="noteText"
                     class="note-element-content"
@@ -40,6 +43,12 @@
                 :key="fineElement.id"
                 @removeElement="updateElements"
             />
+            <div class="note-element-adder" v-show="unfolded">
+                <button class="add-note" @click="addFineTarget">
+                    <span class="add-note-icon"></span>
+                    <span class="add-note-text">Feinziel hinzufügen</span>
+                </button>
+            </div>
     </div>
 </template>
 
@@ -59,7 +68,7 @@ export default {
     data() {
         return{
             charCounter: 0,
-            unfolded: true, 
+            unfolded: false, 
             structures_id: 18,
             currentFineTargets: [],
             fineTargets: [],
@@ -83,7 +92,7 @@ export default {
         autoSave: function() {
             let view = this;
             let metadata = {}
-            metadata.indicativeTargetId = this.parentId;
+            metadata.parentId = this.parentId;
             metadata.dimension = this.dimension;
 
             axios
@@ -98,8 +107,7 @@ export default {
         },
         removeElement: function() {
             let view = this;
-            console.log('remove element');
-            if (!confirm('Möchten Sie das Textfeld ' + view.element.name + ' wirklich löschen?')) {
+            if (!confirm('Möchten Sie das Grobziel und alle darunter liegenden Ziele wirklich löschen?')) {
                 return;
             }
             axios
@@ -112,7 +120,11 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
-        updateElements(){},
+        updateElements(){
+            this.fineTargets = [];
+            this.currentFineTargets = [];
+            this.getFineTargets();
+        },
         countChars() {
             let string = this.$refs.noteText.value;
             string = string.replace(/\s/g, '');
@@ -125,7 +137,6 @@ export default {
             this.$refs.noteText.select();
             document.execCommand('copy');
         },
-
         getFineTargets(){
             let view = this;
             axios
@@ -144,15 +155,31 @@ export default {
                 console.log(error);
             });
         },
-
         getCurrentFineTargets(){
             let view = this;
             this.fineTargets.forEach(element => {
                 let elementMetadata = JSON.parse(element.attributes.metadata);
-                if (elementMetadata.indicativeTargetId == view.element.id) {
+                if (elementMetadata.parentId == view.element.id) {
                     view.currentFineTargets.push(element);
                 }
             });
+        },
+        addFineTarget(){
+            let view = this;
+            let metadata = {};
+            metadata.parentId = this.element.id;
+
+            axios
+            .post('./api/textfields', {
+                structures_id: 19,
+                text: '',
+                plans_id: view.$store.state.plan.id,
+                metadata: JSON.stringify(metadata)
+            })
+            .then(function() {
+                view.updateElements();
+            })
+            .catch(error => console.log(error));
         }
     }
 }

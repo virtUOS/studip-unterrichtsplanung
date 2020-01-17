@@ -27,14 +27,20 @@
             </div>
             <div class="note-element-char-counter" v-show="unfolded" title="Anzahl der Zeichen">{{ charCounter }}</div>
         </div>
-                <CoarseTarget
-                    v-show="unfolded"
-                    :element="coarseElement"
-                    :parentId="element.id"
-                    v-for="coarseElement in currentCoarseTargets"
-                    :key="coarseElement.id"
-                    @removeElement="updateElements"
-                />
+            <CoarseTarget
+                v-show="unfolded"
+                :element="coarseElement"
+                :parentId="element.id"
+                v-for="coarseElement in currentCoarseTargets"
+                :key="coarseElement.id"
+                @removeElement="updateElements"
+            />
+            <div class="note-element-adder" v-show="unfolded">
+                <button class="add-note" @click="addCoarseTarget">
+                    <span class="add-note-icon"></span>
+                    <span class="add-note-text">Grobziel hinzufügen</span>
+                </button>
+            </div>
     </div>
 </template>
 
@@ -52,7 +58,7 @@ export default {
     data() {
         return {
             charCounter: 0,
-            unfolded: true,
+            unfolded: false,
             structures_id: 17,
             currentCoarseTargets: [],
             coarseTargets: []
@@ -86,8 +92,7 @@ export default {
         },
         removeElement: function() {
             let view = this;
-            console.log('remove element');
-            if (!confirm('Möchten Sie das Textfeld ' + view.element.name + ' wirklich löschen?')) {
+            if (!confirm('Möchten Sie das Richtziel und alle darunter liegenden Ziele wirklich löschen?')) {
                 return;
             }
             axios
@@ -100,7 +105,11 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
-        updateElements(){},
+        updateElements(){
+            this.coarseTargets = [];
+            this.currentCoarseTargets = [];
+            this.getCoarseTargets();
+        },
         countChars() {
             let string = this.$refs.noteText.value;
             string = string.replace(/\s/g, '');
@@ -134,10 +143,27 @@ export default {
             let view = this;
             this.coarseTargets.forEach(element => {
                 let metadata = JSON.parse(element.attributes.metadata);
-                if (metadata.indicativeTargetId == view.element.id) {
+                if (metadata.parentId == view.element.id) {
                     view.currentCoarseTargets.push(element);
                 }
             });
+        },
+        addCoarseTarget(){
+            let view = this;
+            let metadata = {};
+            metadata.parentId = this.element.id;
+
+            axios
+            .post('./api/textfields', {
+                structures_id: 18,
+                text: '',
+                plans_id: view.$store.state.plan.id,
+                metadata: JSON.stringify(metadata)
+            })
+            .then(function() {
+                view.updateElements();
+            })
+            .catch(error => console.log(error));
         }
     }
 }

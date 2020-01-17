@@ -7,37 +7,7 @@
                     Feinziel
                 </span>
                 <span class="note-element-toolbar">
-                    <select v-model="dimension" @change="changeDimension">
-                        <option value="kognitiv">kognitiv</option>
-                        <option value="affektiv">affektiv</option>
-                        <option value="psychomotorisch">psychomotorisch</option>
-                    </select>
-                    <select v-model="level" @change="autoSave">
-                        <option
-                            v-show="dimension == 'kognitiv'"
-                            v-for="val in kognitivLevels" 
-                            :key="val"
-                            :value="val"
-                        >
-                            {{val}}
-                        </option>
-                        <option
-                            v-show="dimension == 'affektiv'"
-                            v-for="val in affektivLevels" 
-                            :key="val"
-                            :value="val"
-                        >
-                            {{val}}
-                        </option>
-                        <option
-                            v-show="dimension == 'psychomotorisch'"
-                            v-for="val in psychomotorischLevels" 
-                            :key="val"
-                            :value="val"
-                        >
-                            {{val}}
-                        </option>
-                    </select>
+
                     <button
                         @click="copyElement"
                         class="copy"
@@ -46,6 +16,41 @@
                     <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
                 </span>
             </header>
+            <div class="target-metadata-box" v-show="unfolded">
+                <label for="dimension">Dimension</label>
+                <select name="dimension" v-model="dimension" @change="changeDimension">
+                    <option value="kognitiv">kognitiv</option>
+                    <option value="affektiv">affektiv</option>
+                    <option value="psychomotorisch">psychomotorisch</option>
+                </select>
+                <label for="level">Stufe</label>
+                <select name="level" v-model="level" @change="autoSave">
+                    <option
+                        v-show="dimension == 'kognitiv'"
+                        v-for="val in kognitivLevels" 
+                        :key="val"
+                        :value="val"
+                    >
+                        {{val}}
+                    </option>
+                    <option
+                        v-show="dimension == 'affektiv'"
+                        v-for="val in affektivLevels" 
+                        :key="val"
+                        :value="val"
+                    >
+                        {{val}}
+                    </option>
+                    <option
+                        v-show="dimension == 'psychomotorisch'"
+                        v-for="val in psychomotorischLevels" 
+                        :key="val"
+                        :value="val"
+                    >
+                        {{val}}
+                    </option>
+                </select>
+            </div>
             <textarea
                 ref="noteText"
                 class="note-element-content"
@@ -72,7 +77,7 @@ export default {
     data() {
         return{
             charCounter: 0,
-            unfolded: true, 
+            unfolded: false, 
             structures_id: 19,
             dimension: '',
             level: '',
@@ -98,7 +103,7 @@ export default {
         autoSave: function() {
             let view = this;
             let metadata = {}
-            metadata.indicativeTargetId = this.parentId;
+            metadata.parentId = this.parentId;
             metadata.dimension = this.dimension;
             metadata.level = this.level;
 
@@ -115,7 +120,7 @@ export default {
         removeElement: function() {
             let view = this;
             console.log('remove element');
-            if (!confirm('Möchten Sie das Textfeld ' + view.element.name + ' wirklich löschen?')) {
+            if (!confirm('Möchten Sie das Feinziel wirklich löschen?')) {
                 return;
             }
             axios
