@@ -3,7 +3,7 @@
         <div class="note-element">
             <header class="note-element-title summary-title">
                 <span>Zusammenfassung für {{ structureName }}</span>
-                <button class="summary-copy-all"></button>
+                <button class="summary-copy-all" @click="insertFromTextfields"></button>
             </header>
             <textarea ref="summaryText" class="note-element-content" :value="summaryElement.text" />
         </div>
@@ -89,7 +89,8 @@ export default {
             let string = wysiwyg_editor.getData();
             string = string.replace(/\s/g, '');
             this.charCounter = string.length;
-        }
+        },
+        insertFromTextfields() {}
     }
 };
 </script>

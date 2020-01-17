@@ -33,7 +33,6 @@
             </div>
             <InfoBox :title="infoBoxTitle" />
         </div>
-
     </div>
 </template>
 
@@ -46,7 +45,7 @@ export default {
     components: { ScheduleRow, InfoBox },
     props: {},
     data() {
-        return { plan: {}, rows: {}, infoBoxTitle: 'Verlaufsplan'};
+        return { plan: {}, rows: {}, infoBoxTitle: 'Verlaufsplan' };
     },
     mounted() {
         this.plan = this.$store.state.plan;

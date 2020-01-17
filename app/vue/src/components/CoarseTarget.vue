@@ -3,7 +3,11 @@
         <div class="note-element-wrapper" :class="{ unfolded: unfolded }">
             <div class="note-element" :class="{ unfolded: unfolded }">
                 <header class="note-element-title">
-                    <span class="note-element-toggle" @click="toggleElement" :class="{ unfolded: unfolded, folded: !unfolded }">
+                    <span
+                        class="note-element-toggle"
+                        @click="toggleElement"
+                        :class="{ unfolded: unfolded, folded: !unfolded }"
+                    >
                         Grobziel
                     </span>
 
@@ -11,7 +15,7 @@
                         <button
                             @click="copyElement"
                             class="copy"
-                            title="Inhalt in Zischenablage kopieren"
+                            title="Inhalt in die Zwischenablage kopieren"
                         ></button>
                         <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
                     </span>
@@ -35,29 +39,29 @@
             </div>
             <div class="note-element-char-counter" v-show="unfolded" title="Anzahl der Zeichen">{{ charCounter }}</div>
         </div>
-            <FineTarget
-                v-show="unfolded"
-                :element="fineElement"
-                :parentId="element.id"
-                v-for="fineElement in currentFineTargets"
-                :key="fineElement.id"
-                @removeElement="updateElements"
-            />
-            <div class="note-element-adder" v-show="unfolded">
-                <button class="add-note" @click="addFineTarget">
-                    <span class="add-note-icon"></span>
-                    <span class="add-note-text">Feinziel hinzufügen</span>
-                </button>
-            </div>
+        <FineTarget
+            v-show="unfolded"
+            :element="fineElement"
+            :parentId="element.id"
+            v-for="fineElement in currentFineTargets"
+            :key="fineElement.id"
+            @removeElement="updateElements"
+        />
+        <div class="note-element-adder" v-show="unfolded">
+            <button class="add-note" @click="addFineTarget">
+                <span class="add-note-icon"></span>
+                <span class="add-note-text">Feinziel hinzufügen</span>
+            </button>
+        </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import FineTarget from './FineTarget'
+import FineTarget from './FineTarget';
 
 export default {
-    name: 'CoarseTarget', 
+    name: 'CoarseTarget',
     components: {
         FineTarget
     },
@@ -66,14 +70,14 @@ export default {
         parentId: String
     },
     data() {
-        return{
+        return {
             charCounter: 0,
-            unfolded: false, 
+            unfolded: false,
             structures_id: 18,
             currentFineTargets: [],
             fineTargets: [],
             dimension: ''
-        }
+        };
     },
     mounted() {
         this.countChars();
@@ -85,13 +89,13 @@ export default {
             return this.$store.state.plan;
         },
         metadata() {
-             return JSON.parse(this.element.attributes.metadata);
+            return JSON.parse(this.element.attributes.metadata);
         }
     },
     methods: {
         autoSave: function() {
             let view = this;
-            let metadata = {}
+            let metadata = {};
             metadata.parentId = this.parentId;
             metadata.dimension = this.dimension;
 
@@ -120,7 +124,7 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
-        updateElements(){
+        updateElements() {
             this.fineTargets = [];
             this.currentFineTargets = [];
             this.getFineTargets();
@@ -136,31 +140,33 @@ export default {
         copyElement() {
             let dim = this.dimension;
             let text = this.element.attributes.text;
-            text = 'Grobziel\nDimension: '+ dim + '\n' + text;
-            navigator.clipboard.writeText(text).then(function() {
-            }, error => {
-                console.log(error);
-            });
+            text = 'Grobziel\nDimension: ' + dim + '\n' + text;
+            navigator.clipboard.writeText(text).then(
+                function() {},
+                error => {
+                    console.log(error);
+                }
+            );
         },
-        getFineTargets(){
+        getFineTargets() {
             let view = this;
             axios
-            .get('./api/textfields/' + view.plan.id + '/19')
-            .then(function(response) {
-                if (response.data.data.length > 0) {
-                    let elements = response.data;
-                    elements.data.forEach(element => {
-                        view.fineTargets.push(element);
-                        console.log(element);
-                    });
-                    view.getCurrentFineTargets();
-                }
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+                .get('./api/textfields/' + view.plan.id + '/19')
+                .then(function(response) {
+                    if (response.data.data.length > 0) {
+                        let elements = response.data;
+                        elements.data.forEach(element => {
+                            view.fineTargets.push(element);
+                            console.log(element);
+                        });
+                        view.getCurrentFineTargets();
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
         },
-        getCurrentFineTargets(){
+        getCurrentFineTargets() {
             let view = this;
             this.fineTargets.forEach(element => {
                 let elementMetadata = JSON.parse(element.attributes.metadata);
@@ -169,23 +175,23 @@ export default {
                 }
             });
         },
-        addFineTarget(){
+        addFineTarget() {
             let view = this;
             let metadata = {};
             metadata.parentId = this.element.id;
 
             axios
-            .post('./api/textfields', {
-                structures_id: 19,
-                text: '',
-                plans_id: view.$store.state.plan.id,
-                metadata: JSON.stringify(metadata)
-            })
-            .then(function() {
-                view.updateElements();
-            })
-            .catch(error => console.log(error));
+                .post('./api/textfields', {
+                    structures_id: 19,
+                    text: '',
+                    plans_id: view.$store.state.plan.id,
+                    metadata: JSON.stringify(metadata)
+                })
+                .then(function() {
+                    view.updateElements();
+                })
+                .catch(error => console.log(error));
         }
     }
-}
+};
 </script>

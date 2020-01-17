@@ -3,15 +3,19 @@
         <div class="note-element-wrapper" :class="{ unfolded: unfolded }">
             <div class="note-element" :class="{ unfolded: unfolded }">
                 <header class="note-element-title">
-                    <span class="note-element-toggle" @click="toggleElement" :class="{ unfolded: unfolded, folded: !unfolded }">
+                    <span
+                        class="note-element-toggle"
+                        @click="toggleElement"
+                        :class="{ unfolded: unfolded, folded: !unfolded }"
+                    >
                         Richtziel
                     </span>
-                    
+
                     <span class="note-element-toolbar">
                         <button
                             @click="copyElement"
                             class="copy"
-                            title="Inhalt in Zischenablage kopieren"
+                            title="Inhalt in die Zwischenablage kopieren"
                         ></button>
                         <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
                     </span>
@@ -27,30 +31,30 @@
             </div>
             <div class="note-element-char-counter" v-show="unfolded" title="Anzahl der Zeichen">{{ charCounter }}</div>
         </div>
-            <CoarseTarget
-                v-show="unfolded"
-                :element="coarseElement"
-                :parentId="element.id"
-                v-for="coarseElement in currentCoarseTargets"
-                :key="coarseElement.id"
-                @removeElement="updateElements"
-            />
-            <div class="note-element-adder" v-show="unfolded">
-                <button class="add-note" @click="addCoarseTarget">
-                    <span class="add-note-icon"></span>
-                    <span class="add-note-text">Grobziel hinzufügen</span>
-                </button>
-            </div>
+        <CoarseTarget
+            v-show="unfolded"
+            :element="coarseElement"
+            :parentId="element.id"
+            v-for="coarseElement in currentCoarseTargets"
+            :key="coarseElement.id"
+            @removeElement="updateElements"
+        />
+        <div class="note-element-adder" v-show="unfolded">
+            <button class="add-note" @click="addCoarseTarget">
+                <span class="add-note-icon"></span>
+                <span class="add-note-text">Grobziel hinzufügen</span>
+            </button>
+        </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import CoarseTarget from './CoarseTarget'
-import FineTarget from './FineTarget'
+import CoarseTarget from './CoarseTarget';
+import FineTarget from './FineTarget';
 
 export default {
-    name: 'IndicativeTarget', 
+    name: 'IndicativeTarget',
     props: {
         element: Object,
         fineTargets: Object
@@ -105,7 +109,7 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
-        updateElements(){
+        updateElements() {
             this.coarseTargets = [];
             this.currentCoarseTargets = [];
             this.getCoarseTargets();
@@ -121,29 +125,31 @@ export default {
         copyElement() {
             let text = this.element.attributes.text;
             text = 'Richtziel\n' + text;
-            navigator.clipboard.writeText(text).then(function() {
-            }, error => {
-                console.log(error);
-            });
+            navigator.clipboard.writeText(text).then(
+                function() {},
+                error => {
+                    console.log(error);
+                }
+            );
         },
-        getCoarseTargets(){
+        getCoarseTargets() {
             let view = this;
             axios
-            .get('./api/textfields/' + view.plan.id + '/18')
-            .then(function(response) {
-                if (response.data.data.length > 0) {
-                    let elements = response.data;
-                    elements.data.forEach(element => {
-                        view.coarseTargets.push(element);
-                    });
-                    view.getCurrentCoarseTargets();
-                }
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+                .get('./api/textfields/' + view.plan.id + '/18')
+                .then(function(response) {
+                    if (response.data.data.length > 0) {
+                        let elements = response.data;
+                        elements.data.forEach(element => {
+                            view.coarseTargets.push(element);
+                        });
+                        view.getCurrentCoarseTargets();
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
         },
-        getCurrentCoarseTargets(){
+        getCurrentCoarseTargets() {
             let view = this;
             this.coarseTargets.forEach(element => {
                 let metadata = JSON.parse(element.attributes.metadata);
@@ -152,23 +158,23 @@ export default {
                 }
             });
         },
-        addCoarseTarget(){
+        addCoarseTarget() {
             let view = this;
             let metadata = {};
             metadata.parentId = this.element.id;
 
             axios
-            .post('./api/textfields', {
-                structures_id: 18,
-                text: '',
-                plans_id: view.$store.state.plan.id,
-                metadata: JSON.stringify(metadata)
-            })
-            .then(function() {
-                view.updateElements();
-            })
-            .catch(error => console.log(error));
+                .post('./api/textfields', {
+                    structures_id: 18,
+                    text: '',
+                    plans_id: view.$store.state.plan.id,
+                    metadata: JSON.stringify(metadata)
+                })
+                .then(function() {
+                    view.updateElements();
+                })
+                .catch(error => console.log(error));
         }
     }
-}
+};
 </script>

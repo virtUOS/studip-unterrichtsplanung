@@ -78,29 +78,34 @@ export default {
         },
         getElements() {
             let view = this;
+            let promises = [];
             let elements = [];
             this.elementList.forEach(function(element, index) {
-                axios
-                    .get('./api/textfields/' + view.plan.id + '/' + element.id)
-                    .then(function(response) {
-                        if (response.data.data.length > 0) {
-                            let element = response.data.data[0];
-                            element.name = view.elementList.find(
-                                x => x.id == element.attributes.structures_id
-                            ).attributes.name;
-                            elements.push(element);
-                            elements.sort((a, b) => {
-                                if (a.attributes.id > b.attributes.id) return 1;
-                                if (b.attributes.id > a.attributes.id) return -1;
-                            });
-                            view.elementList[index].add = false;
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
+                promises.push(axios.get('./api/textfields/' + view.plan.id + '/' + element.id));
             });
-            this.elements = elements;
+            axios.all(promises).then(results => {
+                results.forEach(response => {
+                    if (response.data.data.length > 0) {
+                        let element = response.data.data[0];
+                        element.name = view.elementList.find(
+                            x => x.id == element.attributes.structures_id
+                        ).attributes.name;
+                        elements.push(element);
+                    }
+                });
+                elements.sort((a, b) => {
+                    if (a.attributes.id > b.attributes.id) return 1;
+                    if (b.attributes.id > a.attributes.id) return -1;
+                });
+                view.elements = elements;
+                view.getElementsText();
+            });
+        },
+        getElementsText() {
+            let view = this;
+            this.elements.forEach((element, index) => {
+                //TODO
+            });
         }
     }
 };

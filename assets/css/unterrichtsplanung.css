@@ -210,7 +210,6 @@ N O T E E L E M E N T
     display: inline-block;
     border: none;
     height: 24px;
-    width: 24px;
     background-color: transparent;
     background-image: url('../../../../../assets/images/icons/blue/arr_1right.svg');
     background-repeat: no-repeat;
@@ -222,7 +221,6 @@ N O T E E L E M E N T
     display: inline-block;
     border: none;
     height: 24px;
-    width: 24px;
     background-color: transparent;
     background-image: url('../../../../../assets/images/icons/blue/arr_1down.svg');
     background-repeat: no-repeat;

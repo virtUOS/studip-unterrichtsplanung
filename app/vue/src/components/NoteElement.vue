@@ -2,16 +2,16 @@
     <div class="note-element-wrapper" :class="{ unfolded: unfolded }">
         <div class="note-element" :class="{ unfolded: unfolded }">
             <header class="note-element-title">
-                <span class="note-element-toggle" @click="toggleElement" :class="{ unfolded: unfolded, folded: !unfolded }">
+                <span
+                    class="note-element-toggle"
+                    @click="toggleElement"
+                    :class="{ unfolded: unfolded, folded: !unfolded }"
+                >
                     {{ element.name }}
                 </span>
-                
+
                 <span class="note-element-toolbar">
-                    <button
-                        @click="copyElement"
-                        class="copy"
-                        title="Inhalt in Zischenablage kopieren"
-                    ></button>
+                    <button @click="copyElement" class="copy" title="Inhalt in die Zwischenablage kopieren"></button>
                     <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
                 </span>
             </header>
@@ -85,10 +85,12 @@ export default {
         copyElement() {
             let text = this.element.attributes.text;
             text = this.element.name + '\n' + text;
-            navigator.clipboard.writeText(text).then(function() {
-            }, error => {
-                console.log(error);
-            });
+            navigator.clipboard.writeText(text).then(
+                function() {},
+                error => {
+                    console.log(error);
+                }
+            );
         }
     }
 };

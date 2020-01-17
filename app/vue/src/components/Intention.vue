@@ -1,10 +1,9 @@
 <template>
     <div class="plan-intention">
         <h1>
-            <router-link to="/">
-                <span class="nav home"></span>
-            </router-link>/
-            <router-link :to="'/plan/' + plan.id">{{ plan.attributes.name }}</router-link>/ Intentionalität
+            <router-link to="/"> <span class="nav home"></span> </router-link>/
+            <router-link :to="'/plan/' + plan.id">{{ plan.attributes.name }}</router-link
+            >/ Intentionalität
         </h1>
         <div class="content-wrapper">
             <div class="content-container">
@@ -59,7 +58,6 @@ export default {
     },
     mounted() {
         this.getIndicativeTargets();
-
     },
     methods: {
         updateElements() {
@@ -69,32 +67,32 @@ export default {
         getIndicativeTargets() {
             let view = this;
             axios
-            .get('./api/textfields/' + view.plan.id + '/17')
-            .then(function(response) {
-                if (response.data.data.length > 0) {
-                    let elements = response.data;
-                    elements.data.forEach(element => {
-                        view.elements.push(element);
-                    });
-                }
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+                .get('./api/textfields/' + view.plan.id + '/17')
+                .then(function(response) {
+                    if (response.data.data.length > 0) {
+                        let elements = response.data;
+                        elements.data.forEach(element => {
+                            view.elements.push(element);
+                        });
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
         },
         addIndicativeTarget() {
             let view = this;
             axios
-            .post('./api/textfields', {
-                structures_id: 17,
-                text: '',
-                plans_id: view.$store.state.plan.id
-            })
-            .then(function() {
-                view.elements = [];
-                view.getIndicativeTargets();
-            })
-            .catch(error => console.log(error));
+                .post('./api/textfields', {
+                    structures_id: 17,
+                    text: '',
+                    plans_id: view.$store.state.plan.id
+                })
+                .then(function() {
+                    view.elements = [];
+                    view.getIndicativeTargets();
+                })
+                .catch(error => console.log(error));
         }
     }
 };

@@ -1,68 +1,61 @@
 <template>
-<div class="target-wrapper fine-target" :class="{ unfolded: unfolded }">
-    <div class="note-element-wrapper" :class="{ unfolded: unfolded }">
-        <div class="note-element" :class="{ unfolded: unfolded }">
-            <header class="note-element-title">
-                <span class="note-element-toggle" @click="toggleElement" :class="{ unfolded: unfolded, folded: !unfolded }">
-                    Feinziel
-                </span>
-                <span class="note-element-toolbar">
-
-                    <button
-                        @click="copyElement"
-                        class="copy"
-                        title="Inhalt in Zischenablage kopieren"
-                    ></button>
-                    <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
-                </span>
-            </header>
-            <div class="target-metadata-box" v-show="unfolded">
-                <label for="dimension">Dimension</label>
-                <select name="dimension" v-model="dimension" @change="changeDimension">
-                    <option value="kognitiv">kognitiv</option>
-                    <option value="affektiv">affektiv</option>
-                    <option value="psychomotorisch">psychomotorisch</option>
-                </select>
-                <label for="level">Stufe</label>
-                <select name="level" v-model="level" @change="autoSave">
-                    <option
-                        v-show="dimension == 'kognitiv'"
-                        v-for="val in kognitivLevels" 
-                        :key="val"
-                        :value="val"
+    <div class="target-wrapper fine-target" :class="{ unfolded: unfolded }">
+        <div class="note-element-wrapper" :class="{ unfolded: unfolded }">
+            <div class="note-element" :class="{ unfolded: unfolded }">
+                <header class="note-element-title">
+                    <span
+                        class="note-element-toggle"
+                        @click="toggleElement"
+                        :class="{ unfolded: unfolded, folded: !unfolded }"
                     >
-                        {{val}}
-                    </option>
-                    <option
-                        v-show="dimension == 'affektiv'"
-                        v-for="val in affektivLevels" 
-                        :key="val"
-                        :value="val"
-                    >
-                        {{val}}
-                    </option>
-                    <option
-                        v-show="dimension == 'psychomotorisch'"
-                        v-for="val in psychomotorischLevels" 
-                        :key="val"
-                        :value="val"
-                    >
-                        {{val}}
-                    </option>
-                </select>
+                        Feinziel
+                    </span>
+                    <span class="note-element-toolbar">
+                        <button
+                            @click="copyElement"
+                            class="copy"
+                            title="Inhalt in die Zwischenablage kopieren"
+                        ></button>
+                        <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
+                    </span>
+                </header>
+                <div class="target-metadata-box" v-show="unfolded">
+                    <label for="dimension">Dimension</label>
+                    <select name="dimension" v-model="dimension" @change="changeDimension">
+                        <option value="kognitiv">kognitiv</option>
+                        <option value="affektiv">affektiv</option>
+                        <option value="psychomotorisch">psychomotorisch</option>
+                    </select>
+                    <label for="level">Stufe</label>
+                    <select name="level" v-model="level" @change="autoSave">
+                        <option v-show="dimension == 'kognitiv'" v-for="val in kognitivLevels" :key="val" :value="val">
+                            {{ val }}
+                        </option>
+                        <option v-show="dimension == 'affektiv'" v-for="val in affektivLevels" :key="val" :value="val">
+                            {{ val }}
+                        </option>
+                        <option
+                            v-show="dimension == 'psychomotorisch'"
+                            v-for="val in psychomotorischLevels"
+                            :key="val"
+                            :value="val"
+                        >
+                            {{ val }}
+                        </option>
+                    </select>
+                </div>
+                <textarea
+                    ref="noteText"
+                    class="note-element-content"
+                    v-model="element.attributes.text"
+                    @blur="autoSave()"
+                    @keyup="countChars()"
+                    v-show="unfolded"
+                />
             </div>
-            <textarea
-                ref="noteText"
-                class="note-element-content"
-                v-model="element.attributes.text"
-                @blur="autoSave()"
-                @keyup="countChars()"
-                v-show="unfolded"
-            />
+            <div class="note-element-char-counter" v-show="unfolded" title="Anzahl der Zeichen">{{ charCounter }}</div>
         </div>
-        <div class="note-element-char-counter" v-show="unfolded" title="Anzahl der Zeichen">{{ charCounter }}</div>
     </div>
-</div>
 </template>
 
 <script>
@@ -75,16 +68,16 @@ export default {
         parentId: String
     },
     data() {
-        return{
+        return {
             charCounter: 0,
-            unfolded: false, 
+            unfolded: false,
             structures_id: 19,
             dimension: '',
             level: '',
             kognitivLevels: ['wissen', 'verstehen', 'anwenden', 'analysieren', 'synthetisieren'],
             affektivLevels: ['affektiv_A', 'affektiv_B', 'affektiv_C'],
-            psychomotorischLevels: ['psychomotorisch_A', 'psychomotorisch_B', 'psychomotorisch_C'],
-        }
+            psychomotorischLevels: ['psychomotorisch_A', 'psychomotorisch_B', 'psychomotorisch_C']
+        };
     },
     mounted() {
         this.countChars();
@@ -96,13 +89,13 @@ export default {
             return this.$store.state.plan;
         },
         metadata() {
-             return JSON.parse(this.element.attributes.metadata);
+            return JSON.parse(this.element.attributes.metadata);
         }
     },
     methods: {
         autoSave: function() {
             let view = this;
-            let metadata = {}
+            let metadata = {};
             metadata.parentId = this.parentId;
             metadata.dimension = this.dimension;
             metadata.level = this.level;
@@ -143,16 +136,18 @@ export default {
         },
         copyElement() {
             let text = this.element.attributes.text;
-            text = 'Feinziel\nDimension: '+ this.dimension + '\nStufe: '+ this.level + '\n' + text;
-            navigator.clipboard.writeText(text).then(function() {
-            }, error => {
-                console.log(error);
-            });
+            text = 'Feinziel\nDimension: ' + this.dimension + '\nStufe: ' + this.level + '\n' + text;
+            navigator.clipboard.writeText(text).then(
+                function() {},
+                error => {
+                    console.log(error);
+                }
+            );
         },
         changeDimension() {
             this.level = '';
             this.autoSave();
         }
     }
-}
+};
 </script>
