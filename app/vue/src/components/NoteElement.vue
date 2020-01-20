@@ -55,7 +55,9 @@ export default {
                     text: view.element.attributes.text,
                     plans_id: this.$store.state.plan.id
                 })
-                .then(function() {})
+                .then(function() {
+                    view.$emit('changeElement', {'id': view.element.id, 'text': view.element.attributes.text});
+                })
                 .catch(error => console.log(error));
         },
         removeElement: function() {
@@ -76,7 +78,7 @@ export default {
         },
         countChars() {
             let string = this.$refs.noteText.value;
-            string = string.replace(/\s/g, '');
+            //string = string.replace(/\s/g, '');
             this.charCounter = string.length;
         },
         toggleElement() {

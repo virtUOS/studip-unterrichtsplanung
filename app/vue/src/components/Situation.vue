@@ -11,12 +11,13 @@
                     v-for="element in elements"
                     :key="element.id"
                     @removeElement="updateElements"
+                    @changeElement="changeElement"
                 />
-                <NoteElementAdder :structures_id="1" :elementList="this.elementList" @addElement="updateElements" />
-                <Summary :structureName="structureName" :structureId="1"></Summary>
+                <NoteElementAdder :structures_id="structureId" :elementList="this.elementList" @addElement="updateElements" />
+                <Summary :structureName="structureName" :structureId="structureId" :structureText="structureText"></Summary>
             </div>
             <div class="box-wrapper">
-                <InterdepBox :strucutres_id="1" :title="'Interdependenzen'" />
+                <InterdepBox :strucutres_id="structureId" :title="'Interdependenzen'" />
                 <InfoBox :title="structureName" />
             </div>
         </div>
@@ -45,7 +46,9 @@ export default {
             // get this from database
             elementList: [],
             elements: [],
-            structureName: 'situative Voraussetzungen'
+            structureName: 'situative Voraussetzungen',
+            structureId: 1,
+            structureText : ''
         };
     },
     computed: {
@@ -60,10 +63,15 @@ export default {
         updateElements() {
             this.getStructures();
         },
+        changeElement(changedElement) {
+            let element = this.elements.find( x => x.attributes.id == changedElement.id);
+            element.attributes.text = changedElement.text;
+            this.getElementsText();
+        },
         getStructures() {
             let view = this;
             axios
-                .get('./api/structures/1')
+                .get('./api/structures/' + this.structureId)
                 .then(function(response) {
                     let elementList = response.data.data;
                     elementList.forEach(function(element) {
@@ -87,9 +95,11 @@ export default {
                 results.forEach(response => {
                     if (response.data.data.length > 0) {
                         let element = response.data.data[0];
-                        element.name = view.elementList.find(
+                        let listElement = view.elementList.find(
                             x => x.id == element.attributes.structures_id
-                        ).attributes.name;
+                        );
+                        element.name = listElement.attributes.name;
+                        listElement.add = false;
                         elements.push(element);
                     }
                 });
@@ -103,9 +113,12 @@ export default {
         },
         getElementsText() {
             let view = this;
+            let text = '';
             this.elements.forEach((element, index) => {
-                //TODO
+                text = text + '<h3>' + element.name + '</h3>';
+                text = text + '<p>' + element.attributes.text + '</p><br>';
             });
+            this.structureText = text;
         }
     }
 };

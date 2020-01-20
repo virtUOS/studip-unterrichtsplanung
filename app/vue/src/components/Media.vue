@@ -11,12 +11,13 @@
                     v-for="element in elements"
                     :key="element.id"
                     @removeElement="updateElements"
+                    @changeElement="changeElement"
                 />
-                <NoteElementAdder :structures_id="6" :elementList="this.elementList" @addElement="updateElements" />
-                <Summary :structureName="structureName" :structureId="6"></Summary>
+                <NoteElementAdder :structures_id="structureId" :elementList="this.elementList" @addElement="updateElements" />
+                <Summary :structureName="structureName" :structureId="structureId" :structureText="structureText"></Summary>
             </div>
             <div class="box-wrapper">
-                <InterdepBox :strucutres_id="6" :title="'Interdependenzen'" />
+                <InterdepBox :strucutres_id="structureId" :title="'Interdependenzen'" />
                 <InfoBox :title="structureName" />
             </div>
         </div>
@@ -45,7 +46,9 @@ export default {
             // get this from database
             elementList: [],
             elements: [],
-            structureName: 'Medien'
+            structureName: 'Medien',
+            structureId: 6,
+            structureText : ''
         };
     },
     computed: {
@@ -58,14 +61,17 @@ export default {
     },
     methods: {
         updateElements() {
-            this.elementList = [];
-            this.elements = [];
             this.getStructures();
+        },
+        changeElement(changedElement) {
+            let element = this.elements.find( x => x.attributes.id == changedElement.id);
+            element.attributes.text = changedElement.text;
+            this.getElementsText();
         },
         getStructures() {
             let view = this;
             axios
-                .get('./api/structures/6')
+                .get('./api/structures/' + this.structureId)
                 .then(function(response) {
                     view.elementList = response.data.data;
                     view.elementList.forEach(function(element) {
@@ -79,27 +85,39 @@ export default {
         },
         getElements() {
             let view = this;
+            let promises = [];
+            let elements = [];
             this.elementList.forEach(function(element, index) {
-                axios
-                    .get('./api/textfields/' + view.plan.id + '/' + element.id)
-                    .then(function(response) {
-                        if (response.data.data.length > 0) {
-                            let element = response.data.data[0];
-                            element.name = view.elementList.find(
-                                x => x.id == element.attributes.structures_id
-                            ).attributes.name;
-                            view.elements.push(element);
-                            view.elements.sort((a, b) => {
-                                if (a.attributes.id > b.attributes.id) return 1;
-                                if (b.attributes.id > a.attributes.id) return -1;
-                            });
-                            view.elementList[index].add = false;
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
+                promises.push(axios.get('./api/textfields/' + view.plan.id + '/' + element.id));
             });
+            axios.all(promises).then(results => {
+                results.forEach(response => {
+                    if (response.data.data.length > 0) {
+                        let element = response.data.data[0];
+                        let listElement = view.elementList.find(
+                            x => x.id == element.attributes.structures_id
+                        );
+                        element.name = listElement.attributes.name;
+                        listElement.add = false;
+                        elements.push(element);
+                    }
+                });
+                elements.sort((a, b) => {
+                    if (a.attributes.id > b.attributes.id) return 1;
+                    if (b.attributes.id > a.attributes.id) return -1;
+                });
+                view.elements = elements;
+                view.getElementsText();
+            });
+        },
+        getElementsText() {
+            let view = this;
+            let text = '';
+            this.elements.forEach((element, index) => {
+                text = text + '<h3>' + element.name + '</h3>';
+                text = text + '<p>' + element.attributes.text + '</p><br>';
+            });
+            this.structureText = text;
         }
     }
 };

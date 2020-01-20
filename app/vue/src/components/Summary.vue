@@ -18,7 +18,8 @@ export default {
     name: 'Summary',
     props: {
         structureName: String,
-        structureId: Number
+        structureId: Number,
+        structureText: String
     },
     data() {
         return {
@@ -66,7 +67,9 @@ export default {
                     text: '',
                     plans_id: view.$store.state.plan.id
                 })
-                .then(function() {})
+                .then(response => {
+                    view.summaryElement = response.data;
+                })
                 .catch(error => {
                     console.log(error);
                 });
@@ -90,7 +93,14 @@ export default {
             string = string.replace(/\s/g, '');
             this.charCounter = string.length;
         },
-        insertFromTextfields() {}
+        insertFromTextfields() {
+            if (confirm('Möchten Sie den Inhalt aus allen Textfeldern einfügen? Der aktuelle Inhalt wird bei überschrieben!')){
+                var wysiwyg_editor = CKEDITOR.instances[this.$refs.summaryText.id];
+                wysiwyg_editor.setData(this.structureText);
+                this.autoSave(wysiwyg_editor.getData());
+            }
+
+        }
     }
 };
 </script>

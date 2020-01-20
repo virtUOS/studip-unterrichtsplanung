@@ -61,11 +61,11 @@ export default {
     },
     methods: {
         updateElements() {
-            this.elements = [];
             this.getIndicativeTargets();
         },
         getIndicativeTargets() {
             let view = this;
+            view.elements = [];
             axios
                 .get('./api/textfields/' + view.plan.id + '/17')
                 .then(function(response) {
@@ -89,7 +89,6 @@ export default {
                     plans_id: view.$store.state.plan.id
                 })
                 .then(function() {
-                    view.elements = [];
                     view.getIndicativeTargets();
                 })
                 .catch(error => console.log(error));
