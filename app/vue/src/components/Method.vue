@@ -12,13 +12,14 @@
                     :key="element.id"
                     @removeElement="updateElements"
                     @changeElement="changeElement"
+                    @setInfo="setInfo"
                 />
                 <NoteElementAdder :structures_id="structureId" :elementList="this.elementList" @addElement="updateElements" />
                 <Summary :structureName="structureName" :structureId="structureId" :structureText="structureText"></Summary>
             </div>
             <div class="box-wrapper">
                 <InterdepBox :strucutres_id="structureId" :title="'Interdependenzen'" />
-                <InfoBox :title="structureName" />
+                <InfoBox />
             </div>
         </div>
     </div>
@@ -58,6 +59,7 @@ export default {
     },
     mounted() {
         this.getStructures();
+        this.setInfo();
     },
     methods: {
         updateElements() {
@@ -118,6 +120,9 @@ export default {
                 text = text + '<p>' + element.attributes.text + '</p><br>';
             });
             this.structureText = text;
+        },
+        setInfo() {
+            this.$store.state.info = {'id': this.structures_id , 'title': this.structureName};
         }
     }
 };

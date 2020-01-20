@@ -21,6 +21,7 @@
                 v-model="element.attributes.text"
                 @blur="autoSave()"
                 @keyup="countChars()"
+                @focus="setInfo"
                 v-show="unfolded"
             />
         </div>
@@ -43,12 +44,13 @@ export default {
         };
     },
     mounted() {
-        // console.log(this.element);
         this.countChars();
     },
     methods: {
         autoSave: function() {
             let view = this;
+            this.$emit('setInfo');
+
             axios
                 .put('./api/textfields/' + view.element.id, {
                     structures_id: view.element.attributes.structures_id,
@@ -93,6 +95,9 @@ export default {
                     console.log(error);
                 }
             );
+        },
+        setInfo() {
+            this.$store.state.info = {'id': this.element.attributes.structures_id , 'title': this.element.name};
         }
     }
 };

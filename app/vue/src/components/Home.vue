@@ -34,7 +34,7 @@
                 <router-link to="/addplan/3"><p class="homebox-link">Fachdidaktik Sport</p></router-link>
                 <router-link to="/addplan/4"><p class="homebox-link">Fachdidaktik Geologie</p></router-link>
             </nav>
-            <InfoBox :title="infoBoxTitle" />
+            <InfoBox />
         </div>
     </div>
 </template>
@@ -52,16 +52,14 @@ export default {
     },
     data() {
         return {
-            plans: {}
+            plans: {},
+            structures_id: 1000,
+            infoBoxTitle: 'Auswählen oder Erstellen'
         };
-    },
-    computed: {
-        infoBoxTitle() {
-            return 'Auswählen oder Erstellen';
-        }
     },
     mounted() {
         this.getPlans();
+        this.$store.state.info = {'id': this.structures_id , 'title': this.infoBoxTitle};
     },
     methods: {
         getPlans() {

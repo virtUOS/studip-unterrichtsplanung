@@ -45,12 +45,18 @@ export default {
     components: { ScheduleRow, InfoBox },
     props: {},
     data() {
-        return { plan: {}, rows: {}, infoBoxTitle: 'Verlaufsplan' };
+        return { 
+            plan: {},
+            rows: {},
+            structures_id: 1003,
+            infoBoxTitle: 'Verlaufsplan'
+        };
     },
     mounted() {
         this.plan = this.$store.state.plan;
         this.rows = this.getRows();
         this.addRow();
+        this.$store.state.info = {'id': this.structures_id , 'title': this.infoBoxTitle};
     },
     methods: {
         getRows() {

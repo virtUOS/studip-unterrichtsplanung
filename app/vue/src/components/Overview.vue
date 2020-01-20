@@ -24,7 +24,7 @@
             </div>
             <div class="box-wrapper">
                 <ToolBox :planId="plan.id" />
-                <InfoBox :title="infoBoxTitle" />
+                <InfoBox />
             </div>
         </div>
     </div>
@@ -43,15 +43,18 @@ export default {
         OverviewBox
     },
     data() {
-        return {};
+        return {
+            infoBoxTitle: 'Planübersicht',
+            structures_id: 1001
+        };
     },
     computed: {
         plan() {
             return this.$store.state.plan;
-        },
-        infoBoxTitle() {
-            return 'Planübersicht';
         }
+    },
+    mounted() {
+        this.$store.state.info = {'id': this.structures_id , 'title': this.infoBoxTitle};
     }
 };
 </script>

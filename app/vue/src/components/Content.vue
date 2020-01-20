@@ -15,6 +15,7 @@
                             v-for="elementProper in elementsProper"
                             :key="elementProper.id"
                             @removeElement="updateElements"
+                            @setInfo="setInfo"
                         />
                         <NoteElementAdder
                             :structures_id="this.properStructuresId"
@@ -28,6 +29,7 @@
                             v-for="elementDidactic in elementsDidactic"
                             :key="elementDidactic.id"
                             @removeElement="updateElements"
+                            @setInfo="setInfo"
                         />
                         <NoteElementAdder
                             :structures_id="this.didacticStructuresId"
@@ -35,12 +37,12 @@
                             @addElement="updateElements"
                         />
                     </div>
-                    <Summary :structureName="structureName" :structureId="4"></Summary>
+                    <Summary :structureName="structureName" :structureId="structures_id"></Summary>
                 </div>
             </div>
             <div class="box-wrapper">
-                <InterdepBox :strucutres_id="4" :title="'Interdependenzen'" />
-                <InfoBox :title="structureName" />
+                <InterdepBox :strucutres_id="structures_id" :title="'Interdependenzen'" />
+                <InfoBox />
             </div>
         </div>
     </div>
@@ -67,6 +69,7 @@ export default {
         return {
             toggle: false,
             structureName: 'Inhalt',
+            structures_id: 4,
             elementsProper: [],
             elementsDidactic: [],
             contentStructures: [],
@@ -86,7 +89,9 @@ export default {
     created() {
         this.getContentStructures();
     },
-    mounted() {},
+    mounted() {
+        this.setInfo();
+    },
     methods: {
         updateElements() {
             this.elementsProper = [];
@@ -169,6 +174,9 @@ export default {
                         console.log(error);
                     });
             });
+        },
+        setInfo() {
+            this.$store.state.info = {'id': this.structures_id , 'title': this.structureName};
         }
     }
 };

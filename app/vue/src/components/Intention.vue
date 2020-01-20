@@ -12,6 +12,7 @@
                     v-for="element in elements"
                     :key="element.id"
                     @removeElement="updateElements"
+                    @setDefaultInfo="setInfo"
                 />
                 <div class="note-element-adder">
                     <button class="add-note" @click="addIndicativeTarget">
@@ -19,11 +20,11 @@
                         <span class="add-note-text">Richtziel hinzufügen</span>
                     </button>
                 </div>
-                <Summary :structureName="structureName" :structureId="3"></Summary>
+                <Summary :structureName="structureName" :structureId="structures_id"></Summary>
             </div>
             <div class="box-wrapper">
-                <InterdepBox :strucutres_id="3" :title="'Interdependenzen'" />
-                <InfoBox :title="structureName" />
+                <InterdepBox :strucutres_id="structures_id" :title="'Interdependenzen'" />
+                <InfoBox />
             </div>
         </div>
     </div>
@@ -48,7 +49,8 @@ export default {
         return {
             // get this from database
             elements: [],
-            structureName: 'Intentionalität'
+            structureName: 'Intentionalität',
+            structures_id: 3
         };
     },
     computed: {
@@ -58,6 +60,7 @@ export default {
     },
     mounted() {
         this.getIndicativeTargets();
+        this.setInfo();
     },
     methods: {
         updateElements() {
@@ -92,6 +95,9 @@ export default {
                     view.getIndicativeTargets();
                 })
                 .catch(error => console.log(error));
+        },
+        setInfo() {
+            this.$store.state.info = {'id': this.structures_id , 'title': this.structureName};
         }
     }
 };
