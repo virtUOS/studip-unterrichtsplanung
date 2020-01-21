@@ -551,6 +551,13 @@ S U M M A R Y
 .interdeps .interdep-type-5 {background-image: url('../../../../../assets/images/icons/green/admin.svg');}
 .interdeps .interdep-type-6 {background-image: url('../../../../../assets/images/icons/green/literature.svg');}
 
+.interdeps .interdep-pending.interdep-type-1 {background-image: url('../img/yellow/zoom-in2.svg');}
+.interdeps .interdep-pending.interdep-type-2 {background-image: url('../../../../../assets/images/icons/yellow/headache.svg');}
+.interdeps .interdep-pending.interdep-type-3 {background-image: url('../../../../../assets/images/icons/yellow/radar.svg');}
+.interdeps .interdep-pending.interdep-type-4 {background-image: url('../../../../../assets/images/icons/yellow/files.svg');}
+.interdeps .interdep-pending.interdep-type-5 {background-image: url('../../../../../assets/images/icons/yellow/admin.svg');}
+.interdeps .interdep-pending.interdep-type-6 {background-image: url('../../../../../assets/images/icons/yellow/literature.svg');}
+
 .interdeps .interdep-disabled.interdep-type-1 {background-image: url('../img/red/zoom-in2.svg');}
 .interdeps .interdep-disabled.interdep-type-2 {background-image: url('../../../../../assets/images/icons/red/headache.svg');}
 .interdeps .interdep-disabled.interdep-type-3 {background-image: url('../../../../../assets/images/icons/red/radar.svg');}

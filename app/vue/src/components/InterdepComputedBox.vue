@@ -3,7 +3,7 @@
         <h3 v-if="title" :class="['interdep-title-type-' + strucutres_id]">{{ title }}</h3>
         <div class="interdeps">
             <button
-                :class="[{ 'interdep-disabled': !value }, 'interdep-type-' + id]"
+                :class="[{ 'interdep-disabled': value == false, 'interdep-pending': value == 'pending' }, 'interdep-type-' + id]"
                 v-for="(value, id) in interdeps"
                 :key="id"
             ></button>
@@ -21,7 +21,10 @@ export default {
         title: String
     },
     data() {
-        return { interdeps: {} };
+        return { 
+            interdeps: {},
+            remoteInterdeps: {}
+        };
     },
     mounted() {
         this.getInterdeps();
@@ -34,6 +37,7 @@ export default {
                 .then(function(response) {
                     if (response.data.data) {
                         view.interdeps = JSON.parse(response.data.data[0].attributes.references);
+                        view.getRemoteInterdeps();
                     } else {
                         view.createInterdep();
                     }
@@ -57,6 +61,45 @@ export default {
                     view.getInterdeps();
                 })
                 .catch(error => console.log(error));
+        },
+        getRemoteInterdeps() {
+            let view = this;
+            let promises = [];
+            let remoteInterdeps = {1: false, 2: false, 3: false, 4: false, 5: false, 6: false};
+            delete remoteInterdeps[this.strucutres_id];
+            Object.keys(remoteInterdeps).forEach((interdep, index) => {
+                promises.push(axios.get('./api/interdeps/' + view.$store.state.plan.id + '/' + interdep));
+            });
+            axios.all(promises).then(results => {
+                results.forEach(response => {
+                    if(response.data.data) {
+                        let id = response.data.data[0].id[1];
+                        let i = JSON.parse(response.data.data[0].attributes.references);
+                        if (i[view.strucutres_id]) {
+                            remoteInterdeps[id] = true;
+                        }
+                    }
+                });
+                view.remoteInterdeps = remoteInterdeps;
+                view.setColors();
+            });
+        },
+        setColors() {
+            let view = this;
+            Object.keys(this.interdeps).forEach(x => {
+                let interdep = view.interdeps[x];
+                let remoteInterdep = view.remoteInterdeps[x];
+                if (interdep && remoteInterdep) {
+                    view.interdeps[x] = true;
+                }
+                // if ((!interdep && remoteInterdep) || (interdep && !remoteInterdep)) {
+                if (interdep && !remoteInterdep) {
+                    view.interdeps[x] = 'pending';
+                }
+                if (!interdep && !remoteInterdep) {
+                    view.interdeps[x] = false;
+                }
+            });
         }
     }
 };
