@@ -8,7 +8,7 @@
                         @click="toggleElement"
                         :class="{ unfolded: unfolded, folded: !unfolded }"
                     >
-                        Feinziel
+                        {{ elementName }}
                     </span>
                     <span class="note-element-toolbar">
                         <button
@@ -50,6 +50,7 @@
                     v-model="element.attributes.text"
                     @blur="autoSave()"
                     @keyup="countChars()"
+                    @focus="setInfo"
                     v-show="unfolded"
                 />
             </div>
@@ -74,6 +75,7 @@ export default {
             structures_id: 19,
             dimension: '',
             level: '',
+            elementName: 'Feinziel',
             kognitivLevels: ['wissen', 'verstehen', 'anwenden', 'analysieren', 'synthetisieren'],
             affektivLevels: ['affektiv_A', 'affektiv_B', 'affektiv_C'],
             psychomotorischLevels: ['psychomotorisch_A', 'psychomotorisch_B', 'psychomotorisch_C']
@@ -99,6 +101,7 @@ export default {
             metadata.parentId = this.parentId;
             metadata.dimension = this.dimension;
             metadata.level = this.level;
+            this.$emit('setDefaultInfo');
 
             axios
                 .put('./api/textfields/' + view.element.id, {
@@ -136,7 +139,7 @@ export default {
         },
         copyElement() {
             let text = this.element.attributes.text;
-            text = 'Feinziel\nDimension: ' + this.dimension + '\nStufe: ' + this.level + '\n' + text;
+            text = this.elementName + '\nDimension: ' + this.dimension + '\nStufe: ' + this.level + '\n' + text;
             navigator.clipboard.writeText(text).then(
                 function() {},
                 error => {
@@ -147,7 +150,10 @@ export default {
         changeDimension() {
             this.level = '';
             this.autoSave();
-        }
+        },
+        setInfo() {
+            this.$store.state.info = {'id': this.structures_id , 'title': this.elementName};
+        },
     }
 };
 </script>

@@ -8,7 +8,7 @@
                         @click="toggleElement"
                         :class="{ unfolded: unfolded, folded: !unfolded }"
                     >
-                        Grobziel
+                        {{ elementName }}
                     </span>
 
                     <span class="note-element-toolbar">
@@ -34,6 +34,7 @@
                     v-model="element.attributes.text"
                     @blur="autoSave"
                     @keyup="countChars"
+                    @focus="setInfo"
                     v-show="unfolded"
                 />
             </div>
@@ -46,6 +47,7 @@
             v-for="fineElement in currentFineTargets"
             :key="fineElement.id"
             @removeElement="updateElements"
+            @setDefaultInfo="setDefaultInfo"
         />
         <div class="note-element-adder" v-show="unfolded">
             <button class="add-note" @click="addFineTarget">
@@ -76,7 +78,8 @@ export default {
             structures_id: 18,
             currentFineTargets: [],
             fineTargets: [],
-            dimension: ''
+            dimension: '',
+            elementName: 'Grobziel'
         };
     },
     mounted() {
@@ -98,6 +101,7 @@ export default {
             let metadata = {};
             metadata.parentId = this.parentId;
             metadata.dimension = this.dimension;
+            this.setDefaultInfo();
 
             axios
                 .put('./api/textfields/' + view.element.id, {
@@ -140,7 +144,7 @@ export default {
         copyElement() {
             let dim = this.dimension;
             let text = this.element.attributes.text;
-            text = 'Grobziel\nDimension: ' + dim + '\n' + text;
+            text = this.elementName + '\nDimension: ' + dim + '\n' + text;
             navigator.clipboard.writeText(text).then(
                 function() {},
                 error => {
@@ -191,6 +195,12 @@ export default {
                     view.updateElements();
                 })
                 .catch(error => console.log(error));
+        },
+        setInfo() {
+            this.$store.state.info = {'id': this.structures_id , 'title': this.elementName};
+        },
+        setDefaultInfo() {
+            this.$emit('setDefaultInfo');
         }
     }
 };

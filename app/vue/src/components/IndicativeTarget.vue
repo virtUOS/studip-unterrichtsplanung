@@ -8,7 +8,7 @@
                         @click="toggleElement"
                         :class="{ unfolded: unfolded, folded: !unfolded }"
                     >
-                        Richtziel
+                        {{elementName}}
                     </span>
 
                     <span class="note-element-toolbar">
@@ -24,8 +24,9 @@
                     ref="noteText"
                     class="note-element-content"
                     v-model="element.attributes.text"
-                    @blur="autoSave()"
-                    @keyup="countChars()"
+                    @blur="autoSave"
+                    @keyup="countChars"
+                    @focus="setInfo"
                     v-show="unfolded"
                 />
             </div>
@@ -38,6 +39,7 @@
             v-for="coarseElement in currentCoarseTargets"
             :key="coarseElement.id"
             @removeElement="updateElements"
+            @setDefaultInfo="setDefaultInfo"
         />
         <div class="note-element-adder" v-show="unfolded">
             <button class="add-note" @click="addCoarseTarget">
@@ -65,7 +67,8 @@ export default {
             unfolded: false,
             structures_id: 17,
             currentCoarseTargets: [],
-            coarseTargets: []
+            coarseTargets: [],
+            elementName: 'Richtziel'
         };
     },
     components: {
@@ -85,6 +88,8 @@ export default {
     methods: {
         autoSave: function() {
             let view = this;
+            this.setDefaultInfo();
+
             axios
                 .put('./api/textfields/' + view.element.id, {
                     structures_id: view.structures_id,
@@ -124,7 +129,7 @@ export default {
         },
         copyElement() {
             let text = this.element.attributes.text;
-            text = 'Richtziel\n' + text;
+            text = this.elementName + '\n' + text;
             navigator.clipboard.writeText(text).then(
                 function() {},
                 error => {
@@ -174,6 +179,12 @@ export default {
                     view.updateElements();
                 })
                 .catch(error => console.log(error));
+        },
+        setInfo() {
+            this.$store.state.info = {'id': this.structures_id , 'title': this.elementName};
+        },
+        setDefaultInfo() {
+            this.$emit('setDefaultInfo');
         }
     }
 };
