@@ -581,14 +581,14 @@ C O N T E N T
     
     margin-right: 1em;
 }
-.plan-content-tabs h3{
+.plan-content-tabs .plan-content-tab{
     display: inline-block;
     padding: 1em;
     margin: 0;
     background-color: #e7ebf1;
     cursor: pointer;
 }
-.plan-content-tabs h3.active{
+.plan-content-tabs .plan-content-tab.active{
     background-color: #28497c;
     color: #fff;
 }

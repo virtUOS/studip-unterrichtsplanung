@@ -7,8 +7,8 @@
         <div class="content-wrapper">
             <div class="content-container">
                 <div class="plan-content-tabs">
-                    <h3 :class="{ active: !toggle }" @click="toggle = false">{{ this.properStructuresName }}</h3>
-                    <h3 :class="{ active: toggle }" @click="toggle = true">{{ this.didacticStructuresName }}</h3>
+                    <h3 :class="{ active: !toggle }" @click="toggle = false" class="plan-content-tab">{{ this.properStructuresName }}</h3>
+                    <h3 :class="{ active: toggle }" @click="toggle = true" class="plan-content-tab">{{ this.didacticStructuresName }}</h3>
                     <div class="plan-content-analysis plan-content-analysis-proper" v-show="!toggle">
                         <NoteElement
                             :element="elementProper"
@@ -37,7 +37,7 @@
                             @addElement="updateElements"
                         />
                     </div>
-                    <Summary :structureName="structureName" :structureId="structures_id"></Summary>
+                    <Summary :structureName="structureName" :structureId="structures_id" :structureText="structureText"></Summary>
                 </div>
             </div>
             <div class="box-wrapper">
@@ -78,7 +78,8 @@ export default {
             properStructuresId: '',
             didacticStructuresId: '',
             properStructuresName: '',
-            didacticStructuresName: ''
+            didacticStructuresName: '',
+            structureText: ''
         };
     },
     computed: {
@@ -132,7 +133,7 @@ export default {
                     view.properStructures.forEach(function(element) {
                         element.add = true;
                     });
-                    view.getElements(view.properStructures, view.elementsProper);
+                    view.getElements(view.properStructures, view.elementsProper, view.properStructuresName);
                 })
                 .catch(function(error) {
                     console.log(error);
@@ -145,35 +146,45 @@ export default {
                     view.didacticStructures.forEach(function(element) {
                         element.add = true;
                     });
-                    view.getElements(view.didacticStructures, view.elementsDidactic);
+                    view.getElements(view.didacticStructures, view.elementsDidactic, view.didacticStructuresName);
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
         },
-        getElements(structuresList, elementsList) {
+        getElements(structuresList, elementsList, name) {
             let view = this;
+            let promises = [];
             structuresList.forEach(function(element, index) {
-                axios
-                    .get('./api/textfields/' + view.plan.id + '/' + element.id)
-                    .then(function(response) {
-                        if (response.data.data) {
-                            let element = response.data.data[0];
-                            element.name = structuresList.find(
-                                x => x.id == element.attributes.structures_id
-                            ).attributes.name;
-                            elementsList.push(element);
-                            elementsList.sort((a, b) => {
-                                if (a.attributes.id > b.attributes.id) return 1;
-                                if (b.attributes.id > a.attributes.id) return -1;
-                            });
-                            structuresList[index].add = false;
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
+                promises.push(axios.get('./api/textfields/' + view.plan.id + '/' + element.id));
             });
+            axios.all(promises).then(results => {
+                results.forEach(response => {
+                    if (response.data.data.length > 0) {
+                        let element = response.data.data[0];
+                        let listElement = structuresList.find(
+                            x => x.id == element.attributes.structures_id
+                        );
+                        element.name = listElement.attributes.name;
+                        listElement.add = false;
+                        elementsList.push(element);
+                    }
+                });
+                elementsList.sort((a, b) => {
+                    if (a.attributes.id > b.attributes.id) return 1;
+                    if (b.attributes.id > a.attributes.id) return -1;
+                });
+                view.getElementsText(elementsList, name);
+            });
+        },
+        getElementsText(elementsList, name) {
+            let view = this;
+            let text = '<h3>' + name + '</h3>';
+            elementsList.forEach((element, index) => {
+                text = text + '<h4>' + element.name + '</h4>';
+                text = text + '<p>' + element.attributes.text + '</p><br>';
+            });
+            this.structureText = text;
         },
         setInfo() {
             this.$store.state.info = {'id': this.structures_id , 'title': this.structureName};
