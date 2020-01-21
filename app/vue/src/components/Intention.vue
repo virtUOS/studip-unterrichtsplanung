@@ -96,6 +96,15 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
+        getElementsText() {
+            let view = this;
+            let text = '';
+            this.elements.forEach((element, index) => {
+                text = text + '<h3>' + element.name + '</h3>';
+                text = text + '<p>' + element.attributes.text + '</p><br>';
+            });
+            this.structureText = text;
+        },
         setInfo() {
             this.$store.state.info = {'id': this.structures_id , 'title': this.structureName};
         }
