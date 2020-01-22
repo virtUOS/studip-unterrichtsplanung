@@ -45,7 +45,7 @@ export default {
     data() {
         return {
             infoBoxTitle: 'Planübersicht',
-            structures_id: 1001
+            structures_id: -2
         };
     },
     computed: {

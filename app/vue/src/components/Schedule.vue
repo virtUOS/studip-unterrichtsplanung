@@ -47,7 +47,7 @@ export default {
         return { 
             schedule: {},
             rows: {},
-            structures_id: 1003,
+            structures_id: -4,
             infoBoxTitle: 'Verlaufsplan',
             changed: false
         };

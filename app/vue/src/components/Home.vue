@@ -53,7 +53,7 @@ export default {
     data() {
         return {
             plans: {},
-            structures_id: 1000,
+            structures_id: -1,
             infoBoxTitle: 'Auswählen oder Erstellen'
         };
     },

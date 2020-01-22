@@ -55,7 +55,7 @@ export default {
         return {
             errors: [],
             plan: {},
-            structures_id: 1002,
+            structures_id: -3,
             infoBoxTitle: 'Einen Plan bearbeiten'
         };
     },

@@ -1,7 +1,7 @@
 <template>
     <div class="infobox-wrapper">
         <h3>{{ title }}</h3>
-        <p>{{ content }}</p>
+        <div class="infobox-content" v-html="content"></div>
     </div>
 </template>
 
@@ -30,14 +30,17 @@ export default {
             let view = this;
             let structures_id = this.info.id;
             this.title = this.info.title;
-            this.content = 'text';
 
-            // axios
-            // .get('.api/infotext/' + structures_id)
-            // .then(response => {
-            //     view.content = response.data.text;
-            // })
-            // .catch(error => console.log(error));
+            axios
+            .get('./api/infotexts/' + structures_id)
+            .then(response => {
+                if(response.data.data.length > 0) {
+                    view.content = response.data.data[0].attributes.text;
+                } else {
+                    view.content = '<p class="infobox-nodata">Informationen konnten nicht geladen werden.</p>';
+                }
+            })
+            .catch(error => console.log(error));
         }
     }
 

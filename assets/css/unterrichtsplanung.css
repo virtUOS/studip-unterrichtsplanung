@@ -479,11 +479,13 @@ S U M M A R Y
     background-size: 24px;
     color: #28497c;
 }
-.infobox-wrapper p {
+.infobox-wrapper .infobox-content {
     padding: 1em 2em;
     text-align: justify;
 }
-
+.infobox-nodata {
+    color: #ccc;
+}
 /*********************
  I N T E R D E P B O X
 *********************/
