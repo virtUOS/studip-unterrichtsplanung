@@ -37,6 +37,7 @@ class RouteMap
         $this->app->put('/plans/{id}', Routes\Plans\PlansUpdate::class);
         $this->app->delete('/plans/{id}', Routes\Plans\PlansDelete::class);
         $this->app->get('/plans/{id}/textfields', Routes\Textfields\TextfieldsGetByPlansId::class);
+        $this->app->get('/plans/{id}/schedules', Routes\Schedules\SchedulesGetByPlansId::class);
 
         $this->app->get('/templates', Routes\Templates\TemplatesList::class);
 
@@ -62,6 +63,11 @@ class RouteMap
         $this->app->put('/summary/{id}', Routes\Summary\SummaryUpdate::class);
         $this->app->delete('/summary/{id}', Routes\Summary\SummaryDelete::class);
         $this->app->get('/summary/{plans_id}/{structures_id}', Routes\Summary\SummaryGetByPlanAndStructureId::class);
+
+        $this->app->get('/schedules/{id}', Routes\Schedules\SchedulesGetById::class);
+        $this->app->post('/schedules', Routes\Schedules\SchedulesCreate::class);
+        $this->app->put('/schedules/{id}', Routes\Schedules\SchedulesUpdate::class);
+        $this->app->delete('/schedules/{id}', Routes\Schedules\SchedulesDelete::class);
     }
 
     public function adminRoutes()

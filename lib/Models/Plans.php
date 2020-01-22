@@ -23,6 +23,11 @@ class Plans extends UPMap
             'assoc_foreign_key' => 'plans_id'
         ];
 
+        $config['has_many']['schedules'] = [
+            'class_name'        => Schedules::class,
+            'assoc_foreign_key' => 'plans_id'
+        ];
+
         parent::configure($config);
     }
 
@@ -35,6 +40,9 @@ class Plans extends UPMap
 
         $data['summary']['links']['related'] =
             $this->getRelLink('plans/' . $this->id . '/summary');
+
+        $data['schedules']['links']['related'] =
+            $this->getRelLink('plans/' . $this->id . '/schedules');
 
         return $data;
     }
