@@ -26,10 +26,8 @@
 
                 <button class="button add" @click="addRow">Zeile hinzufügen</button>
                 <br />
-                <button class="button accept" @click="updateSchedule">Verlaufsplan speichern</button>
-                <router-link :to="'/plan/' + plan.id">
-                    <button class="button cancel">zurück zur Planübersicht</button>
-                </router-link>
+                <button class="button accept" @click="storeSchedule">Verlaufsplan speichern</button>
+                <button class="button cancel" @click="cancelEdit" >zurück zur Planübersicht</button>
             </div>
             <InfoBox :title="infoBoxTitle" />
         </div>
@@ -37,6 +35,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import ScheduleRow from './ScheduleRow.vue';
 import InfoBox from './InfoBox.vue';
 
@@ -46,38 +45,93 @@ export default {
     props: {},
     data() {
         return { 
-            plan: {},
+            schedule: {},
             rows: {},
             structures_id: 1003,
-            infoBoxTitle: 'Verlaufsplan'
+            infoBoxTitle: 'Verlaufsplan',
+            changed: false
         };
     },
+    computed: {
+        plan() {
+            return this.$store.state.plan;
+        }
+    },
     mounted() {
-        this.plan = this.$store.state.plan;
-        this.rows = this.getRows();
-        this.addRow();
         this.$store.state.info = {'id': this.structures_id , 'title': this.infoBoxTitle};
+        this.getSchedule();
     },
     methods: {
-        getRows() {
-            let rows = {};
-            rows[0] = { time: '012', phase: '01', step: '03', method: '0do', media: '0book' };
-            rows[1] = { time: '112', phase: '11', step: '13', method: '1do', media: '1book' };
-            return rows;
-        },
         updateRow(data) {
             let rowId = Object.keys(data)[0];
             this.$set(this.rows, rowId, data[rowId]);
+            this.changed = true;
         },
         addRow() {
-            let i = parseInt(Object.keys(this.rows)[Object.keys(this.rows).length - 1]) + 1;
-            this.$set(this.rows, i, {});
+            let i = 0;
+            let lastKey = parseInt(Object.keys(this.rows)[Object.keys(this.rows).length - 1]);
+            if(!isNaN(lastKey)) {
+                i = lastKey +1;
+            }
+            this.$set(this.rows, i, {time: '', phase: '', step: '', method: '', media: ''});
+            this.changed = true;
         },
         removeRow(rowId) {
             this.$delete(this.rows, rowId);
+            this.changed = true;
         },
-        updateSchedule() {
-            console.log(this.rows);
+        getSchedule(){
+            let view = this;
+            axios
+            .get('./api/plans/' + view.plan.id + '/schedules')
+            .then(response => {
+                if(response.data.data.length == 0) {
+                    console.log('create schedule');
+                    view.createSchedule();
+                }
+                if (response.data.data.length > 0) {
+                    view.schedule = response.data.data[0].attributes;
+                    view.rows = JSON.parse(view.schedule.content);
+                }
+            })
+            .catch(error => {
+                    console.log(error);
+            });
+        },
+        createSchedule(){
+            let view = this;
+            axios
+            .post('./api/schedules', {
+                content : '',
+                plans_id : view.plan.id
+            })
+            .then(function() {
+            })
+            .catch(error => {
+                    console.log(error);
+            });
+        },
+        storeSchedule() {
+            let view = this;
+            let content = JSON.stringify(this.rows);
+            axios
+            .put('./api/schedules/' + view.schedule.id,{
+                content : content,
+                plans_id : view.plan.id
+            })
+            .then(function() {
+                view.$router.push({ path: '/plan/' + view.plan.id });
+             })
+            .catch(error => console.log(error));
+        },
+        cancelEdit() {
+            if(this.changed) {
+                if(confirm('Möchten Sie den Verlaufsplan wirklich verlassen? Ihre Änderungen werden nicht gespeichert.')) {
+                    this.$router.push({ path: '/plan/' + this.plan.id });
+                }
+            } else {
+                this.$router.push({ path: '/plan/' + this.plan.id });
+            }
         }
     }
 };
