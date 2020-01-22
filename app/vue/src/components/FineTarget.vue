@@ -71,7 +71,7 @@ export default {
     data() {
         return {
             charCounter: 0,
-            unfolded: false,
+            unfolded: true,
             structures_id: 19,
             dimension: '',
             level: '',
@@ -85,6 +85,7 @@ export default {
         this.countChars();
         this.dimension = this.metadata.dimension;
         this.level = this.metadata.level;
+        this.getElementsText();
     },
     computed: {
         plan() {
@@ -110,12 +111,13 @@ export default {
                     plans_id: this.$store.state.plan.id,
                     metadata: JSON.stringify(metadata)
                 })
-                .then(function() {})
+                .then(function() {
+                    view.getElementsText();
+                })
                 .catch(error => console.log(error));
         },
         removeElement: function() {
             let view = this;
-            console.log('remove element');
             if (!confirm('Möchten Sie das Feinziel wirklich löschen?')) {
                 return;
             }
@@ -150,6 +152,14 @@ export default {
         changeDimension() {
             this.level = '';
             this.autoSave();
+        },
+        getElementsText() {
+            let text = '';
+                text = text + '<h5>' + this.elementName + '</h5>';
+                text = text + '<h6>Dimension: ' + this.dimension + '</h6>';
+                text = text + '<h6>Stufe: ' + this.level + '</h6>';
+                text = text + '<p>' + this.element.attributes.text + '</p><br>';
+            this.$emit('structureText', {'text': text, 'id': this.element.id});
         },
         setInfo() {
             this.$store.state.info = {'id': this.structures_id , 'title': this.elementName};

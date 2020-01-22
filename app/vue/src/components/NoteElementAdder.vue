@@ -41,10 +41,9 @@ export default {
                         text: '',
                         plans_id: view.$store.state.plan.id
                     })
-                    .then(function(response) {
+                    .then(function() {
                         view.$emit('addElement', element.id);
                         view.toggleAdderButton();
-                        console.log(response);
                     })
                     .catch(function(error) {
                         console.log(error);

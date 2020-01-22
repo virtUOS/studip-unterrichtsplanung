@@ -38,8 +38,9 @@
             :parentId="element.id"
             v-for="coarseElement in currentCoarseTargets"
             :key="coarseElement.id"
-            @removeElement="updateElements"
+            @removeElement="removeCoarseElement"
             @setDefaultInfo="setDefaultInfo"
+            @structureText="setCoarseStructureTexts"
         />
         <div class="note-element-adder" v-show="unfolded">
             <button class="add-note" @click="addCoarseTarget">
@@ -64,11 +65,12 @@ export default {
     data() {
         return {
             charCounter: 0,
-            unfolded: false,
+            unfolded: true,
             structures_id: 17,
             currentCoarseTargets: [],
             coarseTargets: [],
-            elementName: 'Richtziel'
+            elementName: 'Richtziel',
+            coarseStructureTexts: []
         };
     },
     components: {
@@ -76,13 +78,21 @@ export default {
         FineTarget
     },
     mounted() {
-        // console.log(this.element);
         this.countChars();
         this.getCoarseTargets();
+        this.getElementsText();
     },
     computed: {
         plan() {
             return this.$store.state.plan;
+        }
+    },
+    watch: {
+        coarseStructureTexts: {
+            handler: function(newValue) {
+                this.getElementsText();
+            },
+            deep: true
         }
     },
     methods: {
@@ -96,7 +106,9 @@ export default {
                     text: view.element.attributes.text,
                     plans_id: this.$store.state.plan.id
                 })
-                .then(function() {})
+                .then(function() {
+                    view.getElementsText();
+                })
                 .catch(error => console.log(error));
         },
         removeElement: function() {
@@ -113,6 +125,10 @@ export default {
                     view.$emit('removeElement', view.element.id);
                 })
                 .catch(error => console.log(error));
+        },
+        removeCoarseElement(elementId) {
+            this.coarseStructureTexts = this.coarseStructureTexts.filter(x => {return x.id !== elementId});
+            this.updateElements();
         },
         updateElements() {
             this.coarseTargets = [];
@@ -185,6 +201,29 @@ export default {
         },
         setDefaultInfo() {
             this.$emit('setDefaultInfo');
+        },
+        setCoarseStructureTexts(coarseText) {
+            let textObj = this.coarseStructureTexts.find(x => x.id == coarseText.id);
+            let foundText = textObj != undefined;
+            if (foundText) {
+                textObj.text = coarseText.text;
+            } else {
+                this.coarseStructureTexts.push(coarseText);
+                this.coarseStructureTexts.sort((a, b) => {
+                    if (a.id > b.id) return 1;
+                    if (b.id > a.id) return -1;123
+                });
+            }
+        },
+        getElementsText() {
+            let view = this;
+            let text = '';
+                text = text + '<h3>' + this.elementName + '</h3>';
+                text = text + '<p>' + this.element.attributes.text + '</p><br>';
+                this.coarseStructureTexts.forEach(textObj => {
+                    text = text + textObj.text;
+                });
+                this.$emit('structureText', {'text': text, 'id': this.element.id});
         }
     }
 };

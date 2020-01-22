@@ -69,7 +69,6 @@ export default {
                 .then(function(response) {
                     if (response.data.data) {
                         view.plans = response.data.data;
-                        console.log(view.plans);
                     }
                 })
                 .catch(function(error) {

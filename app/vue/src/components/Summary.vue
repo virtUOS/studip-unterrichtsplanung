@@ -3,7 +3,7 @@
         <div class="note-element">
             <header class="note-element-title summary-title">
                 <span>Zusammenfassung für {{ structureName }}</span>
-                <button class="summary-copy-all" @click="insertFromTextfields"></button>
+                <button class="summary-copy-all" @click="insertFromTextfields" title="Mit Inhalten aus Textfeldern befüllen"></button>
             </header>
             <textarea ref="summaryText" class="note-element-content" :value="summaryElement.text" />
         </div>
@@ -30,7 +30,6 @@ export default {
     },
 
     mounted() {
-        // console.log(this.element);
         let view = this;
         this.getSummary();
 
@@ -94,7 +93,7 @@ export default {
             this.charCounter = string.length;
         },
         insertFromTextfields() {
-            if (confirm('Möchten Sie den Inhalt aus allen Textfeldern einfügen? Der aktuelle Inhalt wird bei überschrieben!')){
+            if (confirm('Möchten Sie den Inhalt aus allen Textfeldern einfügen? Der aktuelle Inhalt wird überschrieben!')){
                 var wysiwyg_editor = CKEDITOR.instances[this.$refs.summaryText.id];
                 wysiwyg_editor.setData(this.structureText);
                 this.autoSave(wysiwyg_editor.getData());

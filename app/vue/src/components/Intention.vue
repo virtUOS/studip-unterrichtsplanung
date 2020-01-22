@@ -11,8 +11,9 @@
                     :element="element"
                     v-for="element in elements"
                     :key="element.id"
-                    @removeElement="updateElements"
+                    @removeElement="removeIndicativeElement"
                     @setDefaultInfo="setInfo"
+                    @structureText="setIndicativeStructureTexts"
                 />
                 <div class="note-element-adder">
                     <button class="add-note" @click="addIndicativeTarget">
@@ -20,7 +21,7 @@
                         <span class="add-note-text">Richtziel hinzufügen</span>
                     </button>
                 </div>
-                <Summary :structureName="structureName" :structureId="structures_id"></Summary>
+                <Summary :structureName="structureName" :structureId="structures_id" :structureText="structureText" />
             </div>
             <div class="box-wrapper">
                 <InterdepBox :strucutres_id="structures_id" :title="'Interdependenzen'" />
@@ -50,7 +51,9 @@ export default {
             // get this from database
             elements: [],
             structureName: 'Intentionalität',
-            structures_id: 3
+            structures_id: 3,
+            structureText: '',
+            indicativeStructureTexts: [] 
         };
     },
     computed: {
@@ -58,11 +61,24 @@ export default {
             return this.$store.state.plan;
         }
     },
+    watch: {
+        indicativeStructureTexts: {
+            handler: function(newValue) {
+                this.getElementsText();
+            },
+            deep: true
+        }
+    },
     mounted() {
         this.getIndicativeTargets();
         this.setInfo();
+        this.getElementsText();
     },
     methods: {
+        removeIndicativeElement(elementId){
+            this.indicativeStructureTexts = this.indicativeStructureTexts.filter(x => {return x.id !== elementId});
+            this.updateElements();
+        },
         updateElements() {
             this.getIndicativeTargets();
         },
@@ -96,12 +112,25 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
+        setIndicativeStructureTexts(indicativeText) {
+            let textObj = this.indicativeStructureTexts.find(x => x.id == indicativeText.id);
+            let foundText = textObj != undefined;
+            if (foundText) {
+                textObj.text = indicativeText.text;
+            } else {
+                this.indicativeStructureTexts.push(indicativeText);
+                this.indicativeStructureTexts.sort((a, b) => {
+                    if (a.id > b.id) return 1;
+                    if (b.id > a.id) return -1;
+                });
+            }
+        },
         getElementsText() {
             let view = this;
             let text = '';
+            text = '<h2>' + this.structureName + '</h2>';
             this.elements.forEach((element, index) => {
-                text = text + '<h3>' + element.name + '</h3>';
-                text = text + '<p>' + element.attributes.text + '</p><br>';
+                text = text + view.indicativeStructureTexts.find(x => x.id == element.id).text;
             });
             this.structureText = text;
         },

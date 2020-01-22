@@ -23,7 +23,7 @@
                 <OverviewBox :title="'Medien'" :strucutres_id="6" :catName="'media'" :planId="plan.id" />
             </div>
             <div class="box-wrapper">
-                <ToolBox :planId="plan.id" />
+                <ToolBox />
                 <InfoBox />
             </div>
         </div>

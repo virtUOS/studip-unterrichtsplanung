@@ -50,7 +50,7 @@ export default {
                 .put('./api/interdeps/' + view.$store.state.plan.id + '/' + view.strucutres_id, {
                     references: JSON.stringify(view.interdeps)
                 })
-                .then(response => console.log(response))
+                .then(function(){})
                 .catch(error => {
                     console.log(error);
                     view.interdeps[id] = !value;

@@ -543,6 +543,9 @@ S U M M A R Y
 
 .tools .toolbox-edit {background-image: url('../../../../../assets/images/icons/blue/edit.svg');}
 .tools .toolbox-schedule {background-image: url('../../../../../assets/images/icons/blue/timetable.svg');}
+.tools .toolbox-pdf {background-image: url('../../../../../assets/images/icons/blue/file-pdf.svg');}
+.tools .toolbox-doc {background-image: url('../../../../../assets/images/icons/blue/file-word.svg');}
+.tools .toolbox-plain {background-image: url('../../../../../assets/images/icons/blue/file-text.svg');}
 
 .interdeps .interdep-type-1 {background-image: url('../img/green/zoom-in2.svg');}
 .interdeps .interdep-type-2 {background-image: url('../../../../../assets/images/icons/green/headache.svg');}

@@ -110,7 +110,6 @@ export default {
             this.getSubstructures();
         },
         changeElement(changedElement) {
-            console.log('change element');
             let element = this.elementsDidactic.find( x => x.attributes.id == changedElement.id);
             element.attributes.text = changedElement.text;
             this.getElementsText('technical');

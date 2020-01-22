@@ -46,8 +46,9 @@
             :parentId="element.id"
             v-for="fineElement in currentFineTargets"
             :key="fineElement.id"
-            @removeElement="updateElements"
+            @removeElement="removeFineElement"
             @setDefaultInfo="setDefaultInfo"
+            @structureText="setFineStructureTexts"
         />
         <div class="note-element-adder" v-show="unfolded">
             <button class="add-note" @click="addFineTarget">
@@ -74,18 +75,20 @@ export default {
     data() {
         return {
             charCounter: 0,
-            unfolded: false,
+            unfolded: true,
             structures_id: 18,
             currentFineTargets: [],
             fineTargets: [],
             dimension: '',
-            elementName: 'Grobziel'
+            elementName: 'Grobziel',
+            fineStructureTexts: []
         };
     },
     mounted() {
         this.countChars();
         this.getFineTargets();
         this.dimension = this.metadata.dimension;
+        this.getElementsText();
     },
     computed: {
         plan() {
@@ -93,6 +96,14 @@ export default {
         },
         metadata() {
             return JSON.parse(this.element.attributes.metadata);
+        }
+    },
+    watch: {
+        fineStructureTexts: {
+            handler: function(newValue) {
+                this.getElementsText();
+            },
+            deep: true
         }
     },
     methods: {
@@ -110,7 +121,9 @@ export default {
                     plans_id: this.$store.state.plan.id,
                     metadata: JSON.stringify(metadata)
                 })
-                .then(function() {})
+                .then(function() {
+                    view.getElementsText();
+                })
                 .catch(error => console.log(error));
         },
         removeElement: function() {
@@ -127,6 +140,10 @@ export default {
                     view.$emit('removeElement', view.element.id);
                 })
                 .catch(error => console.log(error));
+        },
+        removeFineElement(elementId) {
+            this.fineStructureTexts = this.fineStructureTexts.filter(x => {return x.id !== elementId});
+            this.updateElements();
         },
         updateElements() {
             this.fineTargets = [];
@@ -161,7 +178,6 @@ export default {
                         let elements = response.data;
                         elements.data.forEach(element => {
                             view.fineTargets.push(element);
-                            console.log(element);
                         });
                         view.getCurrentFineTargets();
                     }
@@ -201,6 +217,30 @@ export default {
         },
         setDefaultInfo() {
             this.$emit('setDefaultInfo');
+        },
+        setFineStructureTexts(fineText) {
+            let textObj = this.fineStructureTexts.find(x => x.id == fineText.id);
+            let foundText = textObj != undefined;
+            if (foundText) {
+                textObj.text = fineText.text;
+            } else {
+                this.fineStructureTexts.push(fineText);
+                this.fineStructureTexts.sort((a, b) => {
+                    if (a.id > b.id) return 1;
+                    if (b.id > a.id) return -1;
+                });
+            }
+        },
+        getElementsText() {
+            let view = this;
+            let text = '';
+                text = text + '<h4>' + this.elementName + '</h4>';
+                text = text + '<h6>Dimension: ' + this.dimension + '</h6>';
+                text = text + '<p>' + this.element.attributes.text + '</p><br>';
+                this.fineStructureTexts.forEach(textObj => {
+                    text = text + textObj.text;
+                });
+                this.$emit('structureText', {'text': text, 'id': this.element.id});
         }
     }
 };
