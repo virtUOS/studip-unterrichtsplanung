@@ -9,6 +9,11 @@
                 >
                     {{ element.name }}
                 </span>
+                <div class="spinner" v-show="autosave">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
 
                 <span class="note-element-toolbar">
                     <button @click="copyElement" class="copy" title="Inhalt in die Zwischenablage kopieren"></button>
@@ -40,7 +45,8 @@ export default {
     data() {
         return {
             charCounter: 0,
-            unfolded: true
+            unfolded: true,
+            autosave: false
         };
     },
     mounted() {
@@ -59,6 +65,8 @@ export default {
                 })
                 .then(function() {
                     view.$emit('changeElement', { id: view.element.id, text: view.element.attributes.text });
+                    view.autosave = true;
+                    setTimeout(function(){ view.autosave = false; }, 2000);
                 })
                 .catch(error => console.log(error));
         },
@@ -81,6 +89,7 @@ export default {
         countChars() {
             let string = this.$refs.noteText.value;
             //string = string.replace(/\s/g, '');
+            string = string.replace(/\n/g, '');
             this.charCounter = string.length;
         },
         toggleElement() {

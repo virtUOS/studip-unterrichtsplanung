@@ -3,6 +3,11 @@
         <div class="note-element">
             <header class="note-element-title summary-title">
                 <span>Zusammenfassung für {{ structureName }}</span>
+                <div class="spinner" v-show="autosave">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
                 <button
                     class="summary-copy-all"
                     @click="insertFromTextfields"
@@ -29,25 +34,27 @@ export default {
         return {
             wysiwyg: Object,
             charCounter: 0,
-            summaryElement: Object
+            summaryElement: Object,
+            autosave: false
         };
     },
 
     mounted() {
         let view = this;
         this.getSummary();
-
-        STUDIP.wysiwyg.replace(this.$refs.summaryText);
-
-        var wysiwyg_editor = CKEDITOR.instances[this.$refs.summaryText.id];
-        wysiwyg_editor.on('blur', function() {
-            view.autoSave(wysiwyg_editor.getData());
-        });
-        wysiwyg_editor.on('change', function() {
-            view.countChars();
-        });
     },
     methods: {
+        initCKE() {
+            let view = this;
+            STUDIP.wysiwyg.replace(view.$refs.summaryText);
+            let wysiwyg_editor = CKEDITOR.instances[view.$refs.summaryText.id];
+            wysiwyg_editor.on('blur', function() {
+                view.autoSave(wysiwyg_editor.getData());
+            });
+            wysiwyg_editor.on('change', function() {
+                view.countChars();
+            });
+        },
         getSummary: function() {
             let view = this;
             axios
@@ -55,7 +62,8 @@ export default {
                 .then(response => {
                     if (response.data.data.length > 0) {
                         view.summaryElement = response.data.data[0].attributes;
-                        view.charCounter = view.summaryElement.text.replace(/\s/g, '').length;
+                        view.charCounter = view.summaryElement.text.replace(/<[^>]*>/g, '').replace(/\r?\n|\r/g, '').replace(/&nbsp;/g, '').length;
+                        view.initCKE();
                     } else {
                         view.createSummary();
                     }
@@ -85,7 +93,10 @@ export default {
                     text: text,
                     plans_id: view.$store.state.plan.id
                 })
-                .then(function() {})
+                .then(function() {
+                    view.autosave = true;
+                    setTimeout(function(){ view.autosave = false; }, 2000);
+                })
                 .catch(error => {
                     console.log(error);
                 });
@@ -93,7 +104,7 @@ export default {
         countChars() {
             var wysiwyg_editor = CKEDITOR.instances[this.$refs.summaryText.id];
             let string = wysiwyg_editor.getData();
-            string = string.replace(/\s/g, '');
+            string = string.replace(/<[^>]*>/g, '').replace(/\r?\n|\r/g, '').replace(/&nbsp;/g, '');
             this.charCounter = string.length;
         },
         insertFromTextfields() {
