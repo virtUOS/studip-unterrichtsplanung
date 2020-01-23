@@ -10,7 +10,6 @@
                     >
                         {{ elementName }}
                     </span>
-
                     <span class="note-element-toolbar">
                         <button
                             @click="copyElement"
@@ -100,7 +99,7 @@ export default {
     },
     watch: {
         fineStructureTexts: {
-            handler: function(newValue) {
+            handler: function() {
                 this.getElementsText();
             },
             deep: true
@@ -142,7 +141,9 @@ export default {
                 .catch(error => console.log(error));
         },
         removeFineElement(elementId) {
-            this.fineStructureTexts = this.fineStructureTexts.filter(x => {return x.id !== elementId});
+            this.fineStructureTexts = this.fineStructureTexts.filter(x => {
+                return x.id !== elementId;
+            });
             this.updateElements();
         },
         updateElements() {
@@ -213,7 +214,7 @@ export default {
                 .catch(error => console.log(error));
         },
         setInfo() {
-            this.$store.state.info = {'id': this.structures_id , 'title': this.elementName};
+            this.$store.state.info = { id: this.structures_id, title: this.elementName };
         },
         setDefaultInfo() {
             this.$emit('setDefaultInfo');
@@ -232,15 +233,13 @@ export default {
             }
         },
         getElementsText() {
-            let view = this;
-            let text = '';
-                text = text + '<h4>' + this.elementName + '</h4>';
-                text = text + '<h6>Dimension: ' + this.dimension + '</h6>';
-                text = text + '<p>' + this.element.attributes.text + '</p><br>';
-                this.fineStructureTexts.forEach(textObj => {
-                    text = text + textObj.text;
-                });
-                this.$emit('structureText', {'text': text, 'id': this.element.id});
+            let text = '<h4>' + this.elementName + '</h4>';
+            text = text + '<h6>Dimension: ' + this.dimension + '</h6>';
+            text = text + '<p>' + this.element.attributes.text + '</p><br>';
+            this.fineStructureTexts.forEach(textObj => {
+                text = text + textObj.text;
+            });
+            this.$emit('structureText', { text: text, id: this.element.id });
         }
     }
 };

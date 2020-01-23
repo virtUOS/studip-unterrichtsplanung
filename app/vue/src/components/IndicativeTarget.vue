@@ -8,7 +8,7 @@
                         @click="toggleElement"
                         :class="{ unfolded: unfolded, folded: !unfolded }"
                     >
-                        {{elementName}}
+                        {{ elementName }}
                     </span>
 
                     <span class="note-element-toolbar">
@@ -54,7 +54,6 @@
 <script>
 import axios from 'axios';
 import CoarseTarget from './CoarseTarget';
-import FineTarget from './FineTarget';
 
 export default {
     name: 'IndicativeTarget',
@@ -74,8 +73,7 @@ export default {
         };
     },
     components: {
-        CoarseTarget,
-        FineTarget
+        CoarseTarget
     },
     mounted() {
         this.countChars();
@@ -89,7 +87,7 @@ export default {
     },
     watch: {
         coarseStructureTexts: {
-            handler: function(newValue) {
+            handler: function() {
                 this.getElementsText();
             },
             deep: true
@@ -127,7 +125,9 @@ export default {
                 .catch(error => console.log(error));
         },
         removeCoarseElement(elementId) {
-            this.coarseStructureTexts = this.coarseStructureTexts.filter(x => {return x.id !== elementId});
+            this.coarseStructureTexts = this.coarseStructureTexts.filter(x => {
+                return x.id !== elementId;
+            });
             this.updateElements();
         },
         updateElements() {
@@ -197,7 +197,7 @@ export default {
                 .catch(error => console.log(error));
         },
         setInfo() {
-            this.$store.state.info = {'id': this.structures_id , 'title': this.elementName};
+            this.$store.state.info = { id: this.structures_id, title: this.elementName };
         },
         setDefaultInfo() {
             this.$emit('setDefaultInfo');
@@ -211,19 +211,18 @@ export default {
                 this.coarseStructureTexts.push(coarseText);
                 this.coarseStructureTexts.sort((a, b) => {
                     if (a.id > b.id) return 1;
-                    if (b.id > a.id) return -1;123
+                    if (b.id > a.id) return -1;
                 });
             }
         },
         getElementsText() {
-            let view = this;
             let text = '';
-                text = text + '<h3>' + this.elementName + '</h3>';
-                text = text + '<p>' + this.element.attributes.text + '</p><br>';
-                this.coarseStructureTexts.forEach(textObj => {
-                    text = text + textObj.text;
-                });
-                this.$emit('structureText', {'text': text, 'id': this.element.id});
+            text = text + '<h3>' + this.elementName + '</h3>';
+            text = text + '<p>' + this.element.attributes.text + '</p><br>';
+            this.coarseStructureTexts.forEach(textObj => {
+                text = text + textObj.text;
+            });
+            this.$emit('structureText', { text: text, id: this.element.id });
         }
     }
 };

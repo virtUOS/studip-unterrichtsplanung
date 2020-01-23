@@ -14,8 +14,16 @@
                     @changeElement="changeElement"
                     @setInfo="setInfo"
                 />
-                <NoteElementAdder :structures_id="structureId" :elementList="this.elementList" @addElement="updateElements" />
-                <Summary :structureName="structureName" :structureId="structureId" :structureText="structureText"></Summary>
+                <NoteElementAdder
+                    :structures_id="structureId"
+                    :elementList="this.elementList"
+                    @addElement="updateElements"
+                />
+                <Summary
+                    :structureName="structureName"
+                    :structureId="structureId"
+                    :structureText="structureText"
+                ></Summary>
             </div>
             <div class="box-wrapper">
                 <InterdepBox :strucutres_id="structureId" :title="'Interdependenzen'" />
@@ -49,7 +57,7 @@ export default {
             elements: [],
             structureName: 'Medien',
             structureId: 6,
-            structureText : ''
+            structureText: ''
         };
     },
     computed: {
@@ -66,7 +74,7 @@ export default {
             this.getStructures();
         },
         changeElement(changedElement) {
-            let element = this.elements.find( x => x.attributes.id == changedElement.id);
+            let element = this.elements.find(x => x.attributes.id == changedElement.id);
             element.attributes.text = changedElement.text;
             this.getElementsText();
         },
@@ -89,16 +97,14 @@ export default {
             let view = this;
             let promises = [];
             let elements = [];
-            this.elementList.forEach(function(element, index) {
-                promises.push(axios.get('./api/textfields/' + view.plan.id + '/' + element.id));
-            });
+            this.elementList.forEach(element =>
+                promises.push(axios.get('./api/textfields/' + view.plan.id + '/' + element.id))
+            );
             axios.all(promises).then(results => {
                 results.forEach(response => {
                     if (response.data.data.length > 0) {
                         let element = response.data.data[0];
-                        let listElement = view.elementList.find(
-                            x => x.id == element.attributes.structures_id
-                        );
+                        let listElement = view.elementList.find(x => x.id == element.attributes.structures_id);
                         element.name = listElement.attributes.name;
                         listElement.add = false;
                         elements.push(element);
@@ -113,16 +119,15 @@ export default {
             });
         },
         getElementsText() {
-            let view = this;
             let text = '';
-            this.elements.forEach((element, index) => {
+            this.elements.forEach(element => {
                 text = text + '<h3>' + element.name + '</h3>';
                 text = text + '<p>' + element.attributes.text + '</p><br>';
             });
             this.structureText = text;
         },
         setInfo() {
-            this.$store.state.info = {'id': this.structures_id , 'title': this.structureName};
+            this.$store.state.info = { id: this.structures_id, title: this.structureName };
         }
     }
 };

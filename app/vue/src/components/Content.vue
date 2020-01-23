@@ -7,8 +7,12 @@
         <div class="content-wrapper">
             <div class="content-container">
                 <div class="plan-content-tabs">
-                    <h3 :class="{ active: !toggle }" @click="toggle = false" class="plan-content-tab">{{ technicalStructuresName }}</h3>
-                    <h3 :class="{ active: toggle }" @click="toggle = true" class="plan-content-tab">{{ didacticStructuresName }}</h3>
+                    <h3 :class="{ active: !toggle }" @click="toggle = false" class="plan-content-tab">
+                        {{ technicalStructuresName }}
+                    </h3>
+                    <h3 :class="{ active: toggle }" @click="toggle = true" class="plan-content-tab">
+                        {{ didacticStructuresName }}
+                    </h3>
                     <div class="plan-content-analysis plan-content-analysis-technical" v-show="!toggle">
                         <NoteElement
                             :element="elementTechnical"
@@ -39,7 +43,11 @@
                             @addElement="updateElements"
                         />
                     </div>
-                    <Summary :structureName="structureName" :structureId="structures_id" :structureText="structureText"></Summary>
+                    <Summary
+                        :structureName="structureName"
+                        :structureId="structures_id"
+                        :structureText="structureText"
+                    ></Summary>
                 </div>
             </div>
             <div class="box-wrapper">
@@ -93,10 +101,10 @@ export default {
     },
     watch: {
         structureTextTechnical() {
-            this.structureText = this.structureTextTechnical + this.structureTextDidactic
+            this.structureText = this.structureTextTechnical + this.structureTextDidactic;
         },
         structureTextDidactic() {
-            this.structureText = this.structureTextTechnical + this.structureTextDidactic
+            this.structureText = this.structureTextTechnical + this.structureTextDidactic;
         }
     },
     created() {
@@ -110,7 +118,7 @@ export default {
             this.getSubstructures();
         },
         changeElement(changedElement) {
-            let element = this.elementsDidactic.find( x => x.attributes.id == changedElement.id);
+            let element = this.elementsDidactic.find(x => x.attributes.id == changedElement.id);
             element.attributes.text = changedElement.text;
             this.getElementsText('technical');
             this.getElementsText('didactic');
@@ -172,16 +180,14 @@ export default {
         getElements(structuresList, elementsList, type) {
             let view = this;
             let promises = [];
-            structuresList.forEach(function(element, index) {
-                promises.push(axios.get('./api/textfields/' + view.plan.id + '/' + element.id));
-            });
+            structuresList.forEach(element =>
+                promises.push(axios.get('./api/textfields/' + view.plan.id + '/' + element.id))
+            );
             axios.all(promises).then(results => {
                 results.forEach(response => {
                     if (response.data.data.length > 0) {
                         let element = response.data.data[0];
-                        let listElement = structuresList.find(
-                            x => x.id == element.attributes.structures_id
-                        );
+                        let listElement = structuresList.find(x => x.id == element.attributes.structures_id);
                         element.name = listElement.attributes.name;
                         listElement.add = false;
                         elementsList.push(element);
@@ -207,9 +213,8 @@ export default {
                     //elementsList = this.elementsTechnical;
                     break;
             }
-            let view = this;
             let text = '<h3>' + name + '</h3>';
-            elementsList.forEach((element, index) => {
+            elementsList.forEach(element => {
                 text = text + '<h4>' + element.name + '</h4>';
                 text = text + '<p>' + element.attributes.text + '</p><br>';
             });
@@ -221,7 +226,7 @@ export default {
             }
         },
         setInfo() {
-            this.$store.state.info = {'id': this.structures_id , 'title': this.structureName};
+            this.$store.state.info = { id: this.structures_id, title: this.structureName };
         }
     }
 };

@@ -54,7 +54,7 @@ export default {
         }
     },
     mounted() {
-        this.$store.state.info = {'id': this.structures_id , 'title': this.infoBoxTitle};
+        this.$store.state.info = { id: this.structures_id, title: this.infoBoxTitle };
     }
 };
 </script>

@@ -58,7 +58,7 @@ export default {
                     plans_id: this.$store.state.plan.id
                 })
                 .then(function() {
-                    view.$emit('changeElement', {'id': view.element.id, 'text': view.element.attributes.text});
+                    view.$emit('changeElement', { id: view.element.id, text: view.element.attributes.text });
                 })
                 .catch(error => console.log(error));
         },
@@ -97,7 +97,7 @@ export default {
             );
         },
         setInfo() {
-            this.$store.state.info = {'id': this.element.attributes.structures_id , 'title': this.element.name};
+            this.$store.state.info = { id: this.element.attributes.structures_id, title: this.element.name };
         }
     }
 };

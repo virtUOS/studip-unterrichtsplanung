@@ -53,7 +53,7 @@ export default {
             structureName: 'Intentionalität',
             structures_id: 3,
             structureText: '',
-            indicativeStructureTexts: [] 
+            indicativeStructureTexts: []
         };
     },
     computed: {
@@ -63,7 +63,7 @@ export default {
     },
     watch: {
         indicativeStructureTexts: {
-            handler: function(newValue) {
+            handler: function() {
                 this.getElementsText();
             },
             deep: true
@@ -75,8 +75,10 @@ export default {
         this.getElementsText();
     },
     methods: {
-        removeIndicativeElement(elementId){
-            this.indicativeStructureTexts = this.indicativeStructureTexts.filter(x => {return x.id !== elementId});
+        removeIndicativeElement(elementId) {
+            this.indicativeStructureTexts = this.indicativeStructureTexts.filter(x => {
+                return x.id !== elementId;
+            });
             this.updateElements();
         },
         updateElements() {
@@ -129,13 +131,13 @@ export default {
             let view = this;
             let text = '';
             text = '<h2>' + this.structureName + '</h2>';
-            this.elements.forEach((element, index) => {
-                text = text + view.indicativeStructureTexts.find(x => x.id == element.id).text;
-            });
+            this.elements.forEach(
+                element => (text = text + view.indicativeStructureTexts.find(x => x.id == element.id).text)
+            );
             this.structureText = text;
         },
         setInfo() {
-            this.$store.state.info = {'id': this.structures_id , 'title': this.structureName};
+            this.$store.state.info = { id: this.structures_id, title: this.structureName };
         }
     }
 };

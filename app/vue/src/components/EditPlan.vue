@@ -75,8 +75,7 @@ export default {
             this.plan.attributes.metadata = {};
         }
         this.plan.attributes.templates_name = this.getPlanTemplateName(this.plan.attributes.templates_id);
-        this.$store.state.info = {'id': this.structures_id , 'title': this.infoBoxTitle};
-
+        this.$store.state.info = { id: this.structures_id, title: this.infoBoxTitle };
     },
     methods: {
         storePlan: function() {

@@ -155,15 +155,15 @@ export default {
         },
         getElementsText() {
             let text = '';
-                text = text + '<h5>' + this.elementName + '</h5>';
-                text = text + '<h6>Dimension: ' + this.dimension + '</h6>';
-                text = text + '<h6>Stufe: ' + this.level + '</h6>';
-                text = text + '<p>' + this.element.attributes.text + '</p><br>';
-            this.$emit('structureText', {'text': text, 'id': this.element.id});
+            text = text + '<h5>' + this.elementName + '</h5>';
+            text = text + '<h6>Dimension: ' + this.dimension + '</h6>';
+            text = text + '<h6>Stufe: ' + this.level + '</h6>';
+            text = text + '<p>' + this.element.attributes.text + '</p><br>';
+            this.$emit('structureText', { text: text, id: this.element.id });
         },
         setInfo() {
-            this.$store.state.info = {'id': this.structures_id , 'title': this.elementName};
-        },
+            this.$store.state.info = { id: this.structures_id, title: this.elementName };
+        }
     }
 };
 </script>

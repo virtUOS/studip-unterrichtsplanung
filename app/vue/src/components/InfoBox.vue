@@ -13,15 +13,15 @@ export default {
         return {
             title: '',
             content: ''
-        }
+        };
     },
     computed: {
-        info() { return this.$store.state.info;}
-    },
-    mounted() {
+        info() {
+            return this.$store.state.info;
+        }
     },
     watch: {
-        info: function(obj) {
+        info: function() {
             this.getInfo();
         }
     },
@@ -32,17 +32,16 @@ export default {
             this.title = this.info.title;
 
             axios
-            .get('./api/infotexts/' + structures_id)
-            .then(response => {
-                if(response.data.data.length > 0) {
-                    view.content = response.data.data[0].attributes.text;
-                } else {
-                    view.content = '<p class="infobox-nodata">Informationen konnten nicht geladen werden.</p>';
-                }
-            })
-            .catch(error => console.log(error));
+                .get('./api/infotexts/' + structures_id)
+                .then(response => {
+                    if (response.data.data.length > 0) {
+                        view.content = response.data.data[0].attributes.text;
+                    } else {
+                        view.content = '<p class="infobox-nodata">Informationen konnten nicht geladen werden.</p>';
+                    }
+                })
+                .catch(error => console.log(error));
         }
     }
-
 };
 </script>

@@ -59,7 +59,7 @@ export default {
     },
     mounted() {
         this.getPlans();
-        this.$store.state.info = {'id': this.structures_id , 'title': this.infoBoxTitle};
+        this.$store.state.info = { id: this.structures_id, title: this.infoBoxTitle };
     },
     methods: {
         getPlans() {
