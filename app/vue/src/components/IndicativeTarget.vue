@@ -10,7 +10,7 @@
                     >
                         {{ elementName }}
                     </span>
-
+                    <spinner :show="showSpinner" @done="showSpinner = false"/>
                     <span class="note-element-toolbar">
                         <button
                             @click="copyElement"
@@ -53,10 +53,15 @@
 
 <script>
 import axios from 'axios';
+import Spinner from './Spinner.vue';
 import CoarseTarget from './CoarseTarget';
 
 export default {
     name: 'IndicativeTarget',
+    components: {
+        Spinner,
+        CoarseTarget
+    },
     props: {
         element: Object,
         fineTargets: Object
@@ -65,15 +70,13 @@ export default {
         return {
             charCounter: 0,
             unfolded: true,
+            showSpinner: false,
             structures_id: 17,
             currentCoarseTargets: [],
             coarseTargets: [],
             elementName: 'Richtziel',
             coarseStructureTexts: []
         };
-    },
-    components: {
-        CoarseTarget
     },
     mounted() {
         this.countChars();
@@ -105,6 +108,7 @@ export default {
                     plans_id: this.$store.state.plan.id
                 })
                 .then(function() {
+                    view.showSpinner = true;
                     view.getElementsText();
                 })
                 .catch(error => console.log(error));

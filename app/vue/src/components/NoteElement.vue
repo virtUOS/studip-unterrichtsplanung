@@ -9,12 +9,7 @@
                 >
                     {{ element.name }}
                 </span>
-                <div class="spinner" v-show="autosave">
-                    <div class="bounce1"></div>
-                    <div class="bounce2"></div>
-                    <div class="bounce3"></div>
-                </div>
-
+                <spinner :show="showSpinner" @done="showSpinner = false"/>
                 <span class="note-element-toolbar">
                     <button @click="copyElement" class="copy" title="Inhalt in die Zwischenablage kopieren"></button>
                     <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
@@ -36,9 +31,13 @@
 
 <script>
 import axios from 'axios';
+import Spinner from './Spinner.vue';
 
 export default {
     name: 'NoteElement',
+    components: {
+        Spinner
+    },
     props: {
         element: Object
     },
@@ -46,7 +45,7 @@ export default {
         return {
             charCounter: 0,
             unfolded: true,
-            autosave: false
+            showSpinner: false
         };
     },
     mounted() {
@@ -65,8 +64,7 @@ export default {
                 })
                 .then(function() {
                     view.$emit('changeElement', { id: view.element.id, text: view.element.attributes.text });
-                    view.autosave = true;
-                    setTimeout(function(){ view.autosave = false; }, 2000);
+                    view.showSpinner = true;
                 })
                 .catch(error => console.log(error));
         },

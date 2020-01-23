@@ -10,6 +10,7 @@
                     >
                         {{ elementName }}
                     </span>
+                    <spinner :show="showSpinner" @done="showSpinner = false"/>
                     <span class="note-element-toolbar">
                         <button
                             @click="copyElement"
@@ -60,11 +61,13 @@
 
 <script>
 import axios from 'axios';
+import Spinner from './Spinner.vue';
 import FineTarget from './FineTarget';
 
 export default {
     name: 'CoarseTarget',
     components: {
+        Spinner,
         FineTarget
     },
     props: {
@@ -75,6 +78,7 @@ export default {
         return {
             charCounter: 0,
             unfolded: true,
+            showSpinner: false,
             structures_id: 18,
             currentFineTargets: [],
             fineTargets: [],
@@ -121,6 +125,7 @@ export default {
                     metadata: JSON.stringify(metadata)
                 })
                 .then(function() {
+                    view.showSpinner = true;
                     view.getElementsText();
                 })
                 .catch(error => console.log(error));

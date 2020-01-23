@@ -3,11 +3,7 @@
         <div class="note-element">
             <header class="note-element-title summary-title">
                 <span>Zusammenfassung für {{ structureName }}</span>
-                <div class="spinner" v-show="autosave">
-                    <div class="bounce1"></div>
-                    <div class="bounce2"></div>
-                    <div class="bounce3"></div>
-                </div>
+                <spinner :show="showSpinner" @done="showSpinner = false"/>
                 <button
                     class="summary-copy-all"
                     @click="insertFromTextfields"
@@ -22,9 +18,13 @@
 
 <script>
 import axios from 'axios';
+import Spinner from './Spinner.vue';
 
 export default {
     name: 'Summary',
+    components: {
+        Spinner
+    },
     props: {
         structureName: String,
         structureId: Number,
@@ -35,7 +35,7 @@ export default {
             wysiwyg: Object,
             charCounter: 0,
             summaryElement: Object,
-            autosave: false
+            showSpinner: false
         };
     },
 
@@ -94,8 +94,7 @@ export default {
                     plans_id: view.$store.state.plan.id
                 })
                 .then(function() {
-                    view.autosave = true;
-                    setTimeout(function(){ view.autosave = false; }, 2000);
+                    view.showSpinner = true;
                 })
                 .catch(error => {
                     console.log(error);

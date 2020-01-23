@@ -450,11 +450,11 @@ S U M M A R Y
 }
 .overview-box.individual {
     background-image: url('../../../../../assets/images/icons/blue/headache.svg');
-    background-position-y: 1.5em;
+    background-position-y: 1.25em;
 }
 .overview-box h1{
     color: #28497c;
-    margin-top: 2em;
+    margin-top: 1.75em;
     margin-bottom: 0;
     margin-left: 6em;
     border: none;
@@ -580,10 +580,9 @@ S U M M A R Y
     margin: 0.5em auto;
     width: 160px;
 }
-.overview-box .interdepbox-wrapper .interdeps button,
-.overview-box .toolbox-wrapper .tools button{
-    background-size: 16px;
-    margin: 0;
+.overview-box .interdepbox-wrapper .interdeps button {
+    background-size: 22px;
+    margin: 0 11px 0 0;
 }
 
 /*************
