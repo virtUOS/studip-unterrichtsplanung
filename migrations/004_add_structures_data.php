@@ -11,7 +11,7 @@ class AddStructuresData extends Migration
     {
         $db = DBManager::get();
 
-        $db->exec("INSERT INTO `du_structures` (`id`, `parent_id`, `name`) VALUES
+        $db->exec("REPLACE INTO `du_structures` (`id`, `parent_id`, `name`) VALUES
             (1, 0, 'situative Voraussetzungen '),
             (2, 0, 'individuelle Voraussetzungen '),
             (3, 0, 'Intentionalität'),
