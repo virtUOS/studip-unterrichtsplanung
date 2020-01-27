@@ -20,6 +20,7 @@
                             :key="elementTechnical.id"
                             @removeElement="updateElements"
                             @changeElement="changeElement"
+                            @resetInfo="resetInfo"
                             @setInfo="setInfo"
                         />
                         <NoteElementAdder
@@ -35,6 +36,7 @@
                             :key="elementDidactic.id"
                             @removeElement="updateElements"
                             @changeElement="changeElement"
+                            @resetInfo="resetInfo"
                             @setInfo="setInfo"
                         />
                         <NoteElementAdder
@@ -45,14 +47,14 @@
                     </div>
                     <Summary
                         :structureName="structureName"
-                        :structureId="structures_id"
+                        :structureId="structureId"
                         :structureText="structureText"
                     ></Summary>
                 </div>
             </div>
             <div class="box-wrapper">
-                <InterdepBox :strucutres_id="structures_id" :title="'Interdependenzen'" />
-                <InfoBox />
+                <InterdepBox :strucutres_id="structureId" :title="'Interdependenzen'" />
+                <InfoBox :structureId="infoBoxStructureId" :structureName="infoBoxStructureName" />
             </div>
         </div>
     </div>
@@ -79,7 +81,7 @@ export default {
         return {
             toggle: false,
             structureName: 'Inhalt',
-            structures_id: 4,
+            structureId: 4,
             elementsTechnical: [],
             elementsDidactic: [],
             contentStructures: [],
@@ -91,7 +93,9 @@ export default {
             didacticStructuresName: '',
             structureTextTechnical: '',
             structureTextDidactic: '',
-            structureText: ''
+            structureText: '',
+            infoBoxStructureId: 4,
+            infoBoxStructureName: ''
         };
     },
     computed: {
@@ -225,8 +229,13 @@ export default {
                 this.structureTextTechnical = text;
             }
         },
-        setInfo() {
-            this.$store.state.info = { id: this.structures_id, title: this.structureName };
+        resetInfo() {
+            this.infoBoxStructureId = this.structureId;
+            this.infoBoxStructureName = this.structureName;
+        },
+        setInfo(data) {
+            this.infoBoxStructureId = parseInt(data.id);
+            this.infoBoxStructureName = data.name;
         }
     }
 };

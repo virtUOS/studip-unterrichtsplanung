@@ -34,7 +34,7 @@
                 <router-link to="/addplan/3"><p class="homebox-link">Fachdidaktik Sport</p></router-link>
                 <router-link to="/addplan/4"><p class="homebox-link">Fachdidaktik Geologie</p></router-link>
             </nav>
-            <InfoBox />
+            <InfoBox :structureId="structureId" :structureName="structureName" v-if="showInfobox"/>
         </div>
     </div>
 </template>
@@ -53,13 +53,14 @@ export default {
     data() {
         return {
             plans: {},
-            structures_id: -1,
-            infoBoxTitle: 'Auswählen oder Erstellen'
+            structureId: -1,
+            structureName: 'Auswählen oder Erstellen',
+            showInfobox: false
         };
     },
     mounted() {
         this.getPlans();
-        this.$store.state.info = { id: this.structures_id, title: this.infoBoxTitle };
+        this.getInfos();
     },
     methods: {
         getPlans() {
@@ -74,6 +75,20 @@ export default {
                 .catch(function(error) {
                     console.log(error);
                 });
+        },
+        getInfos(){
+            let view = this;
+            axios
+                .get('./api/infotexts')
+                .then(response => {
+                    if (response.data.data.length > 0) {
+                        this.$store.state.infos = response.data.data;
+                        view.showInfobox = true;
+                    } else {
+                        this.$store.state.infos = [];
+                    }
+                })
+                .catch(error => console.log(error));
         }
     }
 };

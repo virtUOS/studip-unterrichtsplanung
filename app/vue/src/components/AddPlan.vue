@@ -27,7 +27,7 @@
                     <p v-for="error in errors" :key="error">{{ error }}</p>
                 </div>
             </div>
-            <InfoBox :title="infoBoxTitle" />
+            <InfoBox :structureId="structureId" :structureName="structureName" />
         </div>
     </div>
 </template>
@@ -52,11 +52,12 @@ export default {
             subject: '',
             topic: '',
             date: '',
-            time: ''
+            time: '',
+            structureId: -2
         };
     },
     computed: {
-        infoBoxTitle() {
+        structureName() {
             return 'Einen Plan erstellen';
         }
     },

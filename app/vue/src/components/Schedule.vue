@@ -28,7 +28,7 @@
                 <button class="button accept" @click="storeSchedule">Verlaufsplan speichern</button>
                 <button class="button cancel" @click="cancelEdit">zurück zur Planübersicht</button>
             </div>
-            <InfoBox :title="infoBoxTitle" />
+            <InfoBox :structureId="structureId" :structureName="structureName" />
         </div>
     </div>
 </template>
@@ -46,8 +46,8 @@ export default {
         return {
             schedule: {},
             rows: {},
-            structures_id: -4,
-            infoBoxTitle: 'Verlaufsplan',
+            structureId: -5,
+            structureName: 'Verlaufsplan',
             changed: false
         };
     },
@@ -57,7 +57,6 @@ export default {
         }
     },
     mounted() {
-        this.$store.state.info = { id: this.structures_id, title: this.infoBoxTitle };
         this.getSchedule();
     },
     methods: {

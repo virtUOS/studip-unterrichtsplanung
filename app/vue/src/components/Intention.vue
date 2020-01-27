@@ -12,7 +12,8 @@
                     v-for="element in elements"
                     :key="element.id"
                     @removeElement="removeIndicativeElement"
-                    @setDefaultInfo="setInfo"
+                    @setDefaultInfo="resetInfo"
+                    @setInfo="setInfo"
                     @structureText="setIndicativeStructureTexts"
                 />
                 <div class="note-element-adder">
@@ -21,11 +22,11 @@
                         <span class="add-note-text">Richtziel hinzufügen</span>
                     </button>
                 </div>
-                <Summary :structureName="structureName" :structureId="structures_id" :structureText="structureText" />
+                <Summary :structureName="structureName" :structureId="structureId" :structureText="structureText" />
             </div>
             <div class="box-wrapper">
-                <InterdepBox :strucutres_id="structures_id" :title="'Interdependenzen'" />
-                <InfoBox />
+                <InterdepBox :strucutres_id="structureId" :title="'Interdependenzen'" />
+                <InfoBox :structureId="infoBoxStructureId" :structureName="infoBoxStructureName" />
             </div>
         </div>
     </div>
@@ -51,9 +52,11 @@ export default {
             // get this from database
             elements: [],
             structureName: 'Intentionalität',
-            structures_id: 3,
+            structureId: 3,
             structureText: '',
-            indicativeStructureTexts: []
+            indicativeStructureTexts: [],
+            infoBoxStructureId: this.structureId,
+            infoBoxStructureName: this.structureName
         };
     },
     computed: {
@@ -71,7 +74,7 @@ export default {
     },
     mounted() {
         this.getIndicativeTargets();
-        this.setInfo();
+        this.resetInfo();
         this.getElementsText();
     },
     methods: {
@@ -136,8 +139,13 @@ export default {
             );
             this.structureText = text;
         },
-        setInfo() {
-            this.$store.state.info = { id: this.structures_id, title: this.structureName };
+        resetInfo() {
+            this.infoBoxStructureId = this.structureId;
+            this.infoBoxStructureName = this.structureName;
+        },
+        setInfo(data) {
+            this.infoBoxStructureId = parseInt(data.id);
+            this.infoBoxStructureName = data.name;
         }
     }
 };

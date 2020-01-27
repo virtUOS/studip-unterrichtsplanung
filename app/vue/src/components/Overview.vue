@@ -24,7 +24,7 @@
             </div>
             <div class="box-wrapper">
                 <ToolBox />
-                <InfoBox />
+                <InfoBox :structureId="structureId" :structureName="structureName" />
             </div>
         </div>
     </div>
@@ -44,17 +44,14 @@ export default {
     },
     data() {
         return {
-            infoBoxTitle: 'Planübersicht',
-            structures_id: -2
+            structureName: 'Planübersicht',
+            structureId: -3
         };
     },
     computed: {
         plan() {
             return this.$store.state.plan;
         }
-    },
-    mounted() {
-        this.$store.state.info = { id: this.structures_id, title: this.infoBoxTitle };
     }
 };
 </script>

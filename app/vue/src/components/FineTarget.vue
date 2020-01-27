@@ -51,7 +51,7 @@
                     v-model="element.attributes.text"
                     @blur="autoSave()"
                     @keyup="countChars()"
-                    @focus="setInfo"
+                    @focus="$emit('setInfo', {id: element.attributes.structures_id, name: elementName})"
                     v-show="unfolded"
                 />
             </div>

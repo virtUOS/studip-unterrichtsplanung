@@ -13,6 +13,7 @@
                     :key="element.id"
                     @removeElement="updateElements"
                     @changeElement="changeElement"
+                    @resetInfo="resetInfo"
                     @setInfo="setInfo"
                 />
                 <NoteElementAdder
@@ -28,7 +29,7 @@
             </div>
             <div class="box-wrapper">
                 <InterdepBox :strucutres_id="structureId" :title="'Interdependenzen'" />
-                <InfoBox />
+                <InfoBox :structureId="infoBoxStructureId" :structureName="infoBoxStructureName" />
             </div>
         </div>
     </div>
@@ -58,7 +59,9 @@ export default {
             elements: [],
             structureName: 'individuelle Voraussetzungen',
             structureId: 2,
-            structureText: ''
+            structureText: '',
+            infoBoxStructureId: this.structureId,
+            infoBoxStructureName: this.structureName
         };
     },
     computed: {
@@ -68,7 +71,7 @@ export default {
     },
     mounted() {
         this.getStructures();
-        this.setInfo();
+        this.resetInfo();
     },
     methods: {
         updateElements() {
@@ -127,8 +130,13 @@ export default {
             });
             this.structureText = text;
         },
-        setInfo() {
-            this.$store.state.info = { id: this.structures_id, title: this.structureName };
+        resetInfo() {
+            this.infoBoxStructureId = this.structureId;
+            this.infoBoxStructureName = this.structureName;
+        },
+        setInfo(data) {
+            this.infoBoxStructureId = parseInt(data.id);
+            this.infoBoxStructureName = data.name;
         }
     }
 };

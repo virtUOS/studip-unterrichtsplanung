@@ -89,6 +89,16 @@ router.beforeEach((to, from, next) => {
                 .catch(function(error) {
                     console.log(error);
                 });
+            axios
+                .get('./api/infotexts')
+                .then(response => {
+                    if (response.data.data.length > 0) {
+                        store.state.infos = response.data.data;
+                    } else {
+                        store.state.infos = [];
+                    }
+                })
+                .catch(error => console.log(error));
         }
     } else {
         store.state.plan = [];

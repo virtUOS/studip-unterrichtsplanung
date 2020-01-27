@@ -466,7 +466,7 @@ S U M M A R Y
 **************/
 .infobox-wrapper {
     width: 420px;
-    height: 632px;
+    min-height: 632px;
     border: solid thin #d4dbe5;
 }
 .infobox-wrapper h3 {

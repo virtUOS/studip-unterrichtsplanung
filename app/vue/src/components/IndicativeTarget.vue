@@ -26,7 +26,7 @@
                     v-model="element.attributes.text"
                     @blur="autoSave"
                     @keyup="countChars"
-                    @focus="setInfo"
+                    @focus="$emit('setInfo', {id: element.attributes.structures_id, name: elementName})"
                     v-show="unfolded"
                 />
             </div>
@@ -39,7 +39,8 @@
             v-for="coarseElement in currentCoarseTargets"
             :key="coarseElement.id"
             @removeElement="removeCoarseElement"
-            @setDefaultInfo="setDefaultInfo"
+            @setDefaultInfo="$emit('setDefaultInfo')"
+            @setInfo="setInfo"
             @structureText="setCoarseStructureTexts"
         />
         <div class="note-element-adder" v-show="unfolded">
@@ -99,7 +100,7 @@ export default {
     methods: {
         autoSave: function() {
             let view = this;
-            this.setDefaultInfo();
+            this.$emit('setDefaultInfo');
 
             axios
                 .put('./api/textfields/' + view.element.id, {
@@ -200,12 +201,6 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
-        setInfo() {
-            this.$store.state.info = { id: this.structures_id, title: this.elementName };
-        },
-        setDefaultInfo() {
-            this.$emit('setDefaultInfo');
-        },
         setCoarseStructureTexts(coarseText) {
             let textObj = this.coarseStructureTexts.find(x => x.id == coarseText.id);
             let foundText = textObj != undefined;
@@ -227,6 +222,9 @@ export default {
                 text = text + textObj.text;
             });
             this.$emit('structureText', { text: text, id: this.element.id });
+        },
+        setInfo(data) {
+            this.$emit('setInfo', data)
         }
     }
 };

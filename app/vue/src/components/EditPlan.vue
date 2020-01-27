@@ -35,7 +35,7 @@
                     <p v-for="error in errors" :key="error">{{ error }}</p>
                 </div>
             </div>
-            <InfoBox />
+            <InfoBox :structureId="structureId" :structureName="structureName" />
         </div>
     </div>
 </template>
@@ -55,8 +55,8 @@ export default {
         return {
             errors: [],
             plan: {},
-            structures_id: -3,
-            infoBoxTitle: 'Einen Plan bearbeiten'
+            structureId: -4,
+            structureName: 'Einen Plan bearbeiten'
         };
     },
     beforeMount() {
@@ -75,7 +75,6 @@ export default {
             this.plan.attributes.metadata = {};
         }
         this.plan.attributes.templates_name = this.getPlanTemplateName(this.plan.attributes.templates_id);
-        this.$store.state.info = { id: this.structures_id, title: this.infoBoxTitle };
     },
     methods: {
         storePlan: function() {

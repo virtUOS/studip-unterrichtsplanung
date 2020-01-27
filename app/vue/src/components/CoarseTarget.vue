@@ -34,7 +34,7 @@
                     v-model="element.attributes.text"
                     @blur="autoSave"
                     @keyup="countChars"
-                    @focus="setInfo"
+                    @focus="$emit('setInfo', {id: element.attributes.structures_id, name: elementName})"
                     v-show="unfolded"
                 />
             </div>
@@ -47,7 +47,8 @@
             v-for="fineElement in currentFineTargets"
             :key="fineElement.id"
             @removeElement="removeFineElement"
-            @setDefaultInfo="setDefaultInfo"
+            @setDefaultInfo="$emit('setDefaultInfo')"
+            @setInfo="setInfo"
             @structureText="setFineStructureTexts"
         />
         <div class="note-element-adder" v-show="unfolded">
@@ -115,7 +116,7 @@ export default {
             let metadata = {};
             metadata.parentId = this.parentId;
             metadata.dimension = this.dimension;
-            this.setDefaultInfo();
+            this.$emit('setDefaultInfo');
 
             axios
                 .put('./api/textfields/' + view.element.id, {
@@ -218,11 +219,8 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
-        setInfo() {
-            this.$store.state.info = { id: this.structures_id, title: this.elementName };
-        },
-        setDefaultInfo() {
-            this.$emit('setDefaultInfo');
+        setInfo(data) {
+            this.$emit('setInfo', data)
         },
         setFineStructureTexts(fineText) {
             let textObj = this.fineStructureTexts.find(x => x.id == fineText.id);

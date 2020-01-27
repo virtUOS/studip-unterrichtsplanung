@@ -1,7 +1,7 @@
 <template>
     <div class="infobox-wrapper">
-        <h3>{{ title }}</h3>
-        <div class="infobox-content" v-html="content"></div>
+        <h3>{{ structureName }}</h3>
+        <div class="infobox-content" v-html="infoText"></div>
     </div>
 </template>
 
@@ -9,38 +9,26 @@
 import axios from 'axios';
 
 export default {
+    props:{
+        structureId: Number,
+        structureName: String
+    },
     data() {
         return {
-            title: '',
-            content: ''
+            infoText: ''
         };
     },
-    computed: {
-        info() {
-            return this.$store.state.info;
-        }
+    mounted() {
+        this.getInfoText();
     },
     watch: {
-        info: function() {
-            this.getInfo();
+        structureId() {
+            this.getInfoText();
         }
     },
     methods: {
-        getInfo() {
-            let view = this;
-            let structures_id = this.info.id;
-            this.title = this.info.title;
-
-            axios
-                .get('./api/infotexts/' + structures_id)
-                .then(response => {
-                    if (response.data.data.length > 0) {
-                        view.content = response.data.data[0].attributes.text;
-                    } else {
-                        view.content = '<p class="infobox-nodata">Informationen konnten nicht geladen werden.</p>';
-                    }
-                })
-                .catch(error => console.log(error));
+        getInfoText() {
+            this.infoText = this.$store.getters.getInfoText(this.structureId);
         }
     }
 };

@@ -21,7 +21,7 @@
                 v-model="element.attributes.text"
                 @blur="autoSave()"
                 @keyup="countChars()"
-                @focus="setInfo"
+                @focus="$emit('setInfo', {id: element.attributes.structures_id, name: element.name})"
                 v-show="unfolded"
             />
         </div>
@@ -54,7 +54,7 @@ export default {
     methods: {
         autoSave: function() {
             let view = this;
-            this.$emit('setInfo');
+            this.$emit('resetInfo');
 
             axios
                 .put('./api/textfields/' + view.element.id, {
@@ -102,9 +102,6 @@ export default {
                     console.log(error);
                 }
             );
-        },
-        setInfo() {
-            this.$store.state.info = { id: this.element.attributes.structures_id, title: this.element.name };
         }
     }
 };
