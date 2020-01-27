@@ -84,7 +84,6 @@ export default {
                 .get('./api/plans/' + view.plan.id + '/schedules')
                 .then(response => {
                     if (response.data.data.length == 0) {
-                        console.log('create schedule');
                         view.createSchedule();
                     }
                     if (response.data.data.length > 0) {
@@ -103,7 +102,9 @@ export default {
                     content: '',
                     plans_id: view.plan.id
                 })
-                .then(function() {})
+                .then(response => {
+                    view.schedule = response.data;
+                })
                 .catch(error => {
                     console.log(error);
                 });
