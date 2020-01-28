@@ -8,6 +8,11 @@ module.exports = {
             entry: 'src/main.js',
             template: 'public/index.php',
             filename: 'index.php'
+        },
+        admin: {
+            entry: 'src/main-admin.js',
+            template: 'public/admin.php',
+            filename: 'admin.php'
         }
     }
 };

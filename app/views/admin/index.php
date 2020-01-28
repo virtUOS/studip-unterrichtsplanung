@@ -1,0 +1,2 @@
+<head><link href=../../plugins_packages/elan-ev/Unterrichtsplanung/assets/js/admin.js rel=preload as=script><link href=../../plugins_packages/elan-ev/Unterrichtsplanung/assets/js/chunk-vendors.js rel=preload as=script></head><div id=admin-app></div><script src=../../plugins_packages/elan-ev/Unterrichtsplanung/assets/js/chunk-vendors.js></script><script src=../../plugins_packages/elan-ev/Unterrichtsplanung/assets/js/admin.js></script>
+

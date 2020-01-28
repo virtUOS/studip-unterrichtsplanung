@@ -4,6 +4,9 @@
 #Unterrichtsplanung-index #layout-sidebar {
     display: none;
 }
+#Unterrichtsplanung-index #page_title_container {
+    display: none;
+}
 
 
 /********************

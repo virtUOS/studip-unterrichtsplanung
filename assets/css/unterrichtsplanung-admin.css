@@ -1,0 +1,33 @@
+/********************
+ P A G E L A Y O U T
+********************/
+#Unterrichtsplanung-admin #layout-sidebar {
+    display: none;
+}
+#Unterrichtsplanung-admin #page_title_container {
+    display: none;
+}
+
+/**************
+A D M I N B O X
+**************/
+.admin-box {
+    max-width: 870px;
+}
+.admin-box-header {
+    background-color: #d4dbe5;
+    padding: 0.5em;
+}
+.admin-box-header span.headline {
+    font-weight: 600;
+    margin: 0 1em 0 0.5em;
+}
+.admin-box-header select {
+    
+}
+.selected-text-wrapper {
+    margin-right: 5px;
+}
+.selected-text {
+    width: 100%;
+}
