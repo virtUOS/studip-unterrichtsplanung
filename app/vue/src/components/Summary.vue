@@ -80,6 +80,7 @@ export default {
                 })
                 .then(response => {
                     view.summaryElement = response.data;
+                    view.initCKE();
                 })
                 .catch(error => {
                     console.log(error);
