@@ -65,17 +65,13 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
             $app->run();
         } else {
             $trails_root        = $this->getPluginPath() . '/app';
-            if (substr($unconsumedPath, 0, 5) == 'admin') {
-                $dispatcher         = new Trails_Dispatcher($trails_root,
-                    rtrim(PluginEngine::getURL($this, null, ''), '/'),
-                    'admin');
-            } else {
-                $dispatcher         = new Trails_Dispatcher($trails_root,
-                    rtrim(PluginEngine::getURL($this, null, ''), '/'),
-                    'index');
-            }
+
+            $dispatcher         = new Trails_Dispatcher($trails_root,
+                rtrim(PluginEngine::getURL($this, null, ''), '/'),
+                'index');
+
             $dispatcher->current_plugin = $this;
-            $dispatcher->dispatch($unconsumed_path);
+            $dispatcher->dispatch($unconsumedPath);
         }
     }
 }
