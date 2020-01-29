@@ -4,6 +4,9 @@
 #Unterrichtsplanung-admin #layout-sidebar {
     display: none;
 }
+#Unterrichtsplanung-admin #admin-app{
+  margin-left: 12px;
+}
 #Unterrichtsplanung-admin #page_title_container {
     display: none;
 }

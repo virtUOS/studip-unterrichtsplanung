@@ -4,6 +4,9 @@
 #Unterrichtsplanung-index #layout-sidebar {
     display: none;
 }
+#Unterrichtsplanung-index #app{
+    margin-left: 12px;
+}
 #Unterrichtsplanung-index #page_title_container {
     display: none;
 }
