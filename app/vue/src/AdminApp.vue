@@ -38,8 +38,19 @@ export default {
             showSpinner: false
         }
     },
+    computed: {
+        specialStructures: function() {
+            let special = [];
+            special.push({id: '-1', attributes:{name: 'Auswählen oder Erstellen', id: '-1', parent_id: 0}});
+            special.push({id: '-2', attributes:{name: 'Einen Plan erstellen', id: '-2', parent_id: 0}});
+            special.push({id: '-3', attributes:{name: 'Planübersicht', id: '-3', parent_id: 0}});
+            special.push({id: '-4', attributes:{name: 'Einen Plan bearbeiten', id: '-4', parent_id: 0}});
+            special.push({id: '-5', attributes:{name: 'Verlaufsplan', id: '-5', parent_id: 0}});
+
+            return special;
+        }
+    },
     mounted(){
-        console.log('hello admin');
         this.getStructures();
     },
     methods:{
@@ -50,6 +61,7 @@ export default {
             .then(response => {
                 if(response.data.data.length > 0) {
                     view.structures = response.data.data;
+                    view.structures = view.structures.concat(view.specialStructures);
                     view.getInfoTexts();
                 }
             })
@@ -85,9 +97,9 @@ export default {
                     this.createInfoText(listElement);
                 }
             });
-            this.selectedStructure = this.elementList[0].id;
             this.initCKE();
-            this.selectElement();
+            this.sortElementList();
+            
         },
         createInfoText(listElement) {
             let view = this;
@@ -101,6 +113,7 @@ export default {
                 .then(response => {
                     listElement.text_id = response.data.id;
                     view.elementList.push(listElement);
+                    view.sortElementList();
                 })
                 .catch(error => {
                     console.log(error);
@@ -143,6 +156,14 @@ export default {
             })
             .catch(error => console.log(error));
         },
+        sortElementList(){
+            this.elementList.sort((a, b) => {
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                if (b.name.toLowerCase() > a.name.toLowerCase()) return -1;
+            });
+            this.selectedStructure = this.elementList[0].id;
+            this.selectElement();
+        }
     }
 };
 </script>
