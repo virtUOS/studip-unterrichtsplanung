@@ -13,7 +13,7 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
 
         $main = new Navigation(_('Unterrichtsplanung'));
         $main->setImage(Icon::create('doctoral-cap'));
-        $main->setURL(PluginEngine::getURL('unterrichtsplanung'));
+        $main->setURL(PluginEngine::getURL('unterrichtsplanung/index'));
 
         $overview = new Navigation(_('Unterrichtsplanung'));
         $overview->setURL(PluginEngine::getURL('unterrichtsplanung/index'));
