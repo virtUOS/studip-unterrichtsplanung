@@ -1,7 +1,8 @@
 <template>
     <div class="edit-schedule">
         <h1>
-            <router-link to="/"><span class="nav home"></span></router-link> / Verlaufsplan
+            <a href="#" @click="leave('/')"><span class="nav home"></span></a> /
+            <a href="#" @click="leave('/plan/' + $store.state.plan.id)">{{ plan.attributes.name }} </a> / Verlaufsplan
         </h1>
         <div class="content-wrapper">
             <div class="schedule-table-wrapper">
@@ -26,7 +27,7 @@
                 <button class="button add" @click="addRow">Zeile hinzufügen</button>
                 <br />
                 <button class="button accept" @click="storeSchedule">Verlaufsplan speichern</button>
-                <button class="button cancel" @click="cancelEdit">zurück zur Planübersicht</button>
+                <button class="button cancel" @click="leave('/plan/' + $store.state.plan.id)">zurück zur Planübersicht</button>
             </div>
             <InfoBox :structureId="structureId" :structureName="structureName" />
         </div>
@@ -122,17 +123,17 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
-        cancelEdit() {
+        leave(path) {
             if (this.changed) {
                 if (
                     confirm(
                         'Möchten Sie den Verlaufsplan wirklich verlassen? Ihre Änderungen werden nicht gespeichert.'
                     )
                 ) {
-                    this.$router.push({ path: '/plan/' + this.plan.id });
+                    this.$router.push({ path: path });
                 }
             } else {
-                this.$router.push({ path: '/plan/' + this.plan.id });
+                this.$router.push({ path: path });
             }
         }
     }

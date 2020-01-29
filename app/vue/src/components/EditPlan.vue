@@ -1,34 +1,31 @@
 <template>
     <div class="edit-plan">
         <h1>
-            <router-link to="/"><span class="nav home"></span></router-link> / Plan bearbeiten
+            <a href="#" @click="leave('/')"><span class="nav home"></span></a> / 
+            <a href="#" @click="leave('/plan/' + $store.state.plan.id)">{{ this.$store.state.plan.attributes.name }} </a> / Plan bearbeiten
         </h1>
         <div class="content-wrapper">
             <div class="plan-metadata">
-                <h3 class="plan-metadata-header">{{ plan.attributes.templates_name }}</h3>
+                <h3 class="plan-metadata-header">{{ templatesName }}</h3>
                 <div class="plan-metadata-fieldset">
                     <label for="planTitle">Plantitel:</label>
-                    <input type="text" name="planTitle" v-model="plan.attributes.name" /> <br />
+                    <input type="text" name="planTitle" v-model="planName" @change="changed = true"/> <br />
                     <label for="typeOfSchool">Schulform:</label>
-                    <input type="text" name="typeOfSchool" v-model="plan.attributes.metadata.typeOfSchool" /> <br />
+                    <input type="text" name="typeOfSchool" v-model="metadata.typeOfSchool" @change="changed = true"/> <br />
                     <label for="gradeLevel">Klassenstufe:</label>
-                    <input type="text" name="gradeLevel" v-model="plan.attributes.metadata.gradeLevel" /> <br />
+                    <input type="text" name="gradeLevel" v-model="metadata.gradeLevel" @change="changed = true"/> <br />
                     <label for="subject">Fach:</label>
-                    <input type="text" name="subject" v-model="plan.attributes.metadata.subject" /> <br />
+                    <input type="text" name="subject" v-model="metadata.subject" @change="changed = true"/> <br />
                     <label for="topic">Thema der Unterrichtsstunde:</label>
-                    <input type="text" name="topic" v-model="plan.attributes.metadata.topic" /><br />
+                    <input type="text" name="topic" v-model="metadata.topic" @change="changed = true"/><br />
                     <label for="date">Datum:</label
-                    ><input type="date" name="date" v-model="plan.attributes.metadata.date" />
-                    <br />
+                    ><input type="date" name="date" v-model="metadata.date" @change="changed = true"/><br />
                     <label for="time">Uhrzeit:</label>
-                    <input type="time" name="time" v-model="plan.attributes.metadata.time" />
-                    <br />
+                    <input type="time" name="time" v-model="metadata.time" @change="changed = true"/><br />
                 </div>
                 <div class="plan-metadata-buttons">
                     <button class="button accept" @click="storePlan">Plan speichern</button>
-                    <router-link :to="'/plan/' + plan.id">
-                        <button class="button cancel">zurück zur Planübersicht</button>
-                    </router-link>
+                    <button class="button cancel" @click="leave('/plan/' + $store.state.plan.id)">zurück zur Planübersicht</button>
                     <button class="button button-remove" @click="removePlan">Plan löschen</button>
                 </div>
                 <div class="plan-metadata-errors">
@@ -54,31 +51,25 @@ export default {
     data() {
         return {
             errors: [],
-            plan: {},
+            metadata: {},
+            planName: '',
+            templatesName: '',
             structureId: -4,
-            structureName: 'Einen Plan bearbeiten'
+            structureName: 'Einen Plan bearbeiten',
+            changed: false
         };
     },
     beforeMount() {
-        this.plan.attributes = {};
-        this.plan.attributes.metadata = {};
-    },
-    mounted() {
-        this.plan = this.$store.state.plan;
-        if (this.plan.attributes != undefined) {
-            try {
-                this.plan.attributes.metadata = JSON.parse(this.plan.attributes.metadata);
-            } catch {
-                // do nothing
-            }
-        } else {
-            this.plan.attributes.metadata = {};
+        let plan = this.$store.state.plan;
+        if (plan.attributes != undefined) {
+                this.metadata = JSON.parse(plan.attributes.metadata);
+                this.planName = plan.attributes.name;
+                this.templatesName = this.getPlanTemplateName(plan.attributes.templates_id);
         }
-        this.plan.attributes.templates_name = this.getPlanTemplateName(this.plan.attributes.templates_id);
     },
     methods: {
         storePlan: function() {
-            if (!this.plan.attributes.name) {
+            if (!this.planName) {
                 this.errors.push('Bitte geben Sie einen Plantitel ein!');
                 return false;
             } else {
@@ -87,15 +78,27 @@ export default {
             let view = this;
 
             axios
-                .put('./api/plans/' + this.plan.id, {
-                    templates_id: this.plan.attributes.templates_id,
-                    name: this.plan.attributes.name,
-                    metadata: JSON.stringify(this.plan.attributes.metadata)
+                .put('./api/plans/' + view.$store.state.plan.id, {
+                    templates_id: view.$store.state.plan.attributes.templates_id,
+                    name: view.planName,
+                    metadata: JSON.stringify(view.metadata)
                 })
                 .then(function() {
-                    view.$router.push({ path: '/plan/' + view.plan.id });
+                    view.reloadPlan();
+                    view.$router.push({ path: '/plan/' + view.$store.state.plan.id });
                 })
                 .catch(function(error) {
+                    console.log(error);
+                });
+        },
+        reloadPlan() {
+            let view = this;
+            axios
+                .get('./api/plans/' + view.$store.state.plan.id)
+                .then(response => {
+                    view.$store.state.plan = response.data;
+                })
+                .catch(error => {
                     console.log(error);
                 });
         },
@@ -105,11 +108,24 @@ export default {
                 return;
             }
             axios
-                .delete('./api/plans/' + this.plan.id)
+                .delete('./api/plans/' + view.$store.state.plan.id)
                 .then(function() {
                     view.$router.push({ path: '/' });
                 })
                 .catch(error => console.log(error));
+        },
+        leave(path) {
+            if (this.changed) {
+                if (
+                    confirm(
+                        'Möchten Sie das Bearbeiten wirklich verlassen? Ihre Änderungen werden nicht gespeichert.'
+                    )
+                ) {
+                    this.$router.push({ path: path });
+                }
+            } else {
+                this.$router.push({ path: path });
+            }
         }
     }
 };

@@ -15,7 +15,6 @@ const store = new Vuex.Store({
             } else {
                 return '<p class="infobox-nodata">Informationen konnten nicht geladen werden.</p>';
             }
-            
         }
     }
 });
