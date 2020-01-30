@@ -1,19 +1,29 @@
 <template>
     <div id="admin-app">
-        <div class="admin-box">
-            <div class="admin-box-header">
-                <span class="headline">Infotexte bearbeiten</span>
-                <spinner :show="showSpinner" @done="showSpinner = false"/>
-                <select @change="selectElement" v-model="selectedStructure">
-                    <option v-for="element in elementList" :key="element.id" :value="element.id">
-                        {{element.name}}
-                    </option>
-                </select>
+        <div class="admin-box-wrapper">
+            <div class="admin-box">
+                <div class="admin-box-header">
+                    <span class="headline">Infotexte bearbeiten</span>
+                    <spinner :show="showSpinner" @done="showSpinner = false"/>
+                    <select @change="selectElement" v-model="selectedStructure">
+                        <option v-for="element in elementList" :key="element.id" :value="element.id">
+                            {{element.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="selected-text-wrapper">
+                    <textarea v-model="selectedText" ref="selectedText" class="selected-text"/>
+                </div>
+                <button class="button admin-box-button" @click="storeText">Infotext &#8222;{{selectedName}}&#8220; speichern</button>
             </div>
-            <div class="selected-text-wrapper">
-                <textarea v-model="selectedText" ref="selectedText" class="selected-text"/>
+            <div class="preview-box">
+                    <div class="infobox-wrapper">
+                        <h3 class="header" >{{ selectedName }}</h3>
+                        <div class="infobox-content">
+                            <p v-html="selectedText"></p>
+                        </div>
+                    </div>
             </div>
-            <button class="button admin-box-button" @click="storeText">Infotext &#8222;{{selectedName}}&#8220; speichern</button>
         </div>
     </div>
 </template>

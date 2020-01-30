@@ -4,22 +4,24 @@
         <div class="content-wrapper">
             <nav class="homebox homebox-wide plans" v-show="Object.keys(this.plans).length > 0">
                 <header>Plan bearbeiten</header>
-                <router-link :to="'/plan/' + plan.id" v-for="plan in this.plans" :key="plan.id">
-                    <p class="homebox-link">
-                        {{ plan.attributes.name }}
-                        <span class="homebox-link-subtitle">
-                            - {{ getPlanTemplateName(plan.attributes.templates_id) }}
-                        </span>
-                        <br />
-                        <span class="homebox-link-subtitle plan-mkdate">
-                            erstellt am: {{ getFromatedDate(plan.attributes.mkdate) }}
-                        </span>
-                        <br />
-                        <span class="homebox-link-subtitle plan-chdate">
-                            geändert am: {{ getFromatedDate(plan.attributes.chdate) }}
-                        </span>
-                    </p>
-                </router-link>
+                <div class="homebox-content">
+                    <router-link :to="'/plan/' + plan.id" v-for="plan in this.plans" :key="plan.id">
+                        <p class="homebox-link">
+                            {{ plan.attributes.name }}
+                            <span class="homebox-link-subtitle">
+                                - {{ getPlanTemplateName(plan.attributes.templates_id) }}
+                            </span>
+                            <br />
+                            <span class="homebox-link-subtitle plan-mkdate">
+                                erstellt am: {{ getFromatedDate(plan.attributes.mkdate) }}
+                            </span>
+                            <br />
+                            <span class="homebox-link-subtitle plan-chdate">
+                                geändert am: {{ getFromatedDate(plan.attributes.chdate) }}
+                            </span>
+                        </p>
+                    </router-link>
+                </div>
             </nav>
             <nav
                 class="homebox add-plan"
@@ -29,10 +31,12 @@
                 }"
             >
                 <header>Plan hinzufügen</header>
-                <router-link to="/addplan/1"><p class="homebox-link">Bildungswissenschaftlich</p></router-link>
-                <router-link to="/addplan/2"><p class="homebox-link">Fachdidaktik Mathematik</p></router-link>
-                <router-link to="/addplan/3"><p class="homebox-link">Fachdidaktik Sport</p></router-link>
-                <router-link to="/addplan/4"><p class="homebox-link">Fachdidaktik Geologie</p></router-link>
+                <div class="homebox-content">
+                    <router-link to="/addplan/1"><p class="homebox-link">Bildungswissenschaftlich</p></router-link>
+                    <router-link to="/addplan/2"><p class="homebox-link">Fachdidaktik Mathematik</p></router-link>
+                    <router-link to="/addplan/3"><p class="homebox-link">Fachdidaktik Sport</p></router-link>
+                    <router-link to="/addplan/4"><p class="homebox-link">Fachdidaktik Geologie</p></router-link>
+                </div>
             </nav>
             <InfoBox :structureId="structureId" :structureName="structureName" v-if="showInfobox"/>
         </div>

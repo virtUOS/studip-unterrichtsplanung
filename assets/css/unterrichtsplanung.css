@@ -81,13 +81,16 @@ A D D P L A N
     color: red;
     font-size: 600;
 }
+.plan-error {
+    background-color: #fcc;
+}
+
 /***************************
 A D D N O T E E L E M E N T
 ***************************/
 .note-element-adder {
     margin-bottom: 1em;
 }
-
 .add-note {
     display: inline-block;
     border: solid thin #d4dbe5;
@@ -115,7 +118,6 @@ A D D N O T E E L E M E N T
 .add-note:hover .add-note-icon{
     background-image: url('../../../../../assets/images/icons/white/add.svg');
 }
-
 .add-note-text {
     font-size: 16px;
     vertical-align: middle;
@@ -124,12 +126,10 @@ A D D N O T E E L E M E N T
     margin-left: 1.5em;
     color: #28497c;
 }
-
 .add-note.active .add-note-text, 
 .add-note:hover .add-note-text{
     color: #fff;
 }
-
 .note-element-list {
     margin: 0;
     padding: 0;
@@ -231,7 +231,6 @@ N O T E E L E M E N T
     vertical-align: top;
     cursor: pointer;
 }
-
 .note-element .note-element-content {
     border: none;
     background-color: #fff;
@@ -256,57 +255,48 @@ N O T E E L E M E N T
     text-align: center;
 }
 
+
 /*****************
 I N T E N T I O N
 ****************/
 .target-wrapper.indicative-target.unfolded {
     padding-bottom: 3px;
 }
-
 .target-wrapper.indicative-target {
     border: solid thin #d4dbe5;
     margin-bottom: 1em;
     padding-bottom: 0;
 }
-
 .target-wrapper.indicative-target .note-element-wrapper {
     margin-bottom: 0;
 }
-
 .target-wrapper.indicative-target .note-element{
     border: none;
 }
-
 .target-wrapper.indicative-target .note-element.unfolded{
     border-bottom: solid thin #d4dbe5;
 }
-
 .target-wrapper.indicative-target .note-element-char-counter {
     border-right: none;
     margin-right: 0;
 }
-
 .target-wrapper.coarse-target.unfolded {
     padding-bottom: 3px;
 }
-
 .target-wrapper.coarse-target {
     border: solid thin #d4dbe5;
     margin: 1em;
     padding-bottom: 0;
 }
-
 .target-wrapper.coarse-target .note-element{
     border-top: none;
     border-left: none;
     border-right: none;
 }
-
 .target-wrapper.indicative-target .note-element-adder,
 .target-wrapper.coarse-target .note-element-adder {
     margin: 1em;
 }
-
 .target-wrapper.fine-target.unfolded {
     padding-bottom: 3px;
 }
@@ -314,7 +304,6 @@ I N T E N T I O N
     margin: 1em;
     padding-bottom: 0;
 }
-
 .target-wrapper.fine-target .note-element{
     border: solid thin #d4dbe5;
 }
@@ -323,26 +312,23 @@ I N T E N T I O N
     border-top: none;
     margin-right: -2px; 
 }
-
 .target-metadata-box {
     padding: 0.5em;
     background-color: #d4dbe5;
     color: #28497c;
 }
-
 .target-wrapper.coarse-target .note-element-wrapper.unfolded, 
 .target-wrapper.fine-target .note-element-wrapper.unfolded {
     min-height: 310px;
 }
-
 .target-metadata-box label {
     margin: 0 0.5em;
 }
+
+
 /*************
 S U M M A R Y
 *************/
-.note-element-title.summary-title {}
-
 .note-element-title.summary-title .summary-copy-all{
     float:right;
     height: 24px;
@@ -356,14 +342,15 @@ S U M M A R Y
     cursor: pointer;
 }
 
+
 /********
  H O M E
 ********/
 .homebox {
     border: solid thin #d4dbe5;
-    min-height: 600px;
     width: 416px;
     margin-right: 1em;
+    
 }
 .homebox-small {
     width: 416px;
@@ -390,6 +377,10 @@ S U M M A R Y
 .homebox.add-plan header {
     background-image: url('../../../../../assets/images/icons/blue/add.svg');
 }
+.homebox .homebox-content {
+    height: 736px;
+    overflow-y: auto;
+}
 .homebox .homebox-link {
     margin: 1em;
     padding: 1em;
@@ -402,7 +393,6 @@ S U M M A R Y
     background-color: #28497c;
     color: #fff;
 }
-
 .homebox-link-subtitle {
     color: #6e6e6e;
     font-weight: 400;
@@ -410,6 +400,7 @@ S U M M A R Y
 .homebox .homebox-link:hover .homebox-link-subtitle {
     color: #d4dbe5;
 }
+
 
 /****************
  O V E R V I E W
@@ -464,6 +455,7 @@ S U M M A R Y
     text-align: left;
 }
 
+
 /**************
  I N F O B O X
 **************/
@@ -472,7 +464,7 @@ S U M M A R Y
     min-height: 632px;
     border: solid thin #d4dbe5;
 }
-.infobox-wrapper h3 {
+.infobox-wrapper .header {
     margin: 0;
     padding: 1em 1em 1em 3em;
     background-color: #e7ebf1;;
@@ -483,12 +475,21 @@ S U M M A R Y
     color: #28497c;
 }
 .infobox-wrapper .infobox-content {
-    padding: 1em 2em;
+    height: 600px;
+    overflow-y: auto;
+}
+.home .infobox-wrapper .infobox-content {
+    height: 736px;
+}
+.infobox-wrapper .infobox-content p{
+    margin: 1em;
     text-align: justify;
 }
 .infobox-nodata {
     color: #ccc;
 }
+
+
 /*********************
  I N T E R D E P B O X
 *********************/
@@ -503,7 +504,6 @@ S U M M A R Y
     width: unset;
     margin-left: 9em;
 }
-
 .interdepbox-wrapper h3,
 .toolbox-wrapper h3 {
     margin: 0;
@@ -531,7 +531,6 @@ S U M M A R Y
     margin: 0;
     width: unset;
 }
-
 .interdeps button,
 .tools a span{
     display: inline-block;
@@ -545,7 +544,6 @@ S U M M A R Y
     background-size: 32px;
     cursor: pointer;
 }
-
 .tools .toolbox-edit {background-image: url('../../../../../assets/images/icons/blue/edit.svg');}
 .tools .toolbox-schedule {background-image: url('../../../../../assets/images/icons/blue/timetable.svg');}
 .tools .toolbox-pdf {background-image: url('../../../../../assets/images/icons/blue/file-pdf.svg');}
@@ -588,6 +586,7 @@ S U M M A R Y
     margin: 0 11px 0 0;
 }
 
+
 /*************
 C O N T E N T
 *************/
@@ -612,6 +611,7 @@ C O N T E N T
     margin-bottom: 1em;
 }
 
+
 /*************
  B U T T O N S
  ************/
@@ -633,6 +633,7 @@ button.button-remove:hover {
     background-position-y: center;
     background-position-x: left+5px;
 }
+
 
 /***************
 S C H E D U L E
@@ -676,15 +677,15 @@ S C H E D U L E
     cursor: pointer;
 }
 
+
 /*************
 S P I N N E R
 *************/
 .spinner {
     display: inline-block;
     margin-left: 1em;
-  }
-  
-  .spinner > div {
+}
+.spinner > div {
     width: 10px;
     height: 10px;
     background-color: #28497c;
@@ -694,24 +695,20 @@ S P I N N E R
     display: inline-block;
     -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
     animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-  }
-  
-  .spinner .bounce1 {
+}
+.spinner .bounce1 {
     -webkit-animation-delay: -0.32s;
     animation-delay: -0.32s;
-  }
-  
-  .spinner .bounce2 {
+}
+.spinner .bounce2 {
     -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
-  }
-  
-  @-webkit-keyframes sk-bouncedelay {
+}
+@-webkit-keyframes sk-bouncedelay {
     0%, 80%, 100% { -webkit-transform: scale(0) }
     40% { -webkit-transform: scale(1.0) }
-  }
-  
-  @keyframes sk-bouncedelay {
+}
+@keyframes sk-bouncedelay {
     0%, 80%, 100% { 
       -webkit-transform: scale(0);
       transform: scale(0);
@@ -719,4 +716,4 @@ S P I N N E R
       -webkit-transform: scale(1.0);
       transform: scale(1.0);
     }
-  }
+}

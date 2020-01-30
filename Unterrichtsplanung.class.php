@@ -12,7 +12,7 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
         parent::__construct();
 
         $main = new Navigation(_('Unterrichtsplanung'));
-        $main->setImage(Icon::create('doctoral-cap'));
+        $main->setImage(Icon::create('topic'));
         $main->setURL(PluginEngine::getURL('unterrichtsplanung/index'));
 
         $overview = new Navigation(_('Unterrichtsplanung'));
@@ -22,7 +22,7 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
 
         $main->addSubNavigation('index', $overview);
 
-        if ($GLOBALS['perm']->have_perm('root')
+        if ($GLOBALS['perm']->have_perm('admin')
             || \RolePersistence::isAssignedRole(
                 $GLOBALS['user']->user_id,
                 'Unterrichtsplanung_Admin'

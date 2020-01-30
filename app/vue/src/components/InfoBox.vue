@@ -1,7 +1,9 @@
 <template>
     <div class="infobox-wrapper">
-        <h3>{{ structureName }}</h3>
-        <div class="infobox-content" v-html="infoText"></div>
+        <h3 class="header" >{{ structureName }}</h3>
+        <div class="infobox-content">
+            <p v-html="infoText"></p>
+        </div>
     </div>
 </template>
 
