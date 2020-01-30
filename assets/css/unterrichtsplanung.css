@@ -4,9 +4,6 @@
 #Unterrichtsplanung-index #layout-sidebar {
     display: none;
 }
-#Unterrichtsplanung-index #app{
-    margin-left: 12px;
-}
 #Unterrichtsplanung-index #page_title_container {
     display: none;
 }
@@ -425,11 +422,11 @@ S U M M A R Y
 }
 .overview-box {
     background-repeat: no-repeat;
-    background-position-x: 2em;
+    background-position-x: 3em;
     background-position-y: 2em;
     background-size: 64px;
     border: solid thin #d4dbe5;
-    width: 548px;
+    width: 566px;
     height: 9em;
     margin: 0 1em 1em 0;
 }
@@ -462,7 +459,7 @@ S U M M A R Y
     color: #28497c;
     margin-top: 1.75em;
     margin-bottom: 0;
-    margin-left: 6em;
+    margin-left: 7em;
     border: none;
     text-align: left;
 }
@@ -504,7 +501,7 @@ S U M M A R Y
 }
 .interdepcomputedbox-wrapper {
     width: unset;
-    margin-left: 7.5em;
+    margin-left: 9em;
 }
 
 .interdepbox-wrapper h3,
