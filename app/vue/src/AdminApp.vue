@@ -69,9 +69,9 @@ export default {
             axios
             .get('./api/structures')
             .then(response => {
+                view.structures = view.specialStructures;
                 if(response.data.data.length > 0) {
-                    view.structures = response.data.data;
-                    view.structures = view.structures.concat(view.specialStructures);
+                    view.structures = view.structures.concat(response.data.data);
                     view.getInfoTexts();
                 }
             })
@@ -84,8 +84,8 @@ export default {
             .then(response => {
                 if(response.data.data.length > 0) {
                     view.infoTexts = response.data.data;
-                    view.setTextList();
                 }
+                view.setTextList();
             })
             .catch(error => {console.log(error);})
         },
@@ -113,7 +113,6 @@ export default {
         },
         createInfoText(listElement) {
             let view = this;
-
             axios
                 .post('./api/infotexts',{
                     structures_id: listElement.id,

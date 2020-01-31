@@ -7,10 +7,10 @@
         <div class="content-wrapper">
             <div class="content-container">
                 <div class="plan-content-tabs">
-                    <h3 :class="{ active: !toggle }" @click="toggle = false" class="plan-content-tab">
+                    <h3 :class="{ active: !toggle }" @click="toggle = false; setInfo({id: technicalStructuresId, name: technicalStructuresName});" class="plan-content-tab">
                         {{ technicalStructuresName }}
                     </h3>
-                    <h3 :class="{ active: toggle }" @click="toggle = true" class="plan-content-tab">
+                    <h3 :class="{ active: toggle }" @click="toggle = true; setInfo({id: didacticStructuresId, name: didacticStructuresName});" class="plan-content-tab">
                         {{ didacticStructuresName }}
                     </h3>
                     <div class="plan-content-analysis plan-content-analysis-technical" v-show="!toggle">
@@ -18,15 +18,10 @@
                             :element="elementTechnical"
                             v-for="elementTechnical in elementsTechnical"
                             :key="elementTechnical.id"
-                            @removeElement="updateElements"
-                            @changeElement="changeElement"
+                            :noRemove="true"
+                            @changeElement="changeElementTechnical"
                             @resetInfo="resetInfo"
                             @setInfo="setInfo"
-                        />
-                        <NoteElementAdder
-                            :structures_id="technicalStructuresId"
-                            :elementList="technicalStructures"
-                            @addElement="updateElements"
                         />
                     </div>
                     <div class="plan-content-analysis plan-content-analysis-didactic" v-show="toggle">
@@ -35,7 +30,7 @@
                             v-for="elementDidactic in elementsDidactic"
                             :key="elementDidactic.id"
                             @removeElement="updateElements"
-                            @changeElement="changeElement"
+                            @changeElement="changeElementDidactic"
                             @resetInfo="resetInfo"
                             @setInfo="setInfo"
                         />
@@ -115,20 +110,27 @@ export default {
         this.getContentStructures();
     },
     mounted() {
-        this.setInfo();
+        this.resetInfo();
     },
     methods: {
         updateElements() {
             this.getSubstructures();
         },
-        changeElement(changedElement) {
-            let element = this.elementsDidactic.find(x => x.attributes.id == changedElement.id);
+        changeElementTechnical(changedElement) {
+            let element = this.elementsTechnical.find(x => x.attributes.id == changedElement.id);
             element.attributes.text = changedElement.text;
             this.getElementsText('technical');
+        },
+        changeElementDidactic(changedElement) {
+            let element = this.elementsDidactic.find(x => x.attributes.id == changedElement.id);
+            element.attributes.text = changedElement.text;
             this.getElementsText('didactic');
         },
         getContentStructures() {
             let view = this;
+            this.elementsTechnical = [];
+            this.technicalStructures = [];
+
             axios
                 .get('./api/structures/4')
                 .then(function(response) {
@@ -137,10 +139,12 @@ export default {
                             view.contentStructures.push(struc.attributes);
                         });
                         view.technicalStructuresId = parseInt(view.contentStructures[0].id);
-                        view.didacticStructuresId = parseInt(view.contentStructures[1].id);
                         view.technicalStructuresName = view.contentStructures[0].name;
-                        view.didacticStructuresName = view.contentStructures[1].name;
+                        view.technicalStructures.push(response.data.data[0]);
+                        view.getTechnicalElement();
 
+                        view.didacticStructuresId = parseInt(view.contentStructures[1].id);
+                        view.didacticStructuresName = view.contentStructures[1].name;
                         view.getSubstructures();
                     }
                 })
@@ -148,26 +152,42 @@ export default {
                     console.log(error);
                 });
         },
+        getTechnicalElement() {
+            let view = this;
+
+            axios
+                .get('./api/textfields/' + view.plan.id + '/' + view.technicalStructuresId)
+                .then(response => {
+                    if(response.data.data.length > 0) {
+                        let element = response.data.data[0];
+                        element.name = view.technicalStructuresName;
+                        view.elementsTechnical.push(element);
+                        view.getElementsText('technical');
+                    } else {
+                        view.createTechnical();
+                    }
+                })
+                .catch(error => console.log(error));
+        },
+        createTechnical() {
+            let view = this;
+
+            axios
+                .post('./api/textfields', {
+                    plans_id: view.plan.id,
+                    structures_id: view.technicalStructuresId,
+                    text: ''
+                })
+                .then(response => {
+                    view.getTechnicalElement();
+                })
+                .catch(error => {console.log(error)})
+        },
         getSubstructures() {
             let view = this;
-            this.elementsTechnical = [];
             this.elementsDidactic = [];
-            this.technicalStructures = [];
             this.didacticStructures = [];
-            //get A
-            axios
-                .get('./api/structures/' + view.contentStructures[0].id)
-                .then(function(response) {
-                    view.technicalStructures = response.data.data;
-                    view.technicalStructures.forEach(function(element) {
-                        element.add = true;
-                    });
-                    view.getElements(view.technicalStructures, view.elementsTechnical, 'technical');
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-            //get B
+
             axios
                 .get('./api/structures/' + view.contentStructures[1].id)
                 .then(function(response) {
@@ -214,12 +234,12 @@ export default {
                     break;
                 case 'technical':
                     name = this.technicalStructuresName;
-                    //elementsList = this.elementsTechnical;
+                    elementsList = this.elementsTechnical;
                     break;
             }
             let text = '<h3>' + name + '</h3>';
             elementsList.forEach(element => {
-                text = text + '<h4>' + element.name + '</h4>';
+                if (type == 'didactic') {text = text + '<h4>' + element.name + '</h4>';}
                 text = text + '<p>' + element.attributes.text + '</p><br>';
             });
             if (type == 'didactic') {

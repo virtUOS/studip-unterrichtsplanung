@@ -12,7 +12,7 @@
                 <spinner :show="showSpinner" @done="showSpinner = false"/>
                 <span class="note-element-toolbar">
                     <button @click="copyElement" class="copy" title="Inhalt in die Zwischenablage kopieren"></button>
-                    <button @click="removeElement" class="remove" title="Textfeld löschen"></button>
+                    <button v-if="!noRemove" @click="removeElement" class="remove" title="Textfeld löschen"></button>
                 </span>
             </header>
             <textarea
@@ -39,7 +39,8 @@ export default {
         Spinner
     },
     props: {
-        element: Object
+        element: Object,
+        noRemove: Boolean
     },
     data() {
         return {

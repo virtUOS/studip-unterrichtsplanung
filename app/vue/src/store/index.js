@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     getters: {
         getInfoText: (state) => (id) => {
             let info = state.infos.find(x => x.attributes.structures_id == id);
-            if (info != undefined) {
+            if ((info != undefined) && (info.attributes.text != '')){
                 return info.attributes.text;
             } else {
                 return '<p class="infobox-nodata">Informationen konnten nicht geladen werden.</p>';
