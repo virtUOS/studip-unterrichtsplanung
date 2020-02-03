@@ -18,6 +18,10 @@ class Schedules extends UPMap
             'foreign_key' => 'plans_id'
         ];
 
+        $config['registered_callbacks']['after_create'][]  = 'updatePlan';
+        $config['registered_callbacks']['after_store'][]   = 'updatePlan';
+        $config['registered_callbacks']['before_delete'][] = 'updatePlan';
+
         parent::configure($config);
     }
 

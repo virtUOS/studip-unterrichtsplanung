@@ -31,4 +31,12 @@ class UPMap extends \SimpleORMap
 
         return parent::isFieldDirty($field);
     }
+
+    function updatePlan()
+    {
+        if ($this->plans->id) {
+            $this->plans->cbSetChdate();
+            $this->plans->store();
+        }
+    }
 }
