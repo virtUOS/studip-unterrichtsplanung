@@ -22,7 +22,7 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
 
         $main->addSubNavigation('index', $overview);
 
-        if ($GLOBALS['perm']->have_perm('admin')
+        if ($GLOBALS['perm']->have_perm('root')
             || \RolePersistence::isAssignedRole(
                 $GLOBALS['user']->user_id,
                 'Unterrichtsplanung_Admin'
