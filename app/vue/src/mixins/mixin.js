@@ -20,8 +20,12 @@ export default {
         },
         getFromatedDate(date) {
             const newDate = new Date(date);
+            let day = newDate.getDate();
+            let month = newDate.getMonth() + 1;
+            if (day < 10) {day = '0' + day;}
+            if (month < 10) {month = '0' + month;}
 
-            return newDate.getDate() + '.' + newDate.getMonth() + 1 + '.' + newDate.getFullYear();
+            return day + '.' + month + '.' + newDate.getFullYear();
         }
     }
 };
