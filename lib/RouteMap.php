@@ -70,7 +70,7 @@ class RouteMap
         $this->app->delete('/schedules/{id}', Routes\Schedules\SchedulesDelete::class);
 
         $this->app->get('/export/pdf/{plans_id}', Routes\Export\ExportPdf::class);
-        $this->app->get('/export/doc/{plans_id}', Routes\Export\ExportRtf::class);
+        $this->app->get('/export/doc/{plans_id}', Routes\Export\ExportDoc::class);
         $this->app->get('/export/plain/{plans_id}', Routes\Export\ExportText::class);
     }
 
