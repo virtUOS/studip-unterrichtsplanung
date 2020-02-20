@@ -18,6 +18,12 @@ class Summary extends UPMap
             'foreign_key' => 'plans_id'
         ];
 
+        $config['belongs_to']['structures'] = [
+            'class_name'  => Structures::class,
+            'foreign_key' => 'structures_id'
+        ];
+
+
         $config['registered_callbacks']['after_create'][]  = 'updatePlan';
         $config['registered_callbacks']['after_store'][]   = 'updatePlan';
         $config['registered_callbacks']['before_delete'][] = 'updatePlan';
