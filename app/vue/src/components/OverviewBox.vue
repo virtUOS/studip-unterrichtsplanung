@@ -2,7 +2,7 @@
     <router-link :to="'/plan/' + planId + '/' + catName" class="overview-box-link">
         <div class="overview-box" :class="catName">
             <h1>{{ title }}</h1>
-            <InterdepComputedBox :strucutres_id="strucutres_id" />
+            <InterdepComputedBox :structures_id="structures_id" />
         </div>
     </router-link>
 </template>
@@ -17,7 +17,7 @@ export default {
     props: {
         title: String,
         catName: String,
-        strucutres_id: Number,
+        structures_id: Number,
         planId: String
     }
 };

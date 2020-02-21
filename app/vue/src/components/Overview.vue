@@ -7,20 +7,20 @@
             <div class="overview-boxes">
                 <OverviewBox
                     :title="'situative Voraussetzungen'"
-                    :strucutres_id="1"
+                    :structures_id="1"
                     :catName="'situation'"
                     :planId="plan.id"
                 />
                 <OverviewBox
                     :title="'individuelle Voraussetzungen'"
-                    :strucutres_id="2"
+                    :structures_id="2"
                     :catName="'individual'"
                     :planId="plan.id"
                 />
-                <OverviewBox :title="'Intentionalität'" :strucutres_id="3" :catName="'intention'" :planId="plan.id" />
-                <OverviewBox :title="'Inhalt'" :strucutres_id="4" :catName="'content'" :planId="plan.id" />
-                <OverviewBox :title="'Methodik'" :strucutres_id="5" :catName="'method'" :planId="plan.id" />
-                <OverviewBox :title="'Medien'" :strucutres_id="6" :catName="'media'" :planId="plan.id" />
+                <OverviewBox :title="'Intentionalität'" :structures_id="3" :catName="'intention'" :planId="plan.id" />
+                <OverviewBox :title="'Inhalt'" :structures_id="4" :catName="'content'" :planId="plan.id" />
+                <OverviewBox :title="'Methodik'" :structures_id="5" :catName="'method'" :planId="plan.id" />
+                <OverviewBox :title="'Medien'" :structures_id="6" :catName="'media'" :planId="plan.id" />
             </div>
             <div class="box-wrapper">
                 <ToolBox />
@@ -48,6 +48,11 @@ export default {
             structureId: -3
         };
     },
+
+    mounted() {
+        this.$store.dispatch('interdeps', this.plan.id);
+    },
+
     computed: {
         plan() {
             return this.$store.state.plan;

@@ -28,7 +28,7 @@
                 ></Summary>
             </div>
             <div class="box-wrapper">
-                <InterdepBox :strucutres_id="structureId" :title="'Interdependenzen'" />
+                <InterdepBox :structures_id="structureId" :title="'Interdependenzen'" />
                 <InfoBox :structureId="infoBoxStructureId" :structureName="infoBoxStructureName" />
             </div>
         </div>

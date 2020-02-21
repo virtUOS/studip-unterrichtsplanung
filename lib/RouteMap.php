@@ -36,6 +36,7 @@ class RouteMap
         $this->app->post('/plans', Routes\Plans\PlansCreate::class);
         $this->app->put('/plans/{id}', Routes\Plans\PlansUpdate::class);
         $this->app->delete('/plans/{id}', Routes\Plans\PlansDelete::class);
+        $this->app->get('/plans/{id}/interdeps', Routes\Interdeps\InterdepsGetByPlanId::class);
         $this->app->get('/plans/{id}/textfields', Routes\Textfields\TextfieldsGetByPlansId::class);
         $this->app->get('/plans/{id}/schedules', Routes\Schedules\SchedulesGetByPlansId::class);
 
