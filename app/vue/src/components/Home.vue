@@ -38,7 +38,7 @@
                     <router-link to="/addplan/4"><p class="homebox-link">Fachdidaktik Geologie</p></router-link>
                 </div>
             </nav>
-            <InfoBox :structureId="structureId" :structureName="structureName" v-if="showInfobox"/>
+            <InfoBox :structureId="structureId" :structureName="structureName"/>
         </div>
     </div>
 </template>
@@ -47,6 +47,7 @@
 import InfoBox from './InfoBox.vue';
 import axios from 'axios';
 import mixin from './../mixins/mixin.js';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'Home',
@@ -54,46 +55,19 @@ export default {
     components: {
         InfoBox
     },
+    computed: {
+        ...mapGetters(['plans', 'infos'])
+    },
     data() {
         return {
-            plans: {},
             structureId: -1,
-            structureName: 'Auswählen oder Erstellen',
-            showInfobox: false
+            structureName: 'Auswählen oder Erstellen'
         };
     },
+
     mounted() {
-        this.getPlans();
-        this.getInfos();
-    },
-    methods: {
-        getPlans() {
-            let view = this;
-            axios
-                .get('./api/plans')
-                .then(function(response) {
-                    if (response.data.data) {
-                        view.plans = response.data.data;
-                    }
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
-        getInfos(){
-            let view = this;
-            axios
-                .get('./api/infotexts')
-                .then(response => {
-                    if (response.data.data.length > 0) {
-                        this.$store.state.infos = response.data.data;
-                        view.showInfobox = true;
-                    } else {
-                        this.$store.state.infos = [];
-                    }
-                })
-                .catch(error => console.log(error));
-        }
+        this.$store.dispatch('plans');
+        this.$store.dispatch('infos');
     }
 };
 </script>

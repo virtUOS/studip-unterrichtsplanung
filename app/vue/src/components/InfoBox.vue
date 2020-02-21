@@ -1,5 +1,5 @@
 <template>
-    <div class="infobox-wrapper">
+    <div class="infobox-wrapper" v-if="infoText">
         <h3 class="header" >{{ structureName }}</h3>
         <div class="infobox-content">
             <p v-html="infoText"></p>
@@ -9,28 +9,22 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 export default {
     props:{
         structureId: Number,
         structureName: String
     },
-    data() {
-        return {
-            infoText: ''
-        };
-    },
-    mounted() {
-        this.getInfoText();
-    },
-    watch: {
-        structureId() {
-            this.getInfoText();
-        }
-    },
-    methods: {
-        getInfoText() {
-            this.infoText = this.$store.getters.getInfoText(this.structureId);
+    computed: {
+        ...mapGetters(['infos']),
+        infoText() {
+            let info = this.infos.find(x => x.attributes.structures_id == this.structureId);
+            if ((info != undefined) && (info.attributes.text != '')) {
+                return info.attributes.text;
+            } else {
+                return false;
+            }
         }
     }
 };
