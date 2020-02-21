@@ -34,7 +34,7 @@
 
 /*************
 C O N T E N T
-*************/ 
+*************/
 .content-wrapper {
     display: flex;
 }
@@ -53,12 +53,11 @@ A D D P L A N
 .plan-metadata {
     width: 1148px;
     margin-right: 1em;
-    border: solid thin #d4dbe5;
 }
 .plan-metadata-header {
     margin: 0;
-    padding: 1em;
-    background-color: #e7ebf1;
+    padding: 1em 0em ! important;
+    line-height: 1em ! important;
 }
 .plan-metadata-fieldset {
     padding: 1em;
@@ -82,7 +81,7 @@ A D D P L A N
     font-size: 600;
 }
 .plan-error {
-    background-color: #fcc;
+    color: red;
 }
 
 /***************************
@@ -100,7 +99,7 @@ A D D N O T E E L E M E N T
     cursor: pointer;
     padding: 1em;
 }
-.add-note-icon { 
+.add-note-icon {
     background-image: url('../../../../../assets/images/icons/blue/add.svg');
     background-repeat: no-repeat;
     background-position: center center;
@@ -109,12 +108,12 @@ A D D N O T E E L E M E N T
     height: 32px;
     display: inline-block;
 }
-.add-note.active, 
+.add-note.active,
 .add-note:hover{
     border-right: none;
     background-color: #28497c;
 }
-.add-note.active .add-note-icon, 
+.add-note.active .add-note-icon,
 .add-note:hover .add-note-icon{
     background-image: url('../../../../../assets/images/icons/white/add.svg');
 }
@@ -126,7 +125,7 @@ A D D N O T E E L E M E N T
     margin-left: 1.5em;
     color: #28497c;
 }
-.add-note.active .add-note-text, 
+.add-note.active .add-note-text,
 .add-note:hover .add-note-text{
     color: #fff;
 }
@@ -310,14 +309,14 @@ I N T E N T I O N
 .target-wrapper.fine-target .note-element-char-counter {
     border: solid thin #d4dbe5;
     border-top: none;
-    margin-right: -2px; 
+    margin-right: -2px;
 }
 .target-metadata-box {
     padding: 0.5em;
     background-color: #d4dbe5;
     color: #28497c;
 }
-.target-wrapper.coarse-target .note-element-wrapper.unfolded, 
+.target-wrapper.coarse-target .note-element-wrapper.unfolded,
 .target-wrapper.fine-target .note-element-wrapper.unfolded {
     min-height: 310px;
 }
@@ -350,7 +349,7 @@ S U M M A R Y
     border: solid thin #d4dbe5;
     width: 416px;
     margin-right: 1em;
-    
+
 }
 .homebox-small {
     width: 416px;
@@ -591,7 +590,7 @@ S U M M A R Y
 C O N T E N T
 *************/
 .plan-content-tabs {
-    
+
     margin-right: 1em;
 }
 .plan-content-tabs .plan-content-tab{
@@ -638,7 +637,7 @@ button.button-remove:hover {
 /***************
 S C H E D U L E
 ***************/
-.schedule-table-wrapper { 
+.schedule-table-wrapper {
     margin-right: 1em;
 }
 .schedule-table {
@@ -709,10 +708,10 @@ S P I N N E R
     40% { -webkit-transform: scale(1.0) }
 }
 @keyframes sk-bouncedelay {
-    0%, 80%, 100% { 
+    0%, 80%, 100% {
       -webkit-transform: scale(0);
       transform: scale(0);
-    } 40% { 
+    } 40% {
       -webkit-transform: scale(1.0);
       transform: scale(1.0);
     }

@@ -5,7 +5,19 @@ import axios from 'axios';
 Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
-        plan: {},
+        plan: {
+            attributes: {
+                name: '',
+                metadata: {
+                    typeOfSchool: '',
+                    gradeLevel: '',
+                    subject: '',
+                    topic: '',
+                    date: '',
+                    time: ''
+                }
+            }
+        },
         infos: [],
         interdeps: {
             1: {2: false, 3: false, 4: false, 5: false, 6: false},
@@ -36,8 +48,20 @@ const store = new Vuex.Store({
         }
     },
 
+    mutations: {
+        plan: (state, newPlan) => {
+            state.plan = newPlan;
+        }
+    },
+
     actions: {
         interdeps (store, id) {
+            axios.get('./api/plans/' + id + '/interdeps').then(({ data }) => {
+                store.state.interdeps = data;
+            });
+        },
+
+        plan (store, id) {
             axios.get('./api/plans/' + id + '/interdeps').then(({ data }) => {
                 store.state.interdeps = data;
             });

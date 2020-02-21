@@ -1,53 +1,114 @@
 <template>
     <div class="edit-plan">
-        <h1>
-            <a href="#" @click="leave('/')"><span class="nav home"></span></a> / 
+        <h1 v-if="newplan">
+            <a href="#" @click="leave('/')"><span class="nav home"></span></a> / Plan hinzufügen
+        </h1>
+
+        <h1 v-else>
+            <a href="#" @click="leave('/')"><span class="nav home"></span></a> /
             <a href="#" @click="leave('/plan/' + $store.state.plan.id)">{{ this.$store.state.plan.attributes.name }} </a> / Plan bearbeiten
         </h1>
+
         <div class="content-wrapper">
             <div class="plan-metadata">
-                <h3 class="plan-metadata-header">{{ templatesName }}</h3>
-                <div class="plan-metadata-fieldset">
-                    <label for="planName">Plantitel:</label>
-                    <input type="text" name="planName" v-model="planName" @change="changed = true" :class="{'plan-error': errors.planName}"/>
-                    <span v-if="errors.planName">Bitte geben Sie einen Plantitel ein</span>
-                    <br />
+                <form class="default" @submit.prevent="storePlan">
 
-                    <label for="typeOfSchool">Schulform:</label>
-                    <input type="text" name="typeOfSchool" v-model="metadata.typeOfSchool" @change="changed = true" :class="{'plan-error': errors.typeOfSchool}"/>
-                    <span v-if="errors.typeOfSchool">Bitte geben Sie einen Schulform ein</span>
-                    <br />
+                    <fieldset>
+                        <legend class="plan-metadata-header" v-if="newplan">
+                            {{ getPlanTemplateName(this.$route.params.planType) }}
+                        </legend>
 
-                    <label for="gradeLevel">Klassenstufe:</label>
-                    <input type="text" name="gradeLevel" v-model="metadata.gradeLevel" @change="changed = true" :class="{'plan-error': errors.gradeLevel}"/>
-                    <span v-if="errors.gradeLevel">Bitte geben Sie eine Klassenstufe ein</span>
-                    <br />
+                        <legend class="plan-metadata-header" v-else>
+                            {{ templatesName }}
+                        </legend>
 
-                    <label for="subject">Fach:</label>
-                    <input type="text" name="subject" v-model="metadata.subject" @change="changed = true" :class="{'plan-error': errors.subject}"/>
-                    <span v-if="errors.subject">Bitte geben Sie das Fach ein</span>
-                    <br />
+                        <label>
+                            <span class="required">
+                                Plantitel
+                            </span>
 
-                    <label for="topic">Thema der Unterrichtsstunde:</label>
-                    <input type="text" name="topic" v-model="metadata.topic" @change="changed = true" :class="{'plan-error': errors.topic}"/>
-                    <span v-if="errors.topic">Bitte geben Sie das Thema der Unterrichtsstunde ein</span>
-                    <br />
 
-                    <label for="date">Datum:</label
-                    ><input type="date" name="date" v-model="metadata.date" @change="changed = true" :class="{'plan-error': errors.date}"/>
-                    <span v-if="errors.date">Bitte geben Sie ein Datum ein</span>
-                    <br />
+                            <input type="text" name="planName" v-model="planName" @change="changed = true"
+                                :class="{'invalid': errors.planName}"
+                            />
 
-                    <label for="time">Uhrzeit:</label>
-                    <input type="time" name="time" v-model="metadata.time" @change="changed = true" :class="{'plan-error': errors.time}"/>
-                    <span v-if="errors.time">Bitte geben Sie die Uhrzeit ein</span>
-                    <br />
-                </div>
-                <div class="plan-metadata-buttons">
-                    <button class="button accept" @click="storePlan">Plan speichern</button>
-                    <button class="button cancel" @click="leave('/plan/' + $store.state.plan.id)">zurück zur Planübersicht</button>
-                    <button class="button button-remove" @click="removePlan">Plan löschen</button>
-                </div>
+                            <span class="plan-error" v-if="errors.planName">Bitte geben Sie einen Plantitel ein.</span>
+                        </label>
+
+                        <label>
+                            <span class="required">
+                                Schulform
+                            </span>
+
+                            <input type="text" name="typeOfSchool" v-model="plan.attributes.metadata.typeOfSchool" @change="changed = true"
+                                :class="{'invalid': errors.typeOfSchool}"
+                            />
+                            <span class="plan-error" v-if="errors.typeOfSchool">Bitte geben Sie eine Schulform an.</span>
+                        </label>
+
+                        <label>
+                            <span class="required">
+                                Klassenstufe
+                            </span>
+
+                            <input type="text" name="gradeLevel" v-model="plan.attributes.metadata.gradeLevel" @change="changed = true"
+                                :class="{'invalid': errors.gradeLevel}"
+                            />
+                            <span class="plan-error" v-if="errors.gradeLevel">Bitte geben Sie die Klassenstufe an.</span>
+                        </label>
+
+                        <label>
+                            <span class="required">
+                                Fach
+                            </span>
+
+                            <input type="text" name="subject" v-model="plan.attributes.metadata.subject" @change="changed = true"
+                                :class="{'invalid': errors.subject}"
+                            />
+                            <span class="plan-error" v-if="errors.subject">Bitte geben Sie das Fach an.</span>
+                        </label>
+
+                        <label>
+                            <span class="required">
+                                Thema der Unterrichtsstunde
+                            </span>
+
+                            <input type="text" name="topic" v-model="plan.attributes.metadata.topic" @change="changed = true"
+                                :class="{'invalid': errors.topic}"
+                            />
+                            <span class="plan-error" v-if="errors.topic">Bitte geben Sie das Thema der Unterrichtsstunde ein.</span>
+                        </label>
+
+                        <label>
+                            <span class="required">
+                                Datum
+                            </span>
+
+                            <input type="date" name="date" v-model="plan.attributes.metadata.date" @change="changed = true"
+                                :class="{'invalid': errors.date}"
+                            />
+                            <span class="plan-error" v-if="errors.date">Bitte geben Sie ein Datum ein.</span>
+                        </label>
+
+                        <label>
+                            <span class="required">
+                                Uhrzeit
+                            </span>
+
+                            <input type="time" name="time" v-model="plan.attributes.metadata.time" @change="changed = true"
+                                :class="{'invalid': errors.time}"
+                            />
+                            <span class="plan-error" v-if="errors.time">Bitte geben Sie eine Uhrzeit ein.</span>
+                        </label>
+
+                    </fieldset>
+
+                    <footer class="plan-metadata-buttons">
+                        <button class="button accept">Plan speichern</button>
+                        <button class="button cancel" @click="leave('/plan/' + $store.state.plan.id)">zurück zur Planübersicht</button>
+                        <button class="button button-remove" @click="removePlan">Plan löschen</button>
+                    </footer>
+                </form>
             </div>
             <InfoBox :structureId="structureId" :structureName="structureName" />
         </div>
@@ -58,101 +119,144 @@
 import InfoBox from './InfoBox.vue';
 import axios from 'axios';
 import mixin from './../mixins/mixin.js';
+import { mapGetters } from 'vuex';
 
 export default {
-    name: 'AddPlan',
+    name: 'EditPlan',
     mixins: [mixin],
     components: {
         InfoBox
     },
+
+    computed: {
+        ...mapGetters(['plan'])
+    },
+
     data() {
         return {
-            errors: {planTitle: false, typeOfSchool: false, gradeLevel: false,  subject: false, topic: false, date: false, time: false},
-            metadata: {},
-            planName: '',
+            errors: {planName: false, typeOfSchool: false, gradeLevel: false,  subject: false, topic: false, date: false, time: false},
             templatesName: '',
+            planName: '',
             structureId: -4,
             structureName: 'Einen Plan bearbeiten',
-            changed: false
+            changed: false,
+            newplan: false,
+            origPlan: {}
         };
     },
+
     beforeMount() {
-        let plan = this.$store.state.plan;
-        if (plan.attributes != undefined) {
-                this.metadata = JSON.parse(plan.attributes.metadata);
-                this.planName = plan.attributes.name;
-                this.templatesName = this.getPlanTemplateName(plan.attributes.templates_id);
+        if (this.plan.attributes.id !== undefined) {
+            this.planName = this.plan.attributes.name;
+            this.templatesName = this.getPlanTemplateName(this.plan.attributes.templates_id);
+            this.origPlan = this.plan;
+            this.newplan = false;
+        } else {
+            this.newplan = true;
         }
     },
+
     watch:{
         metadata: {
             deep: true,
             handler(val) {
-                if(val.typeOfSchool.trim() != '') {this.errors.typeOfSchool = false;}
-                if(val.gradeLevel.trim() != '') {this.errors.gradeLevel = false;}
-                if(val.subject.trim() != '') {this.errors.subject = false;}
-                if(val.topic.trim() != '') {this.errors.topic = false;}
-                if(val.date.trim() != '') {this.errors.date = false;}
-                if(val.time.trim() != '') {this.errors.time = false;}
+                this.fieldsValid();
             }
         },
         planName: function(val) {
-            if(val.trim() != '') this.errors.planName = false;
+            if (val.trim() != '') this.errors.planName = false;
         }
     },
+
     methods: {
         storePlan: function() {
-            let error = false;
-            if (this.planName.trim() == '') { this.errors.planName = true; error = true}
-            if (this.metadata.typeOfSchool.trim() == '') { this.errors.typeOfSchool = true; error = true}
-            if (this.metadata.gradeLevel.trim() == '') { this.errors.gradeLevel = true; error = true}
-            if (this.metadata.subject.trim() == '') { this.errors.subject = true; error = true}
-            if (this.metadata.topic.trim() == '') { this.errors.topic = true; error = true}
-            if (this.metadata.date.trim() == '') { this.errors.date = true; error = true}
-            if (this.metadata.time.trim() == '') { this.errors.time = true; error = true}
+            if (this.newplan) {
+                return this.createPlan();
+            } else {
+                return this.putPlan();
+            }
+        },
 
-            if(error) {
+        fieldsValid: function() {
+
+            let myPlan = this.plan.attributes;
+
+            this.errors.planName     = this.planName.trim() == '';
+            this.errors.typeOfSchool = myPlan.metadata.typeOfSchool.trim() == '';
+            this.errors.gradeLevel   = myPlan.metadata.gradeLevel.trim() == '';
+            this.errors.subject      = myPlan.metadata.subject.trim() == '';
+            this.errors.topic        = myPlan.metadata.topic.trim() == '';
+            this.errors.date         = myPlan.metadata.date.trim() == '';
+            this.errors.time         = myPlan.metadata.time.trim() == '';
+
+            for (let elem in this.errors) {
+                if (this.errors[elem]) {
+                    // at least on field is invalid
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
+        createPlan: function() {
+            if (!this.fieldsValid()) {
                 return false;
             }
 
+            let myPlan = this.plan.attributes;
             let view = this;
+
             axios
-                .put('./api/plans/' + view.$store.state.plan.id, {
-                    templates_id: view.$store.state.plan.attributes.templates_id,
-                    name: view.planName,
-                    metadata: JSON.stringify(view.metadata)
+                .post('./api/plans', {
+                    templates_id: this.$route.params.planType,
+                    name: this.planName,
+                    metadata: JSON.stringify(myPlan.metadata)
                 })
-                .then(function() {
-                    view.reloadPlan();
-                    view.$router.push({ path: '/plan/' + view.$store.state.plan.id });
+                .then(function(response) {
+                    let planId = response.data.id;
+                    view.$router.push({ path: '/plan/' + planId });
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
         },
-        reloadPlan() {
+
+        putPlan: function() {
+            if (!this.fieldsValid()) {
+                return false;
+            }
+
+            let myPlan = this.plan.attributes;
             let view = this;
+
             axios
-                .get('./api/plans/' + view.$store.state.plan.id)
-                .then(response => {
-                    view.$store.state.plan = response.data;
+                .put('./api/plans/' + myPlan.id, {
+                    templates_id: myPlan.templates_id,
+                    name: this.planName,
+                    metadata: JSON.stringify(myPlan.metadata)
                 })
-                .catch(error => {
+                .then(function() {
+                    view.plan.attributes.name = view.planName;
+                    view.$router.push({ path: '/plan/' + myPlan.id });
+                })
+                .catch(function(error) {
                     console.log(error);
                 });
         },
+
         removePlan: function() {
-            let view = this;
             if (!confirm('Möchten Sie diesen Plan wirklich löschen?')) {
                 return;
             }
             axios
-                .delete('./api/plans/' + view.$store.state.plan.id)
+                .delete('./api/plans/' + this.plan.attributes.id)
                 .then(function() {
-                    view.$router.push({ path: '/' });
+                    this.$router.push({ path: '/' });
                 })
                 .catch(error => console.log(error));
         },
+
         leave(path) {
             if (this.changed) {
                 if (
@@ -160,6 +264,7 @@ export default {
                         'Möchten Sie das Bearbeiten wirklich verlassen? Ihre Änderungen werden nicht gespeichert.'
                     )
                 ) {
+                    this.$store.commit('plan', this.origPlan);
                     this.$router.push({ path: path });
                 }
             } else {

@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 import Home from './../components/Home.vue';
 import Plan from './../components/Plan.vue';
-import AddPlan from './../components/AddPlan.vue';
 import EditPlan from './../components/EditPlan.vue';
 import Overview from './../components/Overview.vue';
 import Situation from './../components/Situation.vue';
@@ -54,7 +53,7 @@ const routes = [
     },
     {
         path: '/addplan/:planType',
-        component: AddPlan
+        component: EditPlan
     },
     {
         path: '/editplan/:planId',
@@ -81,6 +80,7 @@ router.beforeEach((to, from, next) => {
                     plans.forEach(function(plan) {
                         if (to.params.planId == plan.id) {
                             store.state.plan = plan;
+                            store.state.plan.attributes.metadata = JSON.parse(store.state.plan.attributes.metadata);
                             return true;
                         }
                     });
@@ -101,7 +101,6 @@ router.beforeEach((to, from, next) => {
                 .catch(error => console.log(error));
         }
     } else {
-        store.state.plan = [];
         next();
     }
 });
