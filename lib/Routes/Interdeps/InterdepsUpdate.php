@@ -24,6 +24,12 @@ class InterdepsUpdate extends UnterrichtsplanungController
             $args['structures_id'], $args['plans_id']
         ]);
 
+        if (!$interdep) {
+            $interdep = new Interdeps;
+            $interdep->structures_id = $args['structures_id'];
+            $interdep->plans_id       = $args['plans_id'];
+        }
+
         if ($interdep) {
             if ($interdep->plans->user_id != $user->id) {
                 throw new Error('Access denied!', 403);

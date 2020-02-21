@@ -29,15 +29,23 @@ class InterdepsGetByPlanId extends UnterrichtsplanungController
             throw new Error('Access denied!', 403);
         }
 
+        $ret = [
+            1 => [2 => false, 3 => false, 4 => false, 5 => false, 6 => false],
+            2 => [1 => false, 3 => false, 4 => false, 5 => false, 6 => false],
+            3 => [1 => false, 2 => false, 4 => false, 5 => false, 6 => false],
+            4 => [1 => false, 2 => false, 3 => false, 5 => false, 6 => false],
+            5 => [1 => false, 2 => false, 3 => false, 4 => false, 6 => false],
+            6 => [1 => false, 2 => false, 3 => false, 4 => false, 5 => false]
+        ];
+
         if (!empty($interdeps)) {
-            $ret = [];
             foreach ($interdeps as $dep) {
                 $ret[$dep->structures_id] = json_decode($dep->references);
             }
 
             return $this->createResponse($ret, $response);
         } else {
-            $this->createResponse([], $response);
+            $this->createResponse($ret, $response);
         }
 
     }
