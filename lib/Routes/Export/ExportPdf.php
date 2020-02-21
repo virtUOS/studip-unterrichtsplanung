@@ -34,6 +34,33 @@ class ExportPdf extends UnterrichtsplanungController
             $document->addContent("\n");
         }
 
+        foreach ($plan->schedules as $sched) {
+            $schedule = json_decode($sched->content, true);
+            $document->writeHTML('<h2>Verlaufsplan</h2>');
+            $document->addContent("\n");
+
+            $html = '<table border="1" cellpadding="3">';
+            $html .= '<tr>'
+                . '<th width="12%" style="font-weight: bold">Zeit</th>'
+                . '<th width="22%" style="font-weight: bold">Phase</th>'
+                . '<th width="22%" style="font-weight: bold">Handlungsschritte</th>'
+                . '<th width="22%" style="font-weight: bold">Methodik</th>'
+                . '<th width="22%" style="font-weight: bold">Medien</th>'
+                . '</tr>';
+
+            foreach ($schedule as $entry) {
+                $html .= '<tr>';
+                foreach ($entry as $val) {
+
+                     $html .= '<td>'. $val .'</td>';
+                }
+                $html .= '</tr>';
+            }
+            $html .= '</table>';
+
+            $document->writeHTML($html);
+        }
+
         $document->dispatch('Unterrichtsplan_' . $plan->name);
         die;
     }

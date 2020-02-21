@@ -27,6 +27,8 @@ class ExportDoc extends UnterrichtsplanungController
             $html .= $entry['text'];
         }
 
+        $html .= '<h2>Verlaufsplan</h2>';
+
         // Creating the new document...
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $phpWord->setDefaultFontSize(12);
@@ -63,6 +65,35 @@ class ExportDoc extends UnterrichtsplanungController
         $section = $phpWord->addSection();
 
         \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
+
+
+        foreach ($plan->schedules as $sched) {
+            $tableStyle =[
+                'borderSize'  => 6,
+                'cellMargin'  => 50
+            ];
+
+            $table_header = ['bold' => true];
+
+            $phpWord->addTableStyle('verlaufsplan', $tableStyle);
+            $table = $section->addTable('verlaufsplan');
+
+            $schedule = json_decode($sched->content, true);
+
+            $table->addRow();
+            $table->addCell(1400)->addText('Zeit', $table_header);
+            $table->addCell(2150)->addText('Phase', $table_header);
+            $table->addCell(2150)->addText('Handlungsschritte', $table_header);
+            $table->addCell(2150)->addText('Methodik', $table_header);
+            $table->addCell(2150)->addText('Medien', $table_header);
+
+            foreach ($schedule as $entry) {
+                $table->addRow();
+                foreach ($entry as $val) {
+                     $table->addCell()->addText($val);
+                }
+            }
+        }
 
         // Saving the document as OOXML file...
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
