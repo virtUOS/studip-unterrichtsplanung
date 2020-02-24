@@ -30,13 +30,10 @@ export default {
             if (this.interdeps === undefined) {
                 return [];
             }
-            console.log('Current Box: ', this.structures_id);
 
             let interdeps = {};
 
             Object.keys(this.interdeps[this.structures_id]).forEach(struct_id => {
-                console.log(struct_id, this.interdeps[struct_id][this.structures_id] );
-
                 // check, if both ideps are true, only one of them or none
                 let idep_local  = this.interdeps[this.structures_id][struct_id];
                 let idep_remote = this.interdeps[struct_id][this.structures_id];
