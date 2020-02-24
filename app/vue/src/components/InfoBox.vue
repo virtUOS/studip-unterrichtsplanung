@@ -1,8 +1,9 @@
 <template>
-    <div class="infobox-wrapper" v-if="infoText">
+    <div class="infobox-wrapper">
         <h3 class="header" >{{ structureName }}</h3>
         <div class="infobox-content">
-            <p v-html="infoText"></p>
+            <p v-if="infoText" v-html="infoText"></p>
+            <p v-else class="infobox-nodata">Informationen konnten nicht geladen werden.</p>
         </div>
     </div>
 </template>
