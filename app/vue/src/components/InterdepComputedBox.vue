@@ -7,7 +7,7 @@
                     { 'interdep-disabled': value == false, 'interdep-pending': value == 'pending' },
                     'interdep-type-' + id
                 ]"
-                v-for="(value, id) in interdeps[structures_id]"
+                v-for="(value, id) in interdeps_computed"
                 :key="id"
             ></button>
         </div>
@@ -25,7 +25,35 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['interdeps', 'plan'])
+        ...mapGetters(['interdeps', 'plan']),
+        interdeps_computed() {
+            if (this.interdeps === undefined) {
+                return [];
+            }
+            console.log('Current Box: ', this.structures_id);
+
+            let interdeps = {};
+
+            Object.keys(this.interdeps[this.structures_id]).forEach(struct_id => {
+                console.log(struct_id, this.interdeps[struct_id][this.structures_id] );
+
+                // check, if both ideps are true, only one of them or none
+                let idep_local  = this.interdeps[this.structures_id][struct_id];
+                let idep_remote = this.interdeps[struct_id][this.structures_id];
+
+                if (idep_local && idep_remote) {
+                    interdeps[struct_id] = true;
+                } else if (idep_local || idep_remote) {
+                    interdeps[struct_id] = 'pending';
+                } else {
+                    interdeps[struct_id] = false;
+                }
+
+            });
+
+            return interdeps;
+
+        }
     }
 };
 </script>

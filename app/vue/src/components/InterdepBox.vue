@@ -24,7 +24,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['interdeps', 'plan']),
+        ...mapGetters(['interdeps', 'plan'])
     },
 
     mounted() {
