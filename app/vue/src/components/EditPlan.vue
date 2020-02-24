@@ -105,8 +105,9 @@
 
                     <footer class="plan-metadata-buttons">
                         <button class="button accept">Plan speichern</button>
-                        <button class="button cancel" @click="leave('/plan/' + $store.state.plan.id)">zurück zur Planübersicht</button>
-                        <button class="button button-remove" @click="removePlan">Plan löschen</button>
+                        <button v-if="!newplan" class="button cancel" @click="leave('/plan/' + $store.state.plan.id)">Abbrechen</button>
+                        <button v-if="!newplan" class="button button-remove" @click="removePlan">Plan löschen</button>
+                        <button v-if="newplan" class="button cancel" @click="leave('/')">zurück zur Planübersicht</button>
                     </footer>
                 </form>
             </div>
