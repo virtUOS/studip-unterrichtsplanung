@@ -40,7 +40,7 @@ export default {
 
                 if (idep_local && idep_remote) {
                     interdeps[struct_id] = true;
-                } else if (idep_local || idep_remote) {
+                } else if (idep_local && !idep_remote) {
                     interdeps[struct_id] = 'pending';
                 } else {
                     interdeps[struct_id] = false;
