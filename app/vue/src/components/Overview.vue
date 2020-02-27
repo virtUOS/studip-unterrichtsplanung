@@ -6,13 +6,13 @@
         <div class="content-wrapper">
             <div class="overview-boxes">
                 <OverviewBox
-                    :title="'situative Voraussetzungen'"
+                    :title="'Situative Voraussetzungen'"
                     :structures_id="1"
                     :catName="'situation'"
                     :planId="plan.id"
                 />
                 <OverviewBox
-                    :title="'individuelle Voraussetzungen'"
+                    :title="'Individuelle Voraussetzungen'"
                     :structures_id="2"
                     :catName="'individual'"
                     :planId="plan.id"
