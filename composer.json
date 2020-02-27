@@ -27,7 +27,7 @@
     },
     "scripts": {
         "zip": [
-            "zip -r unterrichtsplanung.zip *"
+            "composer install --no-dev && zip -r unterrichtsplanung.zip * -x app/vue/node_modules/**\\* tests/**\\*"
         ],
         "test": [
             "composer_modules/bin/codecept run api"
