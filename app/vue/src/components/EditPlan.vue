@@ -224,7 +224,7 @@ export default {
             axios
                 .post('./api/plans', {
                     templates_id: this.$route.params.planType,
-                    name: this.planName,
+                    name: view.planName,
                     metadata: JSON.stringify(myPlan.metadata)
                 })
                 .then(function(response) {
@@ -247,7 +247,7 @@ export default {
             axios
                 .put('./api/plans/' + myPlan.id, {
                     templates_id: myPlan.templates_id,
-                    name: this.planName,
+                    name: view.planName,
                     metadata: JSON.stringify(myPlan.metadata)
                 })
                 .then(function() {
@@ -260,13 +260,15 @@ export default {
         },
 
         removePlan: function() {
+            let view = this;
+
             if (!confirm('Möchten Sie diesen Plan wirklich löschen?')) {
                 return;
             }
             axios
                 .delete('./api/plans/' + this.plan.attributes.id)
                 .then(function() {
-                    this.$router.push({ path: '/' });
+                    view.$router.push({ path: '/' });
                 })
                 .catch(error => console.log(error));
         },
