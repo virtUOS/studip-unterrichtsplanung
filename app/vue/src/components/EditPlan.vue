@@ -125,12 +125,29 @@ import { mapGetters } from 'vuex';
 export default {
     name: 'EditPlan',
     mixins: [mixin],
+    props: ['newplan'],
     components: {
         InfoBox
     },
 
     computed: {
-        ...mapGetters(['plan'])
+        ...mapGetters(['plan']),
+
+        structureId() {
+            if (this.newplan) {
+                return -2;
+            }
+
+            return -4;
+        },
+
+        structureName() {
+            if (this.newplan) {
+                return 'Einen Plan erstellen';
+            }
+
+            return 'Einen Plan bearbeiten';
+        }
     },
 
     data() {
@@ -138,22 +155,18 @@ export default {
             errors: {planName: false, typeOfSchool: false, gradeLevel: false,  subject: false, topic: false, date: false, time: false},
             templatesName: '',
             planName: '',
-            structureId: -4,
-            structureName: 'Einen Plan bearbeiten',
             changed: false,
-            newplan: false,
             origPlan: {}
         };
     },
 
     beforeMount() {
-        if (this.plan.attributes.id !== undefined) {
+        if (this.newplan) {
+            this.$store.commit('clearPlan');
+        } else {
             this.planName = this.plan.attributes.name;
             this.templatesName = this.getPlanTemplateName(this.plan.attributes.templates_id);
             this.origPlan = this.plan;
-            this.newplan = false;
-        } else {
-            this.newplan = true;
         }
     },
 

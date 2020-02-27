@@ -53,11 +53,13 @@ const routes = [
     },
     {
         path: '/addplan/:planType',
-        component: EditPlan
+        component: EditPlan,
+        props: { newplan: true }
     },
     {
         path: '/editplan/:planId',
-        component: EditPlan
+        component: EditPlan,
+        props: { newplan: false }
     },
     {
         path: '/editschedule/:planId',

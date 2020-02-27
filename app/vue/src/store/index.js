@@ -51,6 +51,22 @@ const store = new Vuex.Store({
     mutations: {
         plan: (state, newPlan) => {
             state.plan = newPlan;
+        },
+
+        clearPlan: (state) => {
+            state.plan = {
+                attributes: {
+                    name: '',
+                    metadata: {
+                        typeOfSchool: '',
+                        gradeLevel: '',
+                        subject: '',
+                        topic: '',
+                        date: '',
+                        time: ''
+                    }
+                }
+            };
         }
     },
 
