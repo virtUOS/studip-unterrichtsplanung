@@ -2,7 +2,7 @@
     <div class="plan-situation">
         <h1>
             <router-link to="/"><span class="nav home"></span></router-link> /
-            <router-link :to="'/plan/' + plan.id">{{ plan.attributes.name }} </router-link> / situative Voraussetzungen
+            <router-link :to="'/plan/' + plan.id">{{ plan.attributes.name }} </router-link> / Situative Voraussetzungen
         </h1>
         <div class="content-wrapper">
             <div class="content-container">

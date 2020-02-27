@@ -3,10 +3,11 @@
         <h3 v-if="title" :class="['interdep-title-type-' + structures_id]">{{ title }}</h3>
         <div class="interdeps">
             <button
-                :class="[{ 'interdep-disabled': !value }, 'interdep-type-' + id]"
-                @click="switchInterdep(id, value)"
                 v-for="(value, id) in interdeps[structures_id]"
                 :key="id"
+                :class="[{ 'interdep-disabled': !value }, 'interdep-type-' + id]"
+                v-bind:title="getStructureName(id)"
+                @click="switchInterdep(id, value)"
             ></button>
         </div>
     </div>
@@ -44,6 +45,22 @@ export default {
                     console.log(error);
                     view.interdeps[this.structures_id][id] = !value;
                 });
+        },
+        getStructureName(id) {
+            switch (id) {
+                case '1':
+                    return 'Situative Voraussetzungen';
+                case '2':
+                    return 'Individuelle Voraussetzungen';
+                case '3':
+                    return 'Intentionalität';
+                case '4':
+                    return 'Inhalt';
+                case '5':
+                    return 'Methodik';
+                case '6':
+                    return 'Medien';
+            }
         }
     }
 };

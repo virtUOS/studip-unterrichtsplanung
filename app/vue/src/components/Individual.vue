@@ -2,7 +2,7 @@
     <div class="plan-individual">
         <h1>
             <router-link to="/"><span class="nav home"></span></router-link> /
-            <router-link :to="'/plan/' + plan.id">{{ plan.attributes.name }} </router-link> / individuelle
+            <router-link :to="'/plan/' + plan.id">{{ plan.attributes.name }} </router-link> / Individuelle
             Voraussetzungen
         </h1>
         <div class="content-wrapper">
