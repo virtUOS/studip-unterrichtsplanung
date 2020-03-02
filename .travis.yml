@@ -28,7 +28,7 @@ language: php
 
 cache:
   directories:
-    - $HOME/4.4
+    - $HOME/build/4.4
   apt: true
 
 services:
