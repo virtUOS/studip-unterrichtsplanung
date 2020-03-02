@@ -1,6 +1,6 @@
 <?php
 
 $GLOBALS['container'] = [
-    'USERNAME' => 'tester',
-    'PASSWORD' => 'tester'
+    'USERNAME' => 'root@studip',
+    'PASSWORD' => 'testing'
 ];

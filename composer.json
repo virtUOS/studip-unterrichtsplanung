@@ -30,7 +30,7 @@
             "composer install --no-dev && zip -r unterrichtsplanung.zip * -x app/vue/node_modules/**\\* -x app/vue/src/**\\* tests/**\\*"
         ],
         "test": [
-            "composer_modules/bin/codecept run api"
+            "composer install && composer_modules/bin/codecept run api"
         ]
     },
     "require-dev": {

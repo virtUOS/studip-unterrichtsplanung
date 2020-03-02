@@ -1,0 +1,37 @@
+# suite config
+suites:
+    api:
+        actor: ApiTester
+        path: .
+        modules:
+            enabled:
+                - Db:
+                    dsn: 'mysql:host=127.0.0.1;dbname=test'
+                    user: 'root'
+                    password: ''
+                    populate: false
+                    cleanup: false
+                    initial_queries:
+                        - 'TRUNCATE du_infotexts;'
+                        - 'TRUNCATE du_interdeps;'
+                        - 'TRUNCATE du_plans;'
+                        - 'TRUNCATE du_schedules;'
+                        - 'TRUNCATE du_structures;'
+                        - 'TRUNCATE du_summary;'
+                        - 'TRUNCATE du_templates;'
+                        - 'TRUNCATE du_textfields;'
+                - REST:
+                    url: http://localhost/public/plugins.php/unterrichtsplanung/api
+                    depends: PhpBrowser
+
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+
+settings:
+    shuffle: false
+    lint: true
+
+bootstrap: _bootstrap.php

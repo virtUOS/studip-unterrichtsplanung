@@ -1,0 +1,64 @@
+dist: bionic
+os: linux
+
+addons:
+  apt:
+    sources:
+      - ppa:ondrej/php
+      - ppa:ondrej/apache2
+    packages:
+      - apache2
+      - libapache2-mod-php7.2
+      - php-gettext
+      - php7.2-memcached
+      - php7.2-xdebug
+      - php7.2-mysql
+      - php7.2-curl
+      - php7.2-imagick
+      - php7.2-gd
+      - php7.2-zip
+      - php7.2-mbstring
+      - php7.2-xml
+      - php7.2-pgsql
+      - php7.2-xmlrpc
+      - php7.2-intl
+      - php7.2-soap
+
+language: php
+
+cache:
+  directories:
+    - $HOME/4.4
+  apt: true
+
+services:
+  - mysql
+
+jobs:
+  include:
+    - php: 7.2
+
+before_install:
+  - composer self-update
+
+install:
+  - composer install
+  - svn co svn://develop.studip.de/studip/branches/4.4 $HOME/build/4.4 --username studip --password studip  --non-interactive
+  - cp tests/build/config_local.inc.php $HOME/build/4.4/config
+  - cp $HOME/build/4.4/config/config.inc.php.dist $HOME/build/4.4/config/config.inc.php
+  - cp $HOME/build/4.4/config/.htaccess.dist $HOME/build/4.4/public/.htaccess
+  - mysql -u root < tests/build/studip.sql
+  - mysql -u root test < tests/build/plugin.sql
+  - mkdir -p $HOME/build/4.4/public/plugins_packages/elan-ev
+  - ln -sfn ../../../../virtUOS/studip-unterrichtsplanung $HOME/build/4.4/public/plugins_packages/elan-ev/Unterrichtsplanung
+
+before_script:
+  # configure apache virtual hosts
+  - sudo cp -f tests/build/travis-ci-apache /etc/apache2/sites-available/000-default.conf
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$HOME/build/4.4?g" --in-place /etc/apache2/sites-available/000-default.conf
+  - cat /etc/apache2/sites-available/000-default.conf
+  - sudo chmod +x $HOME
+  - sudo service apache2 restart
+
+script:
+  - composer_modules/bin/codecept run api

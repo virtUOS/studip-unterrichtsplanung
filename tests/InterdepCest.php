@@ -78,7 +78,7 @@ class InterdepCest
             'references'    => '{"1":true,"2":false}'
         ]);
 
-        $I->seeResponseCodeIs(404);
+        $I->seeResponseCodeIs(200);
     }
 
     public function editNonExistingPlan(ApiTester $I)
@@ -93,7 +93,7 @@ class InterdepCest
             'references'    => '{"1":true,"2":false}'
         ]);
 
-        $I->seeResponseCodeIs(404);
+        $I->seeResponseCodeIs(403);
     }
 
     public function edit(ApiTester $I)
