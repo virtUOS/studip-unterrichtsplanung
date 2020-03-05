@@ -48,7 +48,7 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
         $stmt->execute([self::rolename]);
 
         $role_id = $stmt->fetchColumn();
-        RolePersistence::assignPluginRoles($plugin_id, [$role_id]);
+        RolePersistence::assignPluginRoles($plugin_id, [$role_id, 7]);
     }
 
     /**
