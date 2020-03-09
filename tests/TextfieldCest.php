@@ -186,14 +186,13 @@ class TextfieldCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/palns/1/textfields/position', [
             'textfields' => [
-                'id'       => $textfield->id,
+                'id'       => $this->textfield['id'],
                 'position' => 99
             ],
             'plans_id'   => 1
         ]);
 
         $positions = json_decode($I->grabResponse());
-        var_dump($positions);
     }
 
     public function delete(ApiTester $I)
