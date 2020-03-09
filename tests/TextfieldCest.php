@@ -186,7 +186,7 @@ class TextfieldCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/palns/1/textfields/position', [
             'textfields' => [
-                'id'       => 1,
+                'id'       => $textfield->id,
                 'position' => 99
             ],
             'plans_id'   => 1
