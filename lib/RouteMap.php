@@ -39,6 +39,7 @@ class RouteMap
         $this->app->get('/plans/{id}/interdeps', Routes\Interdeps\InterdepsGetByPlanId::class);
         $this->app->get('/plans/{id}/textfields', Routes\Textfields\TextfieldsGetByPlansId::class);
         $this->app->get('/plans/{id}/schedules', Routes\Schedules\SchedulesGetByPlansId::class);
+        $this->app->post('/plans/{id}/textfields/positions', Routes\Textfields\TextfieldsSetPositions::class);
 
         $this->app->get('/templates', Routes\Templates\TemplatesList::class);
 

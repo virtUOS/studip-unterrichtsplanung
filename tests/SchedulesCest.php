@@ -34,6 +34,8 @@ class SchedulesCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJSON($expected);
+
+        $this->schedule = json_decode($I->grabResponse(), true);
     }
 
 
@@ -45,7 +47,7 @@ class SchedulesCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendGET('/schedules/1');
+        $I->sendGET('/schedules/' . $this->schedule['id']);
 
         $expected = [
             'content'  => 'Test 1',
@@ -66,7 +68,7 @@ class SchedulesCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/schedules/2', [
+        $I->sendPUT('/schedules/999', [
             'content'  => 'Test 2',
             'plans_id' => 1
         ]);
@@ -103,7 +105,7 @@ class SchedulesCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/schedules/1', $expected = [
+        $I->sendPUT('/schedules/' . $this->schedule['id'], $expected = [
             'content'  => 'Test 2',
             'plans_id' => 2
         ]);

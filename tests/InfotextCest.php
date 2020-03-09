@@ -8,23 +8,28 @@ class InfotextsCest
             $GLOBALS['container']['PASSWORD']
         );
 
-
+        // create template
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/infotexts', [
-            'structures_id' => 1,
-            'templates_id'  => 1,
-            'text'          => 'Test 1'
+        $I->sendPOST('/templates', [
+            'name'         => 'Test Infotext'
         ]);
 
-        $expected = [
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $this->template = json_decode($I->grabResponse(), true);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/infotexts', $expected = [
             'structures_id' => 1,
-            'templates_id'  => 1,
+            'templates_id'  => $this->template['id'],
             'text'          => 'Test 1'
-        ];
+        ]);
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJSON($expected);
+
+        $this->infotext = json_decode($I->grabResponse(), true);
 
         $I->sendGET('/infotexts');
         $I->seeResponseCodeIs(200);
@@ -40,9 +45,9 @@ class InfotextsCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/infotexts/2', [
+        $I->sendPUT('/infotexts/999', [
             'structures_id' => 2,
-            'templates_id'  => 2,
+            'templates_id'  => $this->template['id'],
             'text'          => 'Test 2'
         ]);
 
@@ -56,19 +61,13 @@ class InfotextsCest
             $GLOBALS['container']['PASSWORD']
         );
 
-
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/infotexts/1', [
+        $I->sendPUT('/infotexts/' . $this->infotext['id'], $expected = [
             'structures_id' => 2,
-            'templates_id'  => 2,
+            'templates_id'  => $this->template['id'],
             'text'          => 'Test 2'
         ]);
 
-        $expected = [
-            'structures_id' => 2,
-            'templates_id'  => 2,
-            'text'          => 'Test 2'
-        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
@@ -89,7 +88,7 @@ class InfotextsCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendDELETE('/infotexts/1');
+        $I->sendDELETE('/infotexts/' . $this->infotext['id']);
 
         $I->seeResponseCodeIs(200);
     }

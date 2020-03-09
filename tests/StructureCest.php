@@ -23,6 +23,8 @@ class StructureCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJSON($expected);
 
+        $this->structure = json_decode($I->grabResponse(), true);
+
         $I->sendGET('/structures');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
@@ -37,7 +39,7 @@ class StructureCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/structures/2', [
+        $I->sendPUT('/structures/999', [
             'name'     => 'Test 2',
         ]);
 
@@ -53,7 +55,7 @@ class StructureCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/structures/1', [
+        $I->sendPUT('/structures/' . $this->structure['id'], [
             'name'     => 'Test 2'
         ]);
 
@@ -82,7 +84,7 @@ class StructureCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/structures', [
             'name'         => 'Test 3',
-            'parent_id'    => 3
+            'parent_id'    => 999
         ]);
 
         $I->seeResponseCodeIs(404);
@@ -96,15 +98,10 @@ class StructureCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/structures', [
+        $I->sendPOST('/structures', $expected = [
             'name'         => 'Test 3',
-            'parent_id'    => 1
+            'parent_id'    => $this->structure['id']
         ]);
-
-        $expected = [
-            'parent_id' => 1,
-            'name'      => 'Test 3'
-        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
@@ -120,7 +117,7 @@ class StructureCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendDELETE('/structures/1');
+        $I->sendDELETE('/structures/' . $this->structure['id']);
 
         $I->seeResponseCodeIs(200);
     }

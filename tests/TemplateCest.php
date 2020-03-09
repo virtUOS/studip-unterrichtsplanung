@@ -10,17 +10,15 @@ class TemplateCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/templates', [
-            'name'         => 'Test 1'
-        ]);
-
-        $expected = [
+        $I->sendPOST('/templates', $expected = [
             'name' => 'Test 1'
-        ];
+        ]);
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJSON($expected);
+
+        $this->template = json_decode($I->grabResponse(), true);
 
         $I->sendGET('/templates');
         $I->seeResponseCodeIs(200);
@@ -36,7 +34,7 @@ class TemplateCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/templates/2', [
+        $I->sendPUT('/templates/999', [
             'name'     => 'Test 2',
         ]);
 
@@ -50,15 +48,10 @@ class TemplateCest
             $GLOBALS['container']['PASSWORD']
         );
 
-
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/templates/1', [
+        $I->sendPUT('/templates/' . $this->template['id'], $expected = [
             'name'     => 'Test 2'
         ]);
-
-        $expected = [
-            'name' => 'Test 2'
-        ];
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
@@ -79,7 +72,7 @@ class TemplateCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendDELETE('/templates/1');
+        $I->sendDELETE('/templates/' . $this->template['id']);
 
         $I->seeResponseCodeIs(200);
     }
