@@ -35,6 +35,8 @@ class SummaryCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJSON($expected);
+
+        $this->summary = json_decode($I->grabResponse(), true);
     }
 
 
@@ -46,7 +48,7 @@ class SummaryCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendGET('/summary/1');
+        $I->sendGET('/summary/' . $this->summary['id']);
 
         $expected = [
             'structures_id' => 1,
@@ -68,7 +70,7 @@ class SummaryCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/summary/2', [
+        $I->sendPUT('/summary/999', [
             'structures_id' => 2,
             'text'          => 'Test 2',
             'plans_id'       => 1
@@ -86,7 +88,7 @@ class SummaryCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/summary/1', $expected = [
+        $I->sendPUT('/summary/' . $this->summary['id'], $expected = [
             'structures_id' => 2,
             'text'          => 'Test 2',
             'plans_id'       => 2

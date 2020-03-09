@@ -35,6 +35,8 @@ class TextfieldCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJSON($expected);
+
+        $this->textfield = json_decode($I->grabResponse(), true);
     }
 
 
@@ -46,7 +48,7 @@ class TextfieldCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendGET('/textfields/1');
+        $I->sendGET('/textfields/'. $this->textfield['id']);
 
         $expected = [
             'structures_id' => 1,
@@ -68,7 +70,7 @@ class TextfieldCest
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/textfields/2', [
+        $I->sendPUT('/textfields/999', [
             'structures_id' => 2,
             'text'          => 'Test 2',
             'plans_id'       => 1
@@ -107,7 +109,7 @@ class TextfieldCest
 
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPUT('/textfields/1', $expected = [
+        $I->sendPUT('/textfields/' . $this->textfield['id'], $expected = [
             'structures_id' => 2,
             'text'          => 'Test 2',
             'plans_id'       => 2
@@ -172,6 +174,26 @@ class TextfieldCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJSON($expected);
+    }
+
+    public function setPositions(ApiTester $I)
+    {
+        $I->amHttpAuthenticated(
+            $GLOBALS['container']['USERNAME'],
+            $GLOBALS['container']['PASSWORD']
+        );
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/palns/1/textfields/position', [
+            'textfields' => [
+                'id'       => 1,
+                'position' => 99
+            ],
+            'plans_id'   => 1
+        ]);
+
+        $positions = json_decode($I->grabResponse());
+        var_dump($positions);
     }
 
     public function delete(ApiTester $I)

@@ -11,15 +11,6 @@ suites:
                     password: ''
                     populate: false
                     cleanup: false
-                    initial_queries:
-                        - 'TRUNCATE du_infotexts;'
-                        - 'TRUNCATE du_interdeps;'
-                        - 'TRUNCATE du_plans;'
-                        - 'TRUNCATE du_schedules;'
-                        - 'TRUNCATE du_structures;'
-                        - 'TRUNCATE du_summary;'
-                        - 'TRUNCATE du_templates;'
-                        - 'TRUNCATE du_textfields;'
                 - REST:
                     url: http://localhost/public/plugins.php/unterrichtsplanung/api
                     depends: PhpBrowser
