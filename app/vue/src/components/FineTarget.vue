@@ -78,7 +78,7 @@ export default {
             charCounter: 0,
             unfolded: true,
             showSpinner: false,
-            structures_id: 19,
+            structures_id: 22,
             dimension: '',
             level: '',
             elementName: 'Feinziel',

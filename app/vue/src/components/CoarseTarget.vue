@@ -80,7 +80,7 @@ export default {
             charCounter: 0,
             unfolded: true,
             showSpinner: false,
-            structures_id: 18,
+            structures_id: 21,
             currentFineTargets: [],
             fineTargets: [],
             dimension: '',

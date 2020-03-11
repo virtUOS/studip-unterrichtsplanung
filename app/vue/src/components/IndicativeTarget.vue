@@ -72,7 +72,7 @@ export default {
             charCounter: 0,
             unfolded: true,
             showSpinner: false,
-            structures_id: 17,
+            structures_id: 20,
             currentCoarseTargets: [],
             coarseTargets: [],
             elementName: 'Richtziel',
