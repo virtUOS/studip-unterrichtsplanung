@@ -161,7 +161,7 @@ export default {
         getCoarseTargets() {
             let view = this;
             axios
-                .get('./api/textfields/' + view.plan.id + '/18')
+                .get('./api/textfields/' + view.plan.id + '/21')
                 .then(function(response) {
                     if (response.data.data.length > 0) {
                         let elements = response.data;
@@ -191,7 +191,7 @@ export default {
 
             axios
                 .post('./api/textfields', {
-                    structures_id: 18,
+                    structures_id: 21,
                     text: '',
                     plans_id: view.$store.state.plan.id,
                     metadata: JSON.stringify(metadata)

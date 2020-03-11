@@ -91,7 +91,7 @@ export default {
             let view = this;
             view.elements = [];
             axios
-                .get('./api/textfields/' + view.plan.id + '/17')
+                .get('./api/textfields/' + view.plan.id + '/20')
                 .then(function(response) {
                     if (response.data.data.length > 0) {
                         let elements = response.data;
@@ -108,7 +108,7 @@ export default {
             let view = this;
             axios
                 .post('./api/textfields', {
-                    structures_id: 17,
+                    structures_id: 20,
                     text: '',
                     plans_id: view.$store.state.plan.id
                 })

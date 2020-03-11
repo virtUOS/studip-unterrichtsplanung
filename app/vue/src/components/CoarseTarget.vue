@@ -179,7 +179,7 @@ export default {
         getFineTargets() {
             let view = this;
             axios
-                .get('./api/textfields/' + view.plan.id + '/19')
+                .get('./api/textfields/' + view.plan.id + '/22')
                 .then(function(response) {
                     if (response.data.data.length > 0) {
                         let elements = response.data;
@@ -209,7 +209,7 @@ export default {
 
             axios
                 .post('./api/textfields', {
-                    structures_id: 19,
+                    structures_id: 22,
                     text: '',
                     plans_id: view.$store.state.plan.id,
                     metadata: JSON.stringify(metadata)
