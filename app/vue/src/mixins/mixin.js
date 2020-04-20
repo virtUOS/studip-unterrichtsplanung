@@ -4,16 +4,16 @@ export default {
             let fullText = '';
             switch (templates_id) {
                 case '1':
-                    fullText = 'Bildungswissenschaftlich';
+                    fullText = 'Allgemeindidaktisch';
                     break;
                 case '2':
-                    fullText = 'Fachdidaktik Mathematik';
+                    fullText = 'Mathematikdidaktisch';
                     break;
                 case '3':
-                    fullText = 'Fachdidaktik Sport';
+                    fullText = 'Sportdidaktisch';
                     break;
                 case '4':
-                    fullText = 'Fachdidaktik Geologie';
+                    fullText = 'Geographiedidaktisch';
                     break;
             }
             return fullText;

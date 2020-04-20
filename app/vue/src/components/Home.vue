@@ -32,10 +32,10 @@
             >
                 <header>Plan hinzufügen</header>
                 <div class="homebox-content">
-                    <router-link to="/addplan/1"><p class="homebox-link">Bildungswissenschaftlich</p></router-link>
-                    <router-link to="/addplan/2"><p class="homebox-link">Fachdidaktik Mathematik</p></router-link>
-                    <router-link to="/addplan/3"><p class="homebox-link">Fachdidaktik Sport</p></router-link>
-                    <router-link to="/addplan/4"><p class="homebox-link">Fachdidaktik Geologie</p></router-link>
+                    <router-link to="/addplan/1"><p class="homebox-link">{{getPlanTemplateName('1')}}</p></router-link>
+                    <router-link to="/addplan/2"><p class="homebox-link">{{getPlanTemplateName('2')}}</p></router-link>
+                    <router-link to="/addplan/3"><p class="homebox-link">{{getPlanTemplateName('3')}}</p></router-link>
+                    <router-link to="/addplan/4"><p class="homebox-link">{{getPlanTemplateName('4')}}</p></router-link>
                 </div>
             </nav>
             <InfoBox :structureId="structureId" :structureName="structureName"/>
