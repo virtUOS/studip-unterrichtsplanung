@@ -7,37 +7,38 @@
         <div class="content-wrapper">
             <div class="content-container">
                 <div class="plan-content-tabs">
-                    <h3 :class="{ active: !toggle }" @click="toggle = false; setInfo({id: technicalStructuresId, name: technicalStructuresName});" class="plan-content-tab">
-                        {{ technicalStructuresName }}
+                    <h3 :class="{ active: !toggle }" @click="toggle = false; setInfo({id: structureIdTechnical, name: technicalStructureName});" class="plan-content-tab">
+                            {{ technicalStructureName }}
                     </h3>
-                    <h3 :class="{ active: toggle }" @click="toggle = true; setInfo({id: didacticStructuresId, name: didacticStructuresName});" class="plan-content-tab">
-                        {{ didacticStructuresName }}
+                    <h3 :class="{ active: toggle }" @click="toggle = true; setInfo({id: structureIdDidactic, name: didacticStructureName});" class="plan-content-tab">
+                            {{ didacticStructureName }}
                     </h3>
                     <div class="plan-content-analysis plan-content-analysis-technical" v-show="!toggle">
                         <NoteElement
-                            :element="elementTechnical"
-                            v-for="elementTechnical in elementsTechnical"
-                            :key="elementTechnical.id"
+                            v-if="technicalElementLoaded"
+                            :element="technicalElement"
                             :noRemove="true"
-                            @changeElement="changeElementTechnical"
+                            @changeElement="changeTechnicalElement"
                             @resetInfo="resetInfo"
                             @setInfo="setInfo"
                         />
                     </div>
+
                     <div class="plan-content-analysis plan-content-analysis-didactic" v-show="toggle">
                         <NoteElement
-                            :element="elementDidactic"
-                            v-for="elementDidactic in elementsDidactic"
-                            :key="elementDidactic.id"
-                            @removeElement="updateElements"
-                            @changeElement="changeElementDidactic"
+                            v-for="element in didacticElements"
+                            :key="element.id"
+                            :element="element"
+                            @removeElement="updateDidacticElements"
+                            @changeElement="changeDidacticElement"
                             @resetInfo="resetInfo"
                             @setInfo="setInfo"
                         />
                         <NoteElementAdder
-                            :structures_id="didacticStructuresId"
-                            :elementList="didacticStructures"
-                            @addElement="updateElements"
+                            v-if="didacticInfoLoaded"
+                            :structures_id="structureIdDidactic"
+                            :elementList="didacticElementList"
+                            @addElement="updateDidacticElements"
                         />
                     </div>
                     <Summary
@@ -57,8 +58,8 @@
 
 <script>
 import axios from 'axios';
+import InterdepBox from './InterdepBox.vue';
 import InfoBox from './InfoBox.vue';
-import InterdepBox from './InterdepBox';
 import NoteElement from './NoteElement.vue';
 import NoteElementAdder from './NoteElementAdder.vue';
 import Summary from './Summary.vue';
@@ -74,23 +75,24 @@ export default {
     },
     data() {
         return {
-            toggle: false,
+            // get this from database
+            didacticElementList: [],
+            didacticElements: [],
+            technicalElement: {},
             structureName: 'Inhalt',
+            didacticStructureName: '',
+            technicalStructureName: '',
             structureId: 4,
-            elementsTechnical: [],
-            elementsDidactic: [],
-            contentStructures: [],
-            technicalStructures: [],
-            didacticStructures: [],
-            technicalStructuresId: Number,
-            didacticStructuresId: Number,
-            technicalStructuresName: '',
-            didacticStructuresName: '',
-            structureTextTechnical: '',
-            structureTextDidactic: '',
+            structureIdDidactic: '',
+            structureIdTechnical: '',
             structureText: '',
             infoBoxStructureId: 4,
-            infoBoxStructureName: ''
+            infoBoxStructureName: '',
+
+            contentStructures: [],
+            toggle: false,
+            didacticInfoLoaded: false,
+            technicalElementLoaded: false,
         };
     },
     computed: {
@@ -98,71 +100,100 @@ export default {
             return this.$store.state.plan;
         }
     },
-    watch: {
-        structureTextTechnical() {
-            this.structureText = this.structureTextTechnical + this.structureTextDidactic;
-        },
-        structureTextDidactic() {
-            this.structureText = this.structureTextTechnical + this.structureTextDidactic;
-        }
-    },
-    created() {
-        this.getContentStructures();
-    },
     mounted() {
+        this.getContentStructures();
         this.resetInfo();
     },
     methods: {
-        updateElements() {
-            this.getSubstructures();
+        updateDidacticElements() {
+            this.getDidacticStructures();
         },
-        changeElementTechnical(changedElement) {
-            let element = this.elementsTechnical.find(x => x.attributes.id == changedElement.id);
+        changeDidacticElement(changedElement) {
+            let element = this.didacticElements.find(x => x.attributes.id == changedElement.id);
             element.attributes.text = changedElement.text;
-            this.getElementsText('technical');
+            this.getElementsText();
         },
-        changeElementDidactic(changedElement) {
-            let element = this.elementsDidactic.find(x => x.attributes.id == changedElement.id);
-            element.attributes.text = changedElement.text;
-            this.getElementsText('didactic');
+        changeTechnicalElement(changedElement)  {
+            technicalElement.attributes.text = changedElement.text;
+            this.getElementsText();
         },
         getContentStructures() {
             let view = this;
-            this.elementsTechnical = [];
-            this.technicalStructures = [];
 
             axios
-                .get('./api/structures/4')
+                .get('./api/structures/' +  view.structureId)
                 .then(function(response) {
                     if (response.data.data) {
                         response.data.data.forEach(function(struc) {
                             view.contentStructures.push(struc.attributes);
                         });
-                        view.technicalStructuresId = parseInt(view.contentStructures[0].id);
-                        view.technicalStructuresName = view.contentStructures[0].name;
-                        view.technicalStructures.push(response.data.data[0]);
+                        view.structureIdTechnical = parseInt(view.contentStructures[0].id);
+                        view.technicalStructureName = view.contentStructures[0].name;
                         view.getTechnicalElement();
 
-                        view.didacticStructuresId = parseInt(view.contentStructures[1].id);
-                        view.didacticStructuresName = view.contentStructures[1].name;
-                        view.getSubstructures();
+                        view.structureIdDidactic = parseInt(view.contentStructures[1].id);
+                        view.didacticStructureName = view.contentStructures[1].name;
+                        view.didacticInfoLoaded = true;
+                        view.getDidacticStructures();
                     }
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
         },
+        getDidacticStructures() {
+            let view = this;
+            axios
+                .get('./api/structures/' + this.structureIdDidactic)
+                .then(function(response) {
+                    let elementList = response.data.data;
+                    elementList.forEach(function(element) {
+                        element.add = true;
+                    });
+                    view.didacticElementList = elementList;
+                    view.getDidacticElements();
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
+        getDidacticElements() {
+            let view = this;
+            let promises = [];
+            let elements = [];
+            this.didacticElementList.forEach(element =>
+                promises.push(axios.get('./api/textfields/' + view.plan.id + '/' + element.id))
+            );
+            axios.all(promises).then(results => {
+                results.forEach(response => {
+                    if (response.data.data.length > 0) {
+                        let element = response.data.data[0];
+                        let listElement = view.didacticElementList.find(x => x.id == element.attributes.structures_id);
+                        element.name = listElement.attributes.name;
+                        listElement.add = false;
+                        elements.push(element);
+                    }
+                });
+                elements.sort((a, b) => {
+                    if (a.attributes.id > b.attributes.id) return 1;
+                    if (b.attributes.id > a.attributes.id) return -1;
+                });
+                view.didacticElements = elements;
+                view.getElementsText();
+            });
+        },
         getTechnicalElement() {
             let view = this;
 
             axios
-                .get('./api/textfields/' + view.plan.id + '/' + view.technicalStructuresId)
+                .get('./api/textfields/' + view.plan.id + '/' + view.structureIdTechnical)
                 .then(response => {
                     if(response.data.data.length > 0) {
                         let element = response.data.data[0];
-                        element.name = view.technicalStructuresName;
-                        view.elementsTechnical.push(element);
-                        view.getElementsText('technical');
+                        element.name = view.technicalStructureName;
+                        view.technicalElement = element;
+                        view.technicalElementLoaded = true;
+                        view.getElementsText();
                     } else {
                         view.createTechnical();
                     }
@@ -175,7 +206,7 @@ export default {
             axios
                 .post('./api/textfields', {
                     plans_id: view.plan.id,
-                    structures_id: view.technicalStructuresId,
+                    structures_id: view.structureIdTechnical,
                     text: ''
                 })
                 .then(response => {
@@ -183,71 +214,20 @@ export default {
                 })
                 .catch(error => {console.log(error)})
         },
-        getSubstructures() {
-            let view = this;
-            this.elementsDidactic = [];
-            this.didacticStructures = [];
+        getElementsText() {
+            let text = '';
 
-            axios
-                .get('./api/structures/' + view.contentStructures[1].id)
-                .then(function(response) {
-                    view.didacticStructures = response.data.data;
-                    view.didacticStructures.forEach(function(element) {
-                        element.add = true;
-                    });
-                    view.getElements(view.didacticStructures, view.elementsDidactic, 'didactic');
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
-        getElements(structuresList, elementsList, type) {
-            let view = this;
-            let promises = [];
-            structuresList.forEach(element =>
-                promises.push(axios.get('./api/textfields/' + view.plan.id + '/' + element.id))
-            );
-            axios.all(promises).then(results => {
-                results.forEach(response => {
-                    if (response.data.data.length > 0) {
-                        let element = response.data.data[0];
-                        let listElement = structuresList.find(x => x.id == element.attributes.structures_id);
-                        element.name = listElement.attributes.name;
-                        listElement.add = false;
-                        elementsList.push(element);
-                    }
-                });
-                elementsList.sort((a, b) => {
-                    if (a.attributes.id > b.attributes.id) return 1;
-                    if (b.attributes.id > a.attributes.id) return -1;
-                });
-                view.getElementsText(type);
-            });
-        },
-        getElementsText(type) {
-            let name = '';
-            let elementsList = [];
-            switch (type) {
-                case 'didactic':
-                    name = this.didacticStructuresName;
-                    elementsList = this.elementsDidactic;
-                    break;
-                case 'technical':
-                    name = this.technicalStructuresName;
-                    elementsList = this.elementsTechnical;
-                    break;
-            }
-            let text = '<h3>' + name + '</h3>';
-            elementsList.forEach(element => {
-                if (type == 'didactic') {text = text + '<h4>' + element.name + '</h4>';}
+            text = text + '<h3>' + this.technicalElement.name + '</h3>';
+            text = text + '<p>' + this.technicalElement.attributes.text + '</p><br>';
+
+            text = text + '<h3>' +  this.didacticStructureName + '</h3>';
+
+            this.didacticElements.forEach(element => {
+                text = text + '<h4>' + element.name + '</h4>';
                 text = text + '<p>' + element.attributes.text + '</p><br>';
             });
-            if (type == 'didactic') {
-                this.structureTextDidactic = text;
-            }
-            if (type == 'technical') {
-                this.structureTextTechnical = text;
-            }
+
+            this.structureText = text;
         },
         resetInfo() {
             this.infoBoxStructureId = this.structureId;
