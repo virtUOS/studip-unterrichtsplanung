@@ -19,9 +19,9 @@ class TextfieldsSetPositions extends UnterrichtsplanungController
     {
         global $user;
 
-        $json = $this->getRequestData($request, ['textfields']);
+        $json = $this->getRequestData($request, ['textfields', 'plans_id']);
 
-        $plan = Plans::find($args['id']);
+        $plan = Plans::find($json['plans_id']);
 
         if ($plan->user_id != $user->id) {
             throw new Error('Access denied!', 403);
@@ -34,7 +34,7 @@ class TextfieldsSetPositions extends UnterrichtsplanungController
             $textfield = Textfields::find($field['id']);
 
             if ($textfield) {
-                if ($textfield->plans_id == $args['id']) {
+                if ($textfield->plans_id == $json['plans_id']) {
                     $textfield->position = $field['position'];
                     $textfield->store();
 

@@ -205,6 +205,30 @@ N O T E E L E M E N T
     vertical-align: top;
     cursor: pointer;
 }
+.note-element .note-element-title .note-element-toolbar .lower {
+    display: inline-block;
+    border: none;
+    height: 24px;
+    width: 24px;
+    background-color: transparent;
+    background-image: url('../../../../../assets/images/icons/yellow/arr_2down.svg');
+    background-repeat: no-repeat;
+    background-size: 20px;
+    vertical-align: top;
+    cursor: pointer;
+}
+.note-element .note-element-title .note-element-toolbar .raise {
+    display: inline-block;
+    border: none;
+    height: 24px;
+    width: 24px;
+    background-color: transparent;
+    background-image: url('../../../../../assets/images/icons/yellow/arr_2up.svg');
+    background-repeat: no-repeat;
+    background-size: 20px;
+    vertical-align: top;
+    cursor: pointer;
+}
 .note-element-toggle {
     padding-left: 2em;
 }

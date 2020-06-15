@@ -19,7 +19,7 @@ class TextfieldsCreate extends UnterrichtsplanungController
     {
         global $user;
 
-        $json = $this->getRequestData($request, ['structures_id', 'text', 'plans_id']);
+        $json = $this->getRequestData($request, ['structures_id', 'text', 'plans_id', 'position']);
 
         $plan = Plans::find($json['plans_id']);
 
@@ -31,7 +31,8 @@ class TextfieldsCreate extends UnterrichtsplanungController
             'structures_id' => $json['structures_id'],
             'text'          => $json['text'],
             'plans_id'      => $json['plans_id'],
-            'metadata'      => $json['metadata'] ?: null
+            'metadata'      => $json['metadata'] ?: null,
+            'position'      => $json['position']
         ]);
 
         return $this->createResponse($textfield->toArray(), $response);

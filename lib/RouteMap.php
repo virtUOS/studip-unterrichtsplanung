@@ -57,6 +57,7 @@ class RouteMap
         $this->app->get('/textfields/{id}', Routes\Textfields\TextfieldsGetById::class);
         $this->app->post('/textfields', Routes\Textfields\TextfieldsCreate::class);
         $this->app->put('/textfields/{id}', Routes\Textfields\TextfieldsUpdate::class);
+        $this->app->put('/textfields_position', Routes\Textfields\TextfieldsSetPositions::class);
         $this->app->delete('/textfields/{id}', Routes\Textfields\TextfieldsDelete::class);
         $this->app->get('/textfields/{plans_id}/{structures_id}', Routes\Textfields\TextfieldsGetByPlanAndStructureId::class);
 

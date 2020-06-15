@@ -17,6 +17,7 @@
                         <NoteElement
                             v-if="technicalElementLoaded"
                             :element="technicalElement"
+                            :elements="[technicalElement]"
                             :noRemove="true"
                             @changeElement="changeTechnicalElement"
                             @resetInfo="resetInfo"
@@ -29,15 +30,18 @@
                             v-for="element in didacticElements"
                             :key="element.id"
                             :element="element"
+                            :elements="didacticElements"
                             @removeElement="updateDidacticElements"
                             @changeElement="changeDidacticElement"
                             @resetInfo="resetInfo"
                             @setInfo="setInfo"
+                            @sortElements="updateDidacticElements"
                         />
                         <NoteElementAdder
                             v-if="didacticInfoLoaded"
                             :structures_id="structureIdDidactic"
                             :elementList="didacticElementList"
+                            :elements="didacticElements"
                             @addElement="updateDidacticElements"
                         />
                     </div>
@@ -174,13 +178,18 @@ export default {
                         elements.push(element);
                     }
                 });
-                elements.sort((a, b) => {
-                    if (a.attributes.id > b.attributes.id) return 1;
-                    if (b.attributes.id > a.attributes.id) return -1;
-                });
-                view.didacticElements = elements;
+
+                view.didacticElements = view.sortDidacticElements(elements);
                 view.getElementsText();
             });
+        },
+        sortDidacticElements(elements) {
+            elements.sort((a, b) => {
+                if (a.attributes.position > b.attributes.position) return 1;
+                if (b.attributes.position > a.attributes.position) return -1;
+            });
+
+            return elements;
         },
         getTechnicalElement() {
             let view = this;

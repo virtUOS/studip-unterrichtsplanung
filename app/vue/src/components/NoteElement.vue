@@ -11,6 +11,8 @@
                 </span>
                 <spinner :show="showSpinner" @done="showSpinner = false"/>
                 <span class="note-element-toolbar">
+                    <button v-if="!isLastElement" @click="lowerElement" class="lower" title="Element nach unten verschieben"></button>
+                    <button v-if="!isFirstElement" @click="raiseElement" class="raise" title="Element nach oben verschieben"></button>
                     <button @click="copyElement" class="copy" title="Inhalt in die Zwischenablage kopieren"></button>
                     <button v-if="!noRemove" @click="removeElement" class="remove" title="Textfeld löschen"></button>
                 </span>
@@ -40,6 +42,7 @@ export default {
     },
     props: {
         element: Object,
+        elements: Array,
         noRemove: Boolean
     },
     data() {
@@ -51,6 +54,15 @@ export default {
     },
     mounted() {
         this.countChars();
+    },
+    computed: {
+        isFirstElement() {
+            if (this.elements[0].id == this.element.id) {return true;} else {return false;}
+        },
+        isLastElement() {
+            let last = this.elements.length-1;
+            if (this.elements[last].id == this.element.id) {return true;} else {return false;}
+        }
     },
     methods: {
         autoSave: function() {
@@ -103,7 +115,90 @@ export default {
                     console.log(error);
                 }
             );
-        }
+        },
+        lowerElement() {
+            let view = this;
+            let textfields = [];
+            let currentPosition = parseInt(this.element.attributes.position);
+            let elementBelow = this.elements.find(item => item.attributes.position == currentPosition + 1);
+            if (elementBelow == undefined) {
+                let newPos = 0;
+                this.elements.forEach((item, index) => {
+                    let elem = {};
+                    elem.id = item.id;
+                    if(item.id == view.element.id) {
+                        elem.position = index + 1;
+                        newPos = index + 1;
+                    } else {
+                        if (index == newPos) {
+                            elem.position = index - 1;
+                        } else {
+                            elem.position = index;
+                        }
+                    }
+                    textfields.push(elem);
+                });
+            } else {
+                textfields.push({id: view.element.id, position: parseInt(this.element.attributes.position) + 1});
+                textfields.push({id: elementBelow.id, position: currentPosition});
+            }
+
+            axios
+                .put('./api/textfields_position', {
+                        textfields: textfields,
+                        plans_id:  this.$store.state.plan.id
+                    })
+                    .then(function() {
+                        view.$emit('sortElements');
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+
+        },
+        raiseElement() {
+            let view = this;
+            let textfields = [];
+            let currentPosition = parseInt(this.element.attributes.position);
+            let elementAbove = this.elements.find(item => item.attributes.position == currentPosition - 1);
+
+            if (elementAbove == undefined) {
+                let currentPos = 0;
+                this.elements.forEach((item, index) => {
+                    view.elements[index].position = index;
+                    if (item.id == view.element.id) {
+                        currentPos = index;
+                    }
+                });
+                this.elements.forEach((item, index) => {
+                    let elem = {};
+                    elem.id = item.id;
+                    elem.position = index;
+                    if (index == currentPos) {
+                        elem.position = index - 1;
+                    }
+                    if (index == currentPos -1) {
+                        elem.position = currentPos;
+                    }
+                    textfields.push(elem);
+                });
+            } else {
+                textfields.push({id: view.element.id, position: parseInt(this.element.attributes.position) - 1});
+                textfields.push({id: elementAbove.id, position: currentPosition});
+            }
+
+            axios
+                .put('./api/textfields_position', {
+                        textfields: textfields,
+                        plans_id:  this.$store.state.plan.id
+                    })
+                    .then(function() {
+                        view.$emit('sortElements');
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+        },
     }
 };
 </script>

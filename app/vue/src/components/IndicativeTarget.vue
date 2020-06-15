@@ -188,13 +188,20 @@ export default {
             let view = this;
             let metadata = {};
             metadata.parentId = this.element.id;
+            let pos = Math.max.apply(Math, view.currentCoarseTargets.map(element => {return element.attributes.position;}));
+            if(pos != -Infinity) {
+                pos = pos + 1;
+            } else {
+                pos = 0;
+            }
 
             axios
                 .post('./api/textfields', {
                     structures_id: 21,
                     text: '',
                     plans_id: view.$store.state.plan.id,
-                    metadata: JSON.stringify(metadata)
+                    metadata: JSON.stringify(metadata),
+                    position: pos.toString()
                 })
                 .then(function() {
                     view.updateElements();

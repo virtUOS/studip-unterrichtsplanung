@@ -24,6 +24,7 @@ export default {
     name: 'NoteElementAdder',
     props: {
         elementList: Array,
+        elements: Array,
         structures_id: Number
     },
     data() {
@@ -35,11 +36,18 @@ export default {
         addElement(element) {
             if (element.add) {
                 let view = this;
+                let pos = Math.max.apply(Math, view.elements.map(element => {return element.attributes.position;}));
+                if(pos != -Infinity) {
+                    pos = pos + 1;
+                } else {
+                    pos = 0;
+                }
                 axios
                     .post('./api/textfields', {
                         structures_id: element.id,
                         text: '',
-                        plans_id: view.$store.state.plan.id
+                        plans_id: view.$store.state.plan.id,
+                        position: pos.toString()
                     })
                     .then(function() {
                         view.$emit('addElement', element.id);

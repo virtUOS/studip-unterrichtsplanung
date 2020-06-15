@@ -8,17 +8,20 @@
         <div class="content-wrapper">
             <div class="content-container">
                 <NoteElement
-                    :element="element"
                     v-for="element in elements"
                     :key="element.id"
+                    :element="element"
+                    :elements="elements"
                     @removeElement="updateElements"
                     @changeElement="changeElement"
                     @resetInfo="resetInfo"
                     @setInfo="setInfo"
+                    @sortElements="updateElements"
                 />
                 <NoteElementAdder
                     :structures_id="structureId"
-                    :elementList="this.elementList"
+                    :elementList="elementList"
+                    :elements="elements"
                     @addElement="updateElements"
                 />
                 <Summary
@@ -114,11 +117,11 @@ export default {
                         elements.push(element);
                     }
                 });
-                elements.sort((a, b) => {
-                    if (a.attributes.id > b.attributes.id) return 1;
-                    if (b.attributes.id > a.attributes.id) return -1;
-                });
-                view.elements = elements;
+                // elements.sort((a, b) => {
+                //     if (a.attributes.id > b.attributes.id) return 1;
+                //     if (b.attributes.id > a.attributes.id) return -1;
+                // });
+                view.elements = view.sortElements(elements);
                 view.getElementsText();
             });
         },
@@ -137,6 +140,14 @@ export default {
         setInfo(data) {
             this.infoBoxStructureId = parseInt(data.id);
             this.infoBoxStructureName = data.name;
+        },
+        sortElements(elements) {
+            elements.sort((a, b) => {
+                if (a.attributes.position > b.attributes.position) return 1;
+                if (b.attributes.position > a.attributes.position) return -1;
+            });
+
+            return elements;
         }
     }
 };
