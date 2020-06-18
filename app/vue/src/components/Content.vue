@@ -118,7 +118,7 @@ export default {
             this.getElementsText();
         },
         changeTechnicalElement(changedElement)  {
-            technicalElement.attributes.text = changedElement.text;
+            this.technicalElement.attributes.text = changedElement.text;
             this.getElementsText();
         },
         getContentStructures() {
@@ -216,7 +216,8 @@ export default {
                 .post('./api/textfields', {
                     plans_id: view.plan.id,
                     structures_id: view.structureIdTechnical,
-                    text: ''
+                    text: '',
+                    position: 0
                 })
                 .then(response => {
                     view.getTechnicalElement();
@@ -225,10 +226,10 @@ export default {
         },
         getElementsText() {
             let text = '';
-
-            text = text + '<h3>' + this.technicalElement.name + '</h3>';
-            text = text + '<p>' + this.technicalElement.attributes.text + '</p><br>';
-
+            if(this.technicalElement.attributes) {
+                text = text + '<h3>' + this.technicalElement.name + '</h3>';
+                text = text + '<p>' + this.technicalElement.attributes.text + '</p><br>';
+            }
             text = text + '<h3>' +  this.didacticStructureName + '</h3>';
 
             this.didacticElements.forEach(element => {
