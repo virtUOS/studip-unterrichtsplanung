@@ -19,27 +19,7 @@ class ExportDoc extends UnterrichtsplanungController
     {
         $summaries = Summary::findBySQL('plans_id = ? ORDER BY structures_id ASC', [$args['plans_id']]);
         $plan      = Plans::find($args['plans_id']);
-
-        $html = '<h1>Unterrichtsplan: '. $plan->name .'</h1>';
-
-        $data = json_decode($plan->metadata, true);
-
-        $html .= '<p>';
-        $html .= '<b>Schulform:</b> '. $data['typeOfSchool'] . '<br/>';
-        $html .= '<b>Klassenstufe:</b> '. $data['gradeLevel'] . '<br/>';
-        $html .= '<b>Fach:</b> '. $data['subject'] . '<br/>';
-        $html .= '<b>Thema der Unterrichtsstunde:</b> '. $data['topic'] . '<br/>';
-        $html .= '<b>Datum und Uhrzeit:</b> '
-            . date('d.m.Y, H:i', strtotime($data['date'] .' '. $data['time']))
-            . ' Uhr<br/>';
-        $html .= '</p>';
-
-        foreach ($summaries as $entry) {
-            $html .= '<h2>'. ucfirst($entry->structures->name) .'</h2>';
-            $html .= $entry['text'];
-        }
-
-        $html .= '<h2>Verlaufsplan</h2>';
+        $data      = json_decode($plan->metadata, true);
 
         // Creating the new document...
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -76,7 +56,33 @@ class ExportDoc extends UnterrichtsplanungController
         // Adding an empty Section to the document...
         $section = $phpWord->addSection();
 
+        $html = '<h1>Unterrichtsplan: '. $plan->name .'</h1>';
+
+        $html .= '<p>';
+        $html .= '<b>Schulform:</b> '. $data['typeOfSchool'] . '<br/>';
+        $html .= '<b>Klassenstufe:</b> '. $data['gradeLevel'] . '<br/>';
+        $html .= '<b>Fach:</b> '. $data['subject'] . '<br/>';
+        $html .= '<b>Thema der Unterrichtsstunde:</b> '. $data['topic'] . '<br/>';
+        $html .= '<b>Datum und Uhrzeit:</b> '
+            . date('d.m.Y, H:i', strtotime($data['date'] .' '. $data['time']))
+            . ' Uhr<br/>';
+        $html .= '</p>';
+
         \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
+
+        foreach ($summaries as $entry) {
+            $section = $phpWord->addSection();
+            $html = '<h2>'. ucfirst($entry->structures->name) .'</h2>';
+            $html .= $entry['text'];
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
+        }
+
+        // add header for schedule
+        $html = '<h2>Verlaufsplan</h2>';
+
+        $section = $phpWord->addSection(['orientation' => 'landscape']);
+        \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
+
 
 
         foreach ($plan->schedules as $sched) {
@@ -94,10 +100,10 @@ class ExportDoc extends UnterrichtsplanungController
 
             $table->addRow();
             $table->addCell(1400)->addText('Zeit', $table_header);
-            $table->addCell(2150)->addText('Phase', $table_header);
-            $table->addCell(2150)->addText('Handlungsschritte', $table_header);
-            $table->addCell(2150)->addText('Methodik', $table_header);
-            $table->addCell(2150)->addText('Medien', $table_header);
+            $table->addCell(3100)->addText('Phase', $table_header);
+            $table->addCell(3100)->addText('Handlungsschritte', $table_header);
+            $table->addCell(3100)->addText('Methodik', $table_header);
+            $table->addCell(3100)->addText('Medien', $table_header);
 
             foreach ($schedule as $entry) {
                 $table->addRow();
