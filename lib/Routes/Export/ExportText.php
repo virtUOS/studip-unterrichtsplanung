@@ -21,28 +21,28 @@ class ExportText extends UnterrichtsplanungController
         $plan      = Plans::find($args['plans_id']);
         $breaks    = array("<br />","<br>","<br/>");
 
-        $text = 'Unterrichtsplan: '. $plan->name ."\n\n";
+        $text = 'Unterrichtsplan: '. $plan->name ."\r\n\r\n";
         $data = json_decode($plan->metadata, true);
 
-        $text .= 'Schulform: '. $data['typeOfSchool'] ."\n";
-        $text .= 'Klassenstufe: '. $data['gradeLevel'] ."\n";
-        $text .= 'Fach: '. $data['subject'] ."\n";
-        $text .= 'Thema der Unterrichtsstunde: '. $data['topic'] ."\n";
+        $text .= 'Schulform: '. $data['typeOfSchool'] ."\r\n";
+        $text .= 'Klassenstufe: '. $data['gradeLevel'] ."\r\n";
+        $text .= 'Fach: '. $data['subject'] ."\r\n";
+        $text .= 'Thema der Unterrichtsstunde: '. $data['topic'] ."\r\n";
         $text .= 'Datum und Uhrzeit: '
             . date('d.m.Y, H:i', strtotime($data['date'] .' '. $data['time']))
-            . ' Uhr' . "\n";
-        $text .= "\n";
+            . ' Uhr' . "\r\n";
+        $text .= "\r\n";
 
         foreach ($summaries as $entry) {
-            $text .= ucfirst($entry->structures->name) ."\n\n";
+            $text .= ucfirst($entry->structures->name) ."\r\n\r\n";
 
             $text .= html_entity_decode(
                 strip_tags(
-                    str_ireplace($breaks, "\n", $entry['text'])
+                    str_ireplace($breaks, "\r\n", $entry['text'])
                 )
             );
 
-            $text .= "\n";
+            $text .= "\r\n";
         }
 
         return $response->withHeader(
