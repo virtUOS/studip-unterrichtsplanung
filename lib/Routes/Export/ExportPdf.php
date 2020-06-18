@@ -39,17 +39,17 @@ class ExportPdf extends UnterrichtsplanungController
         $document->addContent("\n");
 
         foreach ($summaries as $entry) {
+            $document->addPage();
             $document->writeHTML('<h2>'. ucfirst($entry->structures->name) .'</h2>');
-            $document->addContent("\n");
 
             $document->writeHTML($entry['text']);
-            $document->addContent("\n");
         }
 
         foreach ($plan->schedules as $sched) {
             $schedule = json_decode($sched->content, true);
 
             if (!empty($schedule)) {
+                $document->addPage('L');
                 $document->writeHTML('<h2>Verlaufsplan</h2>');
                 $document->addContent("\n");
 
