@@ -27,6 +27,7 @@
     },
     "scripts": {
         "zip": [
+            "cd app/vue && npm install && npm run build",
             "composer install --no-dev && zip -r unterrichtsplanung.zip * -x app/vue/node_modules/**\\* -x app/vue/src/**\\* tests/**\\*"
         ],
         "test": [
