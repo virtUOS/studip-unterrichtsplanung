@@ -41,6 +41,8 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
             Navigation::addItem('/unterrichtsplanung', $main);
 
             require __DIR__.'/composer_modules/autoload.php';
+
+            PageLayout::setHelpKeyword('Basis/Unterrichtsplanung'); // Hilfeseite im Hilfewiki
         }
     }
 
