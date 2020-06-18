@@ -22,6 +22,16 @@ class ExportText extends UnterrichtsplanungController
         $breaks    = array("<br />","<br>","<br/>");
 
         $text = 'Unterrichtsplan: '. $plan->name ."\n\n";
+        $data = json_decode($plan->metadata, true);
+
+        $text .= 'Schulform: '. $data['typeOfSchool'] ."\n";
+        $text .= 'Klassenstufe: '. $data['gradeLevel'] ."\n";
+        $text .= 'Fach: '. $data['subject'] ."\n";
+        $text .= 'Thema der Unterrichtsstunde: '. $data['topic'] ."\n";
+        $text .= 'Datum und Uhrzeit: '
+            . date('d.m.Y, H:i', strtotime($data['date'] .' '. $data['time']))
+            . ' Uhr' . "\n";
+        $text .= "\n";
 
         foreach ($summaries as $entry) {
             $text .= ucfirst($entry->structures->name) ."\n\n";

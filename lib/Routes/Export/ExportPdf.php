@@ -26,6 +26,18 @@ class ExportPdf extends UnterrichtsplanungController
         $document->writeHTML('<h1>Unterrichtsplan: '. $plan->name .'</h1>');
         $document->addContent("\n");
 
+        $data = json_decode($plan->metadata, true);
+
+        $document->writeHTML('<b>Schulform:</b> '. $data['typeOfSchool']);
+        $document->writeHTML('<b>Klassenstufe:</b> '. $data['gradeLevel']);
+        $document->writeHTML('<b>Fach:</b> '. $data['subject']);
+        $document->writeHTML('<b>Thema der Unterrichtsstunde:</b> '. $data['topic']);
+        $document->writeHTML('<b>Datum und Uhrzeit:</b> '
+            . date('d.m.Y, H:i', strtotime($data['date'] .' '. $data['time']))
+            . ' Uhr'
+        );
+        $document->addContent("\n");
+
         foreach ($summaries as $entry) {
             $document->writeHTML('<h2>'. ucfirst($entry->structures->name) .'</h2>');
             $document->addContent("\n");
