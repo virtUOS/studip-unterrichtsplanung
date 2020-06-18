@@ -29,7 +29,8 @@ class TextfieldCest
         $I->sendPOST('/textfields', $expected = [
             'structures_id' => 1,
             'text'          => 'Test 1',
-            'plans_id'      => 1
+            'plans_id'      => 1,
+            'position'      => 1
         ]);
 
         $I->seeResponseCodeIs(200);
@@ -154,7 +155,8 @@ class TextfieldCest
             'structures_id' => 1,
             'text'          => 'Test Metadata',
             'plans_id'      => 1,
-            'metadata'      => 'Testdaten'
+            'metadata'      => 'Testdaten',
+            'position'      => 1
         ]);
 
         $textfield = json_decode($I->grabResponse());
@@ -206,7 +208,8 @@ class TextfieldCest
         $I->sendPOST('/textfields', [
             'structures_id' => 1,
             'text'          => 'Test 1',
-            'plans_id'      => 1
+            'plans_id'      => 1,
+            'position'      => 1
         ]);
 
         $textfield = json_decode($I->grabResponse());
