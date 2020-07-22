@@ -23,14 +23,14 @@ class AddStructuresData extends Migration
             (9, 1, 'Raum und Zeit'),
             (10, 1, 'Schule'),
             (11, 1, 'Lehrplanvorgaben'),
-            (12, 1, 'Lehrer*innen-Schüler*innen-Beziehung'),
+
             (13, 2, 'Vorwissen'),
             (14, 2, 'Motivation'),
             (15, 2, 'Interesse'),
-            (16, 2, 'Einstellungen'),
+
             (17, 2, 'Psychomotorische Lernvoraussetzungen'),
             (18, 2, 'Lern- und Arbeitsverhalten'),
-            (19, 2, 'Sozialverhalten'),
+
             (20, 3, 'Richtziel'),
             (21, 3, 'Grobziel'),
             (22, 3, 'Feinziel'),
@@ -40,9 +40,9 @@ class AddStructuresData extends Migration
             (26, 5, 'Mesoebene'),
             (27, 5, 'Mikroebene'),
             (28, 5, 'Aufgaben'),
-            (29, 6, 'Art der Sinneserfahrung'),
-            (30, 6, 'Funktion'),
-            (31, 6, 'Darstellungsform'),
+            (29, 6, 'Medienbeschreibung'),
+            (30, 6, 'Medienfunktionen'),
+
             (32, 24, 'Exemplarische Bedeutung'),
             (33, 24, 'Gegenwartsbedeutung'),
             (34, 24, 'Zukunftsbedeutung'),
