@@ -40,8 +40,6 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
 
             Navigation::addItem('/unterrichtsplanung', $main);
 
-            require __DIR__.'/composer_modules/autoload.php';
-
             PageLayout::setHelpKeyword('Basis/Unterrichtsplanung'); // Hilfeseite im Hilfewiki
         }
     }
@@ -62,6 +60,8 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
      */
     public function perform($unconsumedPath)
     {
+        require __DIR__.'/composer_modules/autoload.php';
+
         if (substr($unconsumedPath, 0, 3) == 'api') {
             $appFactory = new AppFactory();
             $app = $appFactory->makeApp($this);
