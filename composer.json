@@ -17,8 +17,7 @@
     },
     "require": {
         "guzzlehttp/psr7": "~1.6.1",
-        "slim/slim": "^3.12",
-        "phpoffice/phpword": "^0.17.0"
+        "slim/slim": "^3.12"
     },
     "autoload": {
         "psr-4": {
