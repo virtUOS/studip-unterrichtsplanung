@@ -82,8 +82,8 @@ export default {
             dimension: '',
             level: '',
             elementName: 'Feinziel',
-            kognitivLevels: ['Kennen', 'Verstehen', 'Anwenden', 'Analysieren', 'Synthetisieren', 'Beurteilen'],
-            affektivLevels: ['Aufmerksam werden', 'Reagieren', 'Wertung', 'Wertordnung', 'Wertverinnerlichung'],
+            kognitivLevels: ['Wissen', 'Verstehen', 'Anwenden', 'Analysieren', 'Synthetisieren', 'Evaluation'],
+            affektivLevels: ['Aufmerksamkeit', 'Reagieren', 'Werten', 'Wertordnung', 'Bestimmtsein durch Werte'],
             psychomotorischLevels: ['Imitation', 'Manipulation', 'Präzision', 'Handlungsgliederung', 'Neutralisierung']
         };
     },

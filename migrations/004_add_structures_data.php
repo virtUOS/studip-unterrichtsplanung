@@ -41,7 +41,7 @@ class AddStructuresData extends Migration
             (27, 5, 'Mikroebene'),
             (28, 5, 'Aufgaben'),
             (29, 6, 'Medienbeschreibung'),
-            (30, 6, 'Medienfunktionen'),
+            (30, 6, 'Medienfunktionen und -wirkungen'),
 
             (32, 24, 'Exemplarische Bedeutung'),
             (33, 24, 'Gegenwartsbedeutung'),
