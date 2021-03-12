@@ -140,7 +140,6 @@ export default {
         getElementsText() {
             let view = this;
             let text = '';
-            text = '<h2>' + this.structureName + '</h2>';
             this.elements.forEach(
                 element => (text = text + view.indicativeStructureTexts.find(x => x.id == element.id).text)
             );
