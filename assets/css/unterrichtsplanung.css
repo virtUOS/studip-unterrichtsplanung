@@ -278,6 +278,10 @@ N O T E E L E M E N T
     text-align: center;
 }
 
+.note-element .ckeplaceholder {
+    height: 0 !important;
+}
+
 
 /*****************
 I N T E N T I O N
