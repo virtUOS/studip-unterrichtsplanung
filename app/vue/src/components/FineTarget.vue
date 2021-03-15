@@ -23,27 +23,27 @@
                 <div class="target-metadata-box" v-show="unfolded">
                     <label for="dimension">Dimension</label>
                     <select name="dimension" v-model="dimension" @change="changeDimension">
-                        <option value="kognitiv">kognitiv</option>
-                        <option value="affektiv">affektiv</option>
-                        <option value="psychomotorisch">psychomotorisch</option>
+                        <option v-for="(dim, index) in dimensions" :key="index" :value="dim">{{ dim }}</option>
                     </select>
-                    <label for="level">Stufe</label>
-                    <select name="level" v-model="level" @change="autoSave">
-                        <option v-show="dimension == 'kognitiv'" v-for="val in kognitivLevels" :key="val" :value="val">
-                            {{ val }}
-                        </option>
-                        <option v-show="dimension == 'affektiv'" v-for="val in affektivLevels" :key="val" :value="val">
-                            {{ val }}
-                        </option>
-                        <option
-                            v-show="dimension == 'psychomotorisch'"
-                            v-for="val in psychomotorischLevels"
-                            :key="val"
-                            :value="val"
-                        >
-                            {{ val }}
-                        </option>
-                    </select>
+                    <span v-if="showSteps">
+                        <label for="level">Stufe</label>
+                        <select name="level" v-model="level" @change="autoSave">
+                            <option v-show="dimension == 'kognitiv'" v-for="val in kognitivLevels" :key="val" :value="val">
+                                {{ val }}
+                            </option>
+                            <option v-show="dimension == 'affektiv'" v-for="val in affektivLevels" :key="val" :value="val">
+                                {{ val }}
+                            </option>
+                            <option
+                                v-show="dimension == 'psychomotorisch'"
+                                v-for="val in psychomotorischLevels"
+                                :key="val"
+                                :value="val"
+                            >
+                                {{ val }}
+                            </option>
+                        </select>
+                    </span>
                 </div>
                 <textarea
                     ref="noteText"
@@ -99,6 +99,26 @@ export default {
         },
         metadata() {
             return JSON.parse(this.element.attributes.metadata);
+        },
+        showSteps() {
+            if(this.plan.attributes.templates_id == 3) { // 3 => Sport
+                return false;
+            } else if(this.dimension == undefined) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        dimensions() {
+            let dimensions = ['kognitiv', 'affektiv'];
+            if(this.plan.attributes.templates_id == 3) {
+                dimensions.push('motorisch');
+                dimensions.push('sozial');
+            } else {
+                dimensions.push('psychomotorisch');
+            }
+
+            return dimensions;
         }
     },
     methods: {

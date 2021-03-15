@@ -44,9 +44,11 @@ import InterdepBox from './InterdepBox';
 import NoteElement from './NoteElement.vue';
 import NoteElementAdder from './NoteElementAdder.vue';
 import Summary from './Summary.vue';
+import mixin from './../mixins/mixin.js';
 
 export default {
     name: 'Media',
+    mixins: [mixin],
     components: {
         InfoBox,
         InterdepBox,
@@ -59,7 +61,6 @@ export default {
             // get this from database
             elementList: [],
             elements: [],
-            structureName: 'Medien',
             structureId: 6,
             structureText: '',
             infoBoxStructureId: 6,
@@ -69,7 +70,14 @@ export default {
     computed: {
         plan() {
             return this.$store.state.plan;
-        }
+        },
+        structureName() {
+            if (this.plan.attributes.templates_id == 3) {
+                return 'Medien, Geräte und Materialien';
+            } else {
+                return 'Medien';
+            }
+        },
     },
     mounted() {
         this.getStructures();
@@ -90,9 +98,19 @@ export default {
                 .get('./api/structures/' + this.structureId)
                 .then(function(response) {
                     view.elementList = response.data.data;
-                    view.elementList.forEach(function(element) {
+                    view.elementList.forEach(element => {
                         element.add = true;
+                        element.attributes.name = view.getStructureName(element);
                     });
+                    if (view.plan.attributes.templates_id != 3) {
+                            view.elementList = view.elementList.filter(elem => {
+                                return elem.id != 36;
+                            })
+                    } else {
+                        view.elementList.sort((x,y) => {
+                            return x.id == 36 ? -1 : y.id  == 36 ? 1 : 0;
+                        });
+                    }
                     view.getElements();
                 })
                 .catch(function(error) {
@@ -111,7 +129,7 @@ export default {
                     if (response.data.data.length > 0) {
                         let element = response.data.data[0];
                         let listElement = view.elementList.find(x => x.id == element.attributes.structures_id);
-                        element.name = listElement.attributes.name;
+                        element.name = view.getStructureName(listElement);
                         listElement.add = false;
                         elements.push(element);
                     }

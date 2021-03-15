@@ -67,9 +67,11 @@ import InfoBox from './InfoBox.vue';
 import NoteElement from './NoteElement.vue';
 import NoteElementAdder from './NoteElementAdder.vue';
 import Summary from './Summary.vue';
+import mixin from './../mixins/mixin.js';
 
 export default {
     name: 'Content',
+    mixins: [mixin],
     components: {
         InfoBox,
         InterdepBox,

@@ -45,7 +45,6 @@
 
 <script>
 import InfoBox from './InfoBox.vue';
-import axios from 'axios';
 import mixin from './../mixins/mixin.js';
 import { mapGetters } from 'vuex';
 

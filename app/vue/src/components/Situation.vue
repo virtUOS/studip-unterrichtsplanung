@@ -44,9 +44,11 @@ import InfoBox from './InfoBox.vue';
 import NoteElement from './NoteElement.vue';
 import NoteElementAdder from './NoteElementAdder.vue';
 import Summary from './Summary.vue';
+import mixin from './../mixins/mixin.js';
 
 export default {
     name: 'Situation',
+    mixins: [mixin],
     components: {
         InfoBox,
         InterdepBox,
@@ -90,8 +92,9 @@ export default {
                 .get('./api/structures/' + this.structureId)
                 .then(function(response) {
                     let elementList = response.data.data;
-                    elementList.forEach(function(element) {
+                    elementList.forEach(element => {
                         element.add = true;
+                        element.attributes.name = view.getStructureName(element);
                     });
                     view.elementList = elementList;
                     view.getElements();
@@ -112,7 +115,7 @@ export default {
                     if (response.data.data.length > 0) {
                         let element = response.data.data[0];
                         let listElement = view.elementList.find(x => x.id == element.attributes.structures_id);
-                        element.name = listElement.attributes.name;
+                        element.name = view.getStructureName(listElement);
                         listElement.add = false;
                         elements.push(element);
                     }

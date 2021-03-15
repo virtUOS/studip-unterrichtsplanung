@@ -20,7 +20,7 @@
                 <OverviewBox :title="'Intentionalität'" :structures_id="3" :catName="'intention'" :planId="plan.id" />
                 <OverviewBox :title="'Inhalt'" :structures_id="4" :catName="'content'" :planId="plan.id" />
                 <OverviewBox :title="'Methodik'" :structures_id="5" :catName="'method'" :planId="plan.id" />
-                <OverviewBox :title="'Medien'" :structures_id="6" :catName="'media'" :planId="plan.id" />
+                <OverviewBox :title="structureNameMedia" :structures_id="6" :catName="'media'" :planId="plan.id" />
             </div>
             <div class="box-wrapper">
                 <ToolBox />
@@ -56,7 +56,14 @@ export default {
     computed: {
         plan() {
             return this.$store.state.plan;
-        }
+        },
+        structureNameMedia() {
+            if (this.plan.attributes.templates_id == 3) {
+                return 'Medien, Geräte und Materialien';
+            } else {
+                return 'Medien';
+            }
+        },
     }
 };
 </script>

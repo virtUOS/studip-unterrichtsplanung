@@ -23,9 +23,7 @@
                 <div class="target-metadata-box" v-show="unfolded">
                     <label for="dimension">Dimension</label>
                     <select name="dimension" v-model="dimension" @change="autoSave">
-                        <option value="kognitiv">kognitiv</option>
-                        <option value="affektiv">affektiv</option>
-                        <option value="psychomotorisch">psychomotorisch</option>
+                        <option v-for="(dim, index) in dimensions" :key="index" :value="dim">{{ dim }}</option>
                     </select>
                 </div>
                 <textarea
@@ -100,6 +98,17 @@ export default {
         },
         metadata() {
             return JSON.parse(this.element.attributes.metadata);
+        },
+        dimensions() {
+            let dimensions = ['kognitiv', 'affektiv'];
+            if(this.plan.attributes.templates_id == 3) {
+                dimensions.push('motorisch');
+                dimensions.push('sozial');
+            } else {
+                dimensions.push('psychomotorisch');
+            }
+
+            return dimensions;
         }
     },
     watch: {
