@@ -26,6 +26,7 @@
             </div>
             <div class="box-wrapper">
                 <InterdepBox :structures_id="structureId" :title="'Interdependenzen'" />
+                <ToolBox />
                 <InfoBox :structureId="infoBoxStructureId" :structureName="infoBoxStructureName" />
             </div>
         </div>
@@ -38,6 +39,7 @@ import InfoBox from './InfoBox.vue';
 import InterdepBox from './InterdepBox';
 import IndicativeTarget from './IndicativeTarget';
 import Summary from './Summary';
+import ToolBox from './ToolBox.vue';
 
 export default {
     name: 'Intention',
@@ -45,7 +47,8 @@ export default {
         InfoBox,
         InterdepBox,
         IndicativeTarget,
-        Summary
+        Summary,
+        ToolBox
     },
     data() {
         return {

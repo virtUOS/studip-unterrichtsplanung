@@ -32,6 +32,7 @@
             </div>
             <div class="box-wrapper">
                 <InterdepBox :structures_id="structureId" :title="'Interdependenzen'" />
+                <ToolBox />
                 <InfoBox :structureId="infoBoxStructureId" :structureName="infoBoxStructureName" />
             </div>
         </div>
@@ -46,6 +47,7 @@ import NoteElement from './NoteElement.vue';
 import NoteElementAdder from './NoteElementAdder.vue';
 import Summary from './Summary.vue';
 import mixin from './../mixins/mixin.js';
+import ToolBox from './ToolBox.vue';
 
 export default {
     name: 'Individual',
@@ -55,7 +57,8 @@ export default {
         InterdepBox,
         NoteElement,
         NoteElementAdder,
-        Summary
+        Summary,
+        ToolBox
     },
     data() {
         return {
