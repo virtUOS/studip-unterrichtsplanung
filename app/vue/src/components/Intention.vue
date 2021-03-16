@@ -26,6 +26,7 @@
             </div>
             <div class="box-wrapper">
                 <InterdepBox :structures_id="structureId" :title="'Interdependenzen'" />
+                <EmptyWarningBox v-if="showEmptyWarning" />
                 <ToolBox />
                 <InfoBox :structureId="infoBoxStructureId" :structureName="infoBoxStructureName" />
             </div>
@@ -40,6 +41,7 @@ import InterdepBox from './InterdepBox';
 import IndicativeTarget from './IndicativeTarget';
 import Summary from './Summary';
 import ToolBox from './ToolBox.vue';
+import EmptyWarningBox from './EmptyWarningBox.vue';
 
 export default {
     name: 'Intention',
@@ -48,7 +50,8 @@ export default {
         InterdepBox,
         IndicativeTarget,
         Summary,
-        ToolBox
+        ToolBox,
+        EmptyWarningBox
     },
     data() {
         return {
@@ -59,7 +62,8 @@ export default {
             structureText: '',
             indicativeStructureTexts: [],
             infoBoxStructureId: this.structureId,
-            infoBoxStructureName: this.structureName
+            infoBoxStructureName: this.structureName,
+            showEmptyWarning: false,
         };
     },
     computed: {
@@ -146,6 +150,11 @@ export default {
             this.elements.forEach(
                 element => (text = text + view.indicativeStructureTexts.find(x => x.id == element.id).text)
             );
+            if(text == '') {
+                this.showEmptyWarning = true;
+            } else {
+                this.showEmptyWarning = false;
+            }
             this.structureText = text;
         },
         resetInfo() {

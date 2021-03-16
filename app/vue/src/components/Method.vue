@@ -44,6 +44,7 @@
             </div>
             <div class="box-wrapper">
                 <InterdepBox :structures_id="structureId" :title="'Interdependenzen'" />
+                <EmptyWarningBox v-if="showEmptyWarning" />
                 <ToolBox />
                 <InfoBox :structureId="infoBoxStructureId" :structureName="infoBoxStructureName" />
             </div>
@@ -60,6 +61,7 @@ import NoteElementAdder from './NoteElementAdder.vue';
 import Summary from './Summary.vue';
 import mixin from './../mixins/mixin.js';
 import ToolBox from './ToolBox.vue';
+import EmptyWarningBox from './EmptyWarningBox.vue';
 
 export default {
     name: 'Method',
@@ -70,7 +72,8 @@ export default {
         NoteElement,
         NoteElementAdder,
         Summary,
-        ToolBox
+        ToolBox,
+        EmptyWarningBox
     },
     data() {
         return {
@@ -84,6 +87,7 @@ export default {
             infoBoxStructureId: 5,
             infoBoxStructureName: '',
             elementLoaded: false,
+            showEmptyWarning: false,
         };
     },
     computed: {
@@ -199,6 +203,11 @@ export default {
             } else {
                 text = text + '<h3>' + this.element.name + '</h3>';
                 text = text + '<p>' + this.element.attributes.text + '</p><br>';
+            }
+            if(text == '') {
+                this.showEmptyWarning = true;
+            } else {
+                this.showEmptyWarning = false;
             }
 
             this.structureText = text;

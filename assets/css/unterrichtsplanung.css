@@ -516,6 +516,33 @@ S U M M A R Y
     color: #ccc;
 }
 
+/*******************
+ W A R N I N G B O X
+ ******************/
+
+ .warningbox-wrapper {
+    width: 420px;
+    height: 120px;
+    border: solid thin #d60000;
+    margin-bottom: 1em;
+ }
+ .warningbox-wrapper h3 {
+    margin: 0;
+    padding: 1em 1em 1em 3em;
+    background-color: #d60000;;
+    background-repeat: no-repeat;
+    background-position: 1em center;
+    background-size: 24px;
+    color: #ffffff;
+}
+.warningbox-wrapper h3 {background-image: url('../../../../../assets/images/icons/white/exclaim-circle.svg');}
+
+.warningbox-content {
+    margin: 1em;
+    font-weight: 700;
+
+}
+
 
 /*********************
  I N T E R D E P B O X

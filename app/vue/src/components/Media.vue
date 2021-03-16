@@ -31,6 +31,7 @@
             </div>
             <div class="box-wrapper">
                 <InterdepBox :structures_id="structureId" :title="'Interdependenzen'" />
+                <EmptyWarningBox v-if="showEmptyWarning" />
                 <ToolBox />
                 <InfoBox :structureId="infoBoxStructureId" :structureName="infoBoxStructureName" />
             </div>
@@ -47,6 +48,7 @@ import NoteElementAdder from './NoteElementAdder.vue';
 import Summary from './Summary.vue';
 import mixin from './../mixins/mixin.js';
 import ToolBox from './ToolBox.vue';
+import EmptyWarningBox from './EmptyWarningBox.vue';
 
 export default {
     name: 'Media',
@@ -57,7 +59,8 @@ export default {
         NoteElement,
         NoteElementAdder,
         Summary,
-        ToolBox
+        ToolBox,
+        EmptyWarningBox
     },
     data() {
         return {
@@ -68,6 +71,7 @@ export default {
             structureText: '',
             infoBoxStructureId: 6,
             infoBoxStructureName: '',
+            showEmptyWarning: false,
         };
     },
     computed: {
@@ -151,6 +155,11 @@ export default {
                 text = text + '<h3>' + element.name + '</h3>';
                 text = text + '<p>' + element.attributes.text + '</p><br>';
             });
+            if(text == '') {
+                this.showEmptyWarning = true;
+            } else {
+                this.showEmptyWarning = false;
+            }
             this.structureText = text;
         },
         resetInfo() {
