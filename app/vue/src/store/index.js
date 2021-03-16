@@ -11,7 +11,9 @@ const store = new Vuex.Store({
                 metadata: {
                     typeOfSchool: '',
                     gradeLevel: '',
+                    numberOfPupils: '',
                     subject: '',
+                    lesson: '',
                     topic: '',
                     date: '',
                     time: ''
@@ -60,7 +62,9 @@ const store = new Vuex.Store({
                     metadata: {
                         typeOfSchool: '',
                         gradeLevel: '',
+                        numberOfPupils: '',
                         subject: '',
+                        lesson: '',
                         topic: '',
                         date: '',
                         time: ''

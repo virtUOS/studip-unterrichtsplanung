@@ -59,11 +59,33 @@
 
                         <label>
                             <span class="required">
+                                Anzahl Schüler*innen
+                            </span>
+
+                            <input type="number" min="1" name="numberOfPupils" v-model="plan.attributes.metadata.numberOfPupils" @change="changed = true"
+                                :class="{'invalid': errors.numberOfPupils}"
+                            />
+                            <span class="plan-error" v-if="errors.numberOfPupils">Bitte geben Sie die Anzahl an.</span>
+                        </label>
+
+                        <label>
+                            <span class="required">
                                 Fach
                             </span>
 
                             <input type="text" name="subject" v-model="plan.attributes.metadata.subject" @change="changed = true"
                                 :class="{'invalid': errors.subject}"
+                            />
+                            <span class="plan-error" v-if="errors.subject">Bitte geben Sie das Fach an.</span>
+                        </label>
+
+                        <label>
+                            <span class="required">
+                                Unterrichtseinheit
+                            </span>
+
+                            <input type="text" name="lesson" v-model="plan.attributes.metadata.lesson" @change="changed = true"
+                                :class="{'invalid': errors.lesson}"
                             />
                             <span class="plan-error" v-if="errors.subject">Bitte geben Sie das Fach an.</span>
                         </label>
@@ -152,7 +174,17 @@ export default {
 
     data() {
         return {
-            errors: {planName: false, typeOfSchool: false, gradeLevel: false,  subject: false, topic: false, date: false, time: false},
+            errors: {
+                planName: false,
+                typeOfSchool: false,
+                gradeLevel: false,
+                numberOfPupils: false,
+                subject: false,
+                lesson: false,
+                topic: false,
+                date: false,
+                time: false
+            },
             templatesName: '',
             planName: '',
             changed: false,
@@ -199,13 +231,15 @@ export default {
 
             let myPlan = this.plan.attributes;
 
-            this.errors.planName     = this.planName.trim() == '';
-            this.errors.typeOfSchool = myPlan.metadata.typeOfSchool.trim() == '';
-            this.errors.gradeLevel   = myPlan.metadata.gradeLevel.trim() == '';
-            this.errors.subject      = myPlan.metadata.subject.trim() == '';
-            this.errors.topic        = myPlan.metadata.topic.trim() == '';
-            this.errors.date         = myPlan.metadata.date.trim() == '';
-            this.errors.time         = myPlan.metadata.time.trim() == '';
+            this.errors.planName        = this.planName.trim() == '';
+            this.errors.typeOfSchool    = myPlan.metadata.typeOfSchool.trim() == '';
+            this.errors.gradeLevel      = myPlan.metadata.gradeLevel.trim() == '';
+            this.errors.numberOfPupils  = myPlan.metadata.numberOfPupils == undefined || myPlan.metadata.numberOfPupils.trim() == '';
+            this.errors.subject         = myPlan.metadata.subject.trim() == '';
+            this.errors.lesson          = myPlan.metadata.lesson == undefined || myPlan.metadata.lesson.trim() == '';
+            this.errors.topic           = myPlan.metadata.topic.trim() == '';
+            this.errors.date            = myPlan.metadata.date.trim() == '';
+            this.errors.time            = myPlan.metadata.time.trim() == '';
 
             for (let elem in this.errors) {
                 if (this.errors[elem]) {
