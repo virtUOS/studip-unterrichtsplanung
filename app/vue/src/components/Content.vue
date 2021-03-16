@@ -26,24 +26,37 @@
                     </div>
 
                     <div class="plan-content-analysis plan-content-analysis-didactic" v-show="toggle">
-                        <NoteElement
-                            v-for="element in didacticElements"
-                            :key="element.id"
-                            :element="element"
-                            :elements="didacticElements"
-                            @removeElement="updateDidacticElements"
-                            @changeElement="changeDidacticElement"
-                            @resetInfo="resetInfo"
-                            @setInfo="setInfo"
-                            @sortElements="updateDidacticElements"
-                        />
-                        <NoteElementAdder
-                            v-if="didacticInfoLoaded"
-                            :structures_id="structureIdDidactic"
-                            :elementList="didacticElementList"
-                            :elements="didacticElements"
-                            @addElement="updateDidacticElements"
-                        />
+                        <div v-if="hasMultipleDidacticElements">
+                            <NoteElement
+                                v-for="element in didacticElements"
+                                :key="element.id"
+                                :element="element"
+                                :elements="didacticElements"
+                                @removeElement="updateDidacticElements"
+                                @changeElement="changeDidacticElement"
+                                @resetInfo="resetInfo"
+                                @setInfo="setInfo"
+                                @sortElements="updateDidacticElements"
+                            />
+                            <NoteElementAdder
+                                v-if="didacticInfoLoaded"
+                                :structures_id="structureIdDidactic"
+                                :elementList="didacticElementList"
+                                :elements="didacticElements"
+                                @addElement="updateDidacticElements"
+                            />
+                        </div>
+                        <div v-else>
+                            <NoteElement
+                                v-if="didacticElementLoaded"
+                                :element="didacticElement"
+                                :elements="[didacticElement]"
+                                :noRemove="true"
+                                @changeElement="changeDidacticElement"
+                                @resetInfo="resetInfo"
+                                @setInfo="setInfo"
+                            />
+                        </div>
                     </div>
                     <Summary
                         :structureName="structureName"
@@ -84,6 +97,7 @@ export default {
             // get this from database
             didacticElementList: [],
             didacticElements: [],
+            didacticElement: {},
             technicalElement: {},
             structureName: 'Inhalt',
             didacticStructureName: '',
@@ -99,11 +113,20 @@ export default {
             toggle: false,
             didacticInfoLoaded: false,
             technicalElementLoaded: false,
+            didacticElementLoaded: false,
         };
     },
     computed: {
         plan() {
             return this.$store.state.plan;
+        },
+        hasMultipleDidacticElements() {
+            let template = this.plan.attributes.templates_id;
+            if (template == 2) { // Mathematik
+                return false;
+            } else {
+                return true;
+            }
         }
     },
     mounted() {
@@ -140,7 +163,12 @@ export default {
                         view.structureIdDidactic = parseInt(view.contentStructures[1].id);
                         view.didacticStructureName = view.contentStructures[1].name;
                         view.didacticInfoLoaded = true;
-                        view.getDidacticStructures();
+                        if(view.hasMultipleDidacticElements) {
+                            view.getDidacticStructures();
+                        } else {
+                            view.getDidacticElement();
+                        }
+                        
                     }
                 })
                 .catch(function(error) {
@@ -184,6 +212,39 @@ export default {
                 view.didacticElements = view.sortDidacticElements(elements);
                 view.getElementsText();
             });
+        },
+        getDidacticElement() {
+            let view = this;
+
+            axios
+                .get('./api/textfields/' + view.plan.id + '/' + view.structureIdDidactic)
+                .then(response => {
+                    if(response.data.data.length > 0) {
+                        let element = response.data.data[0];
+                        element.name = view.didacticStructureName;
+                        view.didacticElement = element;
+                        view.didacticElementLoaded = true;
+                        view.getElementsText();
+                    } else {
+                        view.createDidactical();
+                    }
+                })
+                .catch(error => console.log(error));
+        },
+        createDidactical() {
+            let view = this;
+
+            axios
+                .post('./api/textfields', {
+                    plans_id: view.plan.id,
+                    structures_id: view.structureIdDidactic,
+                    text: '',
+                    position: 0
+                })
+                .then(response => {
+                    view.getDidacticElement();
+                })
+                .catch(error => {console.log(error)})
         },
         sortDidacticElements(elements) {
             elements.sort((a, b) => {
@@ -232,12 +293,18 @@ export default {
                 text = text + '<h3>' + this.technicalElement.name + '</h3>';
                 text = text + '<p>' + this.technicalElement.attributes.text + '</p><br>';
             }
-            text = text + '<h3>' +  this.didacticStructureName + '</h3>';
+            if (this.hasMultipleDidacticElements) {
+                text = text + '<h3>' +  this.didacticStructureName + '</h3>';
 
-            this.didacticElements.forEach(element => {
-                text = text + '<h4>' + element.name + '</h4>';
-                text = text + '<p>' + element.attributes.text + '</p><br>';
-            });
+                this.didacticElements.forEach(element => {
+                    text = text + '<h4>' + element.name + '</h4>';
+                    text = text + '<p>' + element.attributes.text + '</p><br>';
+                });
+            } else {
+                text = text + '<h3>' + this.didacticElement.name + '</h3>';
+                text = text + '<p>' + this.didacticElement.attributes.text + '</p><br>';
+            }
+
 
             this.structureText = text;
         },

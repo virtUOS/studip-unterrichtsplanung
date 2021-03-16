@@ -6,23 +6,36 @@
         </h1>
         <div class="content-wrapper">
             <div class="content-container">
-                <NoteElement
-                    v-for="element in elements"
-                    :key="element.id"
-                    :element="element"
-                    :elements="elements"
-                    @removeElement="updateElements"
-                    @changeElement="changeElement"
-                    @resetInfo="resetInfo"
-                    @setInfo="setInfo"
-                    @sortElements="updateElements"
-                />
-                <NoteElementAdder
-                    :structures_id="structureId"
-                    :elementList="elementList"
-                    :elements="elements"
-                    @addElement="updateElements"
-                />
+                <div v-if="hasMultipleDidacticElements">
+                    <NoteElement
+                        v-for="element in elements"
+                        :key="element.id"
+                        :element="element"
+                        :elements="elements"
+                        @removeElement="updateElements"
+                        @changeElement="changeElement"
+                        @resetInfo="resetInfo"
+                        @setInfo="setInfo"
+                        @sortElements="updateElements"
+                    />
+                    <NoteElementAdder
+                        :structures_id="structureId"
+                        :elementList="elementList"
+                        :elements="elements"
+                        @addElement="updateElements"
+                    />
+                </div>
+                <div v-else>
+                    <NoteElement
+                        v-if="elementLoaded"
+                        :element="element"
+                        :elements="[element]"
+                        :noRemove="true"
+                        @changeElement="changeElement"
+                        @resetInfo="resetInfo"
+                        @setInfo="setInfo"
+                    />
+                </div>
                 <Summary
                     :structureName="structureName"
                     :structureId="structureId"
@@ -61,16 +74,26 @@ export default {
             // get this from database
             elementList: [],
             elements: [],
+            element: {},
             structureName: 'Methodik',
             structureId: 5,
             structureText: '',
             infoBoxStructureId: 5,
             infoBoxStructureName: '',
+            elementLoaded: false,
         };
     },
     computed: {
         plan() {
             return this.$store.state.plan;
+        },
+        hasMultipleDidacticElements() {
+            let template = this.plan.attributes.templates_id;
+            if (template == 2) { // Mathematik
+                return false;
+            } else {
+                return true;
+            }
         }
     },
     mounted() {
@@ -91,15 +114,24 @@ export default {
                         element.add = true;
                         element.attributes.name = view.getStructureName(element);
                     });
-                    view.getElements();
+                    if(view.hasMultipleDidacticElements) {
+                        view.getElements();
+                    } else {
+                        view.getElement();
+                    }
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
         },
         changeElement(changedElement) {
-            let element = this.elements.find(x => x.attributes.id == changedElement.id);
-            element.attributes.text = changedElement.text;
+            if (this.hasMultipleDidacticElements) {
+                let element = this.elements.find(x => x.attributes.id == changedElement.id);
+                element.attributes.text = changedElement.text;
+            } else {
+                this.element.attributes.text = changedElement.text;
+            }
+
             this.getElementsText();
         },
         getElements() {
@@ -123,12 +155,49 @@ export default {
                 view.getElementsText();
             });
         },
+        getElement() {
+            let view = this;
+            axios
+                .get('./api/textfields/' + view.plan.id + '/' + view.structureId)
+                .then(response => {
+                    if(response.data.data.length > 0) {
+                        let element = response.data.data[0];
+                        element.name = view.structureName;
+                        view.element = element;
+                        view.elementLoaded = true;
+                        view.getElementsText();
+                    } else {
+                        view.createElement();
+                    }
+                })
+                .catch(error => console.log(error));
+        },
+        createElement() {
+            let view = this;
+            axios
+                .post('./api/textfields', {
+                    plans_id: view.plan.id,
+                    structures_id: view.structureId,
+                    text: '',
+                    position: 0
+                })
+                .then(response => {
+                    view.getElement();
+                })
+                .catch(error => {console.log(error)})
+        },
         getElementsText() {
             let text = '';
-            this.elements.forEach(element => {
-                text = text + '<h3>' + element.name + '</h3>';
-                text = text + '<p>' + element.attributes.text + '</p><br>';
-            });
+            if(this.hasMultipleDidacticElements) {
+                this.elements.forEach(element => {
+                    text = text + '<h3>' + element.name + '</h3>';
+                    text = text + '<p>' + element.attributes.text + '</p><br>';
+                });
+            } else {
+                text = text + '<h3>' + this.element.name + '</h3>';
+                text = text + '<p>' + this.element.attributes.text + '</p><br>';
+            }
+
             this.structureText = text;
         },
         resetInfo() {
