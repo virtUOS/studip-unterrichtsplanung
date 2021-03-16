@@ -8,11 +8,27 @@
             <div class="schedule-table-wrapper">
                 <table class="schedule-table">
                     <tr>
-                        <th>Zeit</th>
-                        <th>Phase</th>
-                        <th>Handlungsschritte</th>
-                        <th>Methodik</th>
-                        <th>Medien</th>
+                        <th>
+                            <input type="text" v-model="colTitles.col0">
+                        </th>
+                        <th>
+                            <input type="text" v-model="colTitles.col1">
+                        </th>
+                        <th>
+                            <input type="text" v-model="colTitles.col2">
+                        </th>
+                        <th>
+                            <input type="text" v-model="colTitles.col3">
+                        </th>
+                        <th>
+                            <input type="text" v-model="colTitles.col4">
+                        </th>
+                        <th>
+                            <input type="text" v-model="colTitles.col5">
+                        </th>
+                        <th>
+                            <input type="text" v-model="colTitles.col6">
+                        </th>
                         <th class="schedule-header-row-remove"></th>
                     </tr>
                     <ScheduleRow
@@ -46,7 +62,8 @@ export default {
     data() {
         return {
             schedule: {},
-            rows: {},
+            rows: [],
+            colTitles: { col0: 'Zeit', col1: 'Phase', col2: 'Handlungsschritte', col3: 'Methodik', col4: 'Medien', col5: '', col6: '' },
             structureId: -5,
             structureName: 'Verlaufsplan',
             changed: false
@@ -72,7 +89,7 @@ export default {
             if (!isNaN(lastKey)) {
                 i = lastKey + 1;
             }
-            this.$set(this.rows, i, { time: '', phase: '', step: '', method: '', media: '' });
+            this.$set(this.rows, i, { col0: '', col1: '', col2: '', col3: '', col4: '', col5: '', col6: '' });
             this.changed = true;
         },
         removeRow(rowId) {
@@ -89,7 +106,12 @@ export default {
                     }
                     if (response.data.data.length > 0) {
                         view.schedule = response.data.data[0].attributes;
-                        view.rows = JSON.parse(view.schedule.content);
+                        let content = JSON.parse(view.schedule.content);
+                        if (content.titles != undefined) {
+                            view.colTitles = content.titles;
+                            delete content.titles;
+                        }
+                        view.rows = content;
                     }
                 })
                 .catch(error => {
@@ -112,7 +134,9 @@ export default {
         },
         storeSchedule() {
             let view = this;
-            let content = JSON.stringify(this.rows);
+            let content = this.rows;
+            content.titles = this.colTitles;
+            content = JSON.stringify(content);
             axios
                 .put('./api/schedules/' + view.schedule.id, {
                     content: content,

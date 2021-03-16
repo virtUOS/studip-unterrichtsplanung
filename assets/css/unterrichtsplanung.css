@@ -707,9 +707,18 @@ S C H E D U L E
     border: solid thin #d0d7e3;
     padding: 0.5em;
 }
-.schedule-table tr td input {
+.schedule-table tr th input,
+.schedule-table tr td textarea {
     border: none;
     width: -moz-available;
+}
+.schedule-table tr td textarea {
+    resize: none;
+    scrollbar-width: thin;
+    scrollbar-color: #28497c #fff;
+}
+.schedule-table tr th input {
+    font-weight: 700;
 }
 .schedule-table tr td.schedule-cell-row-remove {
     border: none;
