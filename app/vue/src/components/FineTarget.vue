@@ -101,7 +101,9 @@ export default {
             return JSON.parse(this.element.attributes.metadata);
         },
         showSteps() {
-            if(this.plan.attributes.templates_id == 3) { // 3 => Sport
+            let template = this.plan.attributes.templates_id;
+
+            if(template == 3 || template == 4) { // 3 => Sport; 4 => Geo
                 return false;
             } else if(this.dimension == undefined) {
                 return false;
@@ -111,9 +113,13 @@ export default {
         },
         dimensions() {
             let dimensions = ['kognitiv', 'affektiv'];
-            if(this.plan.attributes.templates_id == 3) {
+            let template = this.plan.attributes.templates_id;
+            if(template == 3) {
                 dimensions.push('motorisch');
                 dimensions.push('sozial');
+            } else if(template == 4) {
+                dimensions.push('instrumentell');
+                dimensions.push('aktional');
             } else {
                 dimensions.push('psychomotorisch');
             }
