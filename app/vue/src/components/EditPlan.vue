@@ -11,7 +11,7 @@
 
         <div class="content-wrapper">
             <div class="plan-metadata">
-                <form class="default" @submit.prevent="storePlan">
+                <form class="default" @submit.prevent="preventFormDefault">
 
                     <fieldset>
                         <legend class="plan-metadata-header" v-if="newplan">
@@ -104,7 +104,7 @@
                     </fieldset>
 
                     <footer class="plan-metadata-buttons">
-                        <button class="button accept">Plan speichern</button>
+                        <button class="button accept" @click="storePlan">Plan speichern</button>
                         <button v-if="!newplan" class="button cancel" @click="leave('/plan/' + $store.state.plan.id)">Abbrechen</button>
                         <button v-if="!newplan" class="button button-remove" @click="removePlan">Plan löschen</button>
                         <button v-if="newplan" class="button cancel" @click="leave('/')">zurück zur Planübersicht</button>
@@ -183,6 +183,10 @@ export default {
     },
 
     methods: {
+        preventFormDefault() {
+            // console.log('prevent default');
+        },
+
         storePlan: function() {
             if (this.newplan) {
                 return this.createPlan();
@@ -263,8 +267,9 @@ export default {
             let view = this;
 
             if (!confirm('Möchten Sie diesen Plan wirklich löschen?')) {
-                return;
+                return false;
             }
+
             axios
                 .delete('./api/plans/' + this.plan.attributes.id)
                 .then(function() {
