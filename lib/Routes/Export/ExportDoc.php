@@ -61,7 +61,9 @@ class ExportDoc extends UnterrichtsplanungController
         $html .= '<p>';
         $html .= '<b>Schulform:</b> '. $data['typeOfSchool'] . '<br/>';
         $html .= '<b>Klassenstufe:</b> '. $data['gradeLevel'] . '<br/>';
+        $html .= '<b>Anzahl Schüler*innen:</b> '. $data['numberOfPupils'] . '<br/>';
         $html .= '<b>Fach:</b> '. $data['subject'] . '<br/>';
+        $html .= '<b>Unterrichtseinheit:</b> '. $data['lesson'] . '<br/>';
         $html .= '<b>Thema der Unterrichtsstunde:</b> '. $data['topic'] . '<br/>';
         $html .= '<b>Datum und Uhrzeit:</b> '
             . date('d.m.Y, H:i', strtotime($data['date'] .' '. $data['time']))

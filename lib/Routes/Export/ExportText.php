@@ -26,7 +26,9 @@ class ExportText extends UnterrichtsplanungController
 
         $text .= 'Schulform: '. $data['typeOfSchool'] ."\r\n";
         $text .= 'Klassenstufe: '. $data['gradeLevel'] ."\r\n";
+        $text .= 'Anzahl Schüler*innen: '. $data['numberOfPupils'] ."\r\n";
         $text .= 'Fach: '. $data['subject'] ."\r\n";
+        $text .= 'Unterrichtseinheit: '. $data['lesson'] ."\r\n";
         $text .= 'Thema der Unterrichtsstunde: '. $data['topic'] ."\r\n";
         $text .= 'Datum und Uhrzeit: '
             . date('d.m.Y, H:i', strtotime($data['date'] .' '. $data['time']))
