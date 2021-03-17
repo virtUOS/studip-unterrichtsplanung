@@ -21,6 +21,8 @@ class ExportDoc extends UnterrichtsplanungController
         $plan      = Plans::find($args['plans_id']);
         $data      = json_decode($plan->metadata, true);
 
+        \PhpOffice\PhpWord\Settings::setOutputEscapingEnabled(true);
+
         // Creating the new document...
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $phpWord->setDefaultFontSize(12);
