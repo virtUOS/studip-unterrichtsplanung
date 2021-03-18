@@ -312,7 +312,7 @@ I N T E N T I O N
 }
 .target-wrapper.coarse-target {
     border: solid thin #d4dbe5;
-    margin: 1em 4px 4px 4px;
+    margin: 1em 8px 4px 40px;
     padding-bottom: 0;
 }
 .target-wrapper.coarse-target .note-element{
@@ -328,7 +328,7 @@ I N T E N T I O N
     padding-bottom: 3px;
 }
 .target-wrapper.fine-target {
-    margin: 4px;
+    margin: 1em 8px 4px 40px;
     padding-bottom: 0;
 }
 .target-wrapper.fine-target .note-element{
