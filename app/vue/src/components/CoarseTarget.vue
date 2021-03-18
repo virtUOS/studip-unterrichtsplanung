@@ -101,9 +101,13 @@ export default {
         },
         dimensions() {
             let dimensions = ['kognitiv', 'affektiv'];
-            if(this.plan.attributes.templates_id == 3) {
+            let template = this.plan.attributes.templates_id;
+            if(template == 3) {
                 dimensions.push('motorisch');
                 dimensions.push('sozial');
+            } else if(template == 4) {
+                dimensions.push('instrumentell');
+                dimensions.push('aktional');
             } else {
                 dimensions.push('psychomotorisch');
             }
