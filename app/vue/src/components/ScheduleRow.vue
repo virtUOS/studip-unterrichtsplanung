@@ -16,7 +16,7 @@
 <script>
 export default {
     name: 'ScheduleRow',
-    props: { row: {}, rowId: String },
+    props: { row: {}, rowId: Number },
     data() {
         return {
             col0: '',

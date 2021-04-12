@@ -111,7 +111,7 @@ export default {
                             view.colTitles = content.titles;
                             delete content.titles;
                         }
-                        view.rows = content;
+                        view.rows = content.rows;
                     }
                 })
                 .catch(error => {
@@ -134,9 +134,13 @@ export default {
         },
         storeSchedule() {
             let view = this;
-            let content = this.rows;
-            content.titles = this.colTitles;
+            let content = {
+                rows: this.rows,
+                titles: this.colTitles
+            };
+
             content = JSON.stringify(content);
+
             axios
                 .put('./api/schedules/' + view.schedule.id, {
                     content: content,

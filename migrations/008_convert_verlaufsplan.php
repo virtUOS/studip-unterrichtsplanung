@@ -31,7 +31,7 @@ class ConvertVerlaufsplan extends Migration
                 ];
 
                 foreach ($content as $row_num => $row) {
-                    $new_content[$row_num] = [
+                    $new_content['rows'][$row_num] = [
                         'col0' => $row['time'],
                         'col1' => $row['phase'],
                         'col2' => $row['step'],
