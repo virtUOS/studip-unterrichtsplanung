@@ -66,7 +66,7 @@ export default {
 
     mounted() {
         this.$store.dispatch('plans');
-        this.$store.dispatch('infos');
+        this.$store.dispatch('infos', 1);
     }
 };
 </script>

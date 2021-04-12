@@ -6,8 +6,13 @@
                     <span class="headline">Infotexte bearbeiten</span>
                     <spinner :show="showSpinner" @done="showSpinner = false"/>
                     <select @change="selectElement" v-model="selectedStructure">
-                        <option v-for="element in elementList" :key="element.id" :value="element.id">
+                        <option v-for="element in elementList" :key="element.text_id" :value="element.id">
                             {{element.name}}
+                        </option>
+                    </select>
+                    <select @change="selectDidactics" v-model="selectedDiadactics">
+                        <option v-for="diadactics in diadacticsList" :key="diadactics.id" :value="diadactics.id">
+                            {{diadactics.name}}
                         </option>
                     </select>
                 </div>
@@ -44,8 +49,16 @@ export default {
             elementList: [],
             selectedStructure: '',
             selectedText: '',
+            selectedTextId: '',
             selectedName: '',
-            showSpinner: false
+            showSpinner: false,
+            diadacticsList: [
+                {id: 1, name: 'Allgemeindidaktisch'},
+                {id: 2, name: 'Mathematikdidaktisch'},
+                {id: 3, name: 'Sportdidaktisch'},
+                {id: 4, name: 'Geographiedidaktisch'}
+            ],
+            selectedDiadactics: 1,
         }
     },
     computed: {
@@ -80,16 +93,26 @@ export default {
         getInfoTexts() {
             let view = this;
             axios
-            .get('./api/infotexts')
+            .get('./api/infotexts/' + this.selectedDiadactics)
             .then(response => {
                 if(response.data.data.length > 0) {
                     view.infoTexts = response.data.data;
+                } else {
+                    view.infoTexts = [];
                 }
                 view.setTextList();
             })
             .catch(error => {console.log(error);})
         },
+        getTemplatesId(structuresId) {
+            if (parseInt(structuresId) == -1) {
+                return 1
+            } else {
+                return this.selectedDiadactics;
+            }
+        },
         setTextList() {
+            this.elementList = [];
             this.structures.forEach(structure => {
                 let listElement = {};
                 listElement.id = structure.id;
@@ -104,7 +127,9 @@ export default {
                 if (listElement.text_id !== null) {
                     this.elementList.push(listElement);
                 } else {
-                    this.createInfoText(listElement);
+                    if(parseInt(structure.id) != -1) {
+                        this.createInfoText(listElement);
+                    }
                 }
             });
             this.initCKE();
@@ -116,7 +141,7 @@ export default {
             axios
                 .post('./api/infotexts',{
                     structures_id: listElement.id,
-                    templates_id: 0,
+                    templates_id: view.getTemplatesId(listElement.id),
                     text: ''
                 })
                 .then(response => {
@@ -136,9 +161,14 @@ export default {
             var wysiwyg_editor = CKEDITOR.instances[this.$refs.selectedText.id];
             wysiwyg_editor.setData(this.selectedText);
         },
+        selectDidactics() {
+            this.getStructures();
+        },
         initCKE() {
             let view = this;
-            STUDIP.wysiwyg.replace(view.$refs.selectedText);
+            if (CKEDITOR.instances['wysiwyg0'] == undefined) {
+                STUDIP.wysiwyg.replace(view.$refs.selectedText);
+            }
             let wysiwyg_editor = CKEDITOR.instances[view.$refs.selectedText.id];
 
             wysiwyg_editor.on('change', function() {
@@ -157,7 +187,7 @@ export default {
             axios
             .put('./api/infotexts/' + view.selectedTextId, {
                 structures_id: view.selectedStructure,
-                templates_id: 0,
+                templates_id: view.getTemplatesId(view.selectedStructure),
                 text: view.selectedText
             })
             .then(function(){
@@ -165,7 +195,7 @@ export default {
             })
             .catch(error => console.log(error));
         },
-        sortElementList(){
+        sortElementList() {
             this.elementList.sort((a, b) => {
                 if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                 if (b.name.toLowerCase() > a.name.toLowerCase()) return -1;

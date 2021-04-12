@@ -93,8 +93,8 @@ const store = new Vuex.Store({
             });
         },
 
-        infos (store) {
-            axios.get('./api/infotexts').then(({ data }) => {
+        infos (store, templates_id) {
+            axios.get('./api/infotexts/' + templates_id).then(({ data }) => {
                 store.state.infos = data.data;
             });
         }

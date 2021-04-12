@@ -16,7 +16,7 @@ class InfotextsList extends UnterrichtsplanungController
 
     public function __invoke(Request $request, Response $response, $args)
     {
-        $infotexts = Infotexts::findBySQL(1);
+        $infotexts = Infotexts::findBySQL('templates_id = ?', array((int)$args['templates_id']));
 
         return $this->createResponse($this->toArray($infotexts), $response);
     }

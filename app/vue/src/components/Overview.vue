@@ -51,6 +51,7 @@ export default {
 
     mounted() {
         this.$store.dispatch('interdeps', this.plan.id);
+        this.$store.dispatch('infos', this.plan.attributes.templates_id);
     },
 
     computed: {

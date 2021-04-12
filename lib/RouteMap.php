@@ -51,8 +51,8 @@ class RouteMap
         $this->app->put('/interdeps/{plans_id}/{structures_id}', Routes\Interdeps\InterdepsUpdate::class);
         $this->app->delete('/interdeps/{plans_id}/{structures_id}', Routes\Interdeps\InterdepsDelete::class);
 
-        $this->app->get('/infotexts', Routes\Infotexts\InfotextsList::class);
-        $this->app->get('/infotexts/{structures_id}', Routes\Infotexts\InfotextsGetByStructureId::class);
+        $this->app->get('/infotexts/{templates_id}', Routes\Infotexts\InfotextsList::class);
+        $this->app->get('/infotexts/{templates_id}/{structures_id}', Routes\Infotexts\InfotextsGetByStructureId::class);
 
         $this->app->get('/textfields/{id}', Routes\Textfields\TextfieldsGetById::class);
         $this->app->post('/textfields', Routes\Textfields\TextfieldsCreate::class);

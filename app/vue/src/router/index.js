@@ -92,7 +92,7 @@ router.beforeEach((to, from, next) => {
                     console.log(error);
                 });
             axios
-                .get('./api/infotexts')
+                .get('./api/infotexts/' + store.state.plan.attributes.templates_id)
                 .then(response => {
                     if (response.data.data.length > 0) {
                         store.state.infos = response.data.data;
