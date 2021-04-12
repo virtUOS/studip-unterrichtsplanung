@@ -21,24 +21,24 @@ class ConvertVerlaufsplan extends Migration
 
             if (!empty($content)) {
                 $new_content['titles'] = [
-                    'col1' => 'Zeit',
-                    'col2' => 'Phase',
-                    'col3' => 'Handlungsschritte',
-                    'col4' => 'Methodik',
-                    'col5' => 'Medien',
-                    'col6' => '',
-                    'col7' => ''
+                    'col0' => 'Zeit',
+                    'col1' => 'Phase',
+                    'col2' => 'Handlungsschritte',
+                    'col3' => 'Methodik',
+                    'col4' => 'Medien',
+                    'col5' => '',
+                    'col6' => ''
                 ];
 
                 foreach ($content as $row_num => $row) {
                     $new_content[$row_num] = [
-                        'col1' => $row['time'],
-                        'col2' => $row['phase'],
-                        'col3' => $row['step'],
-                        'col4' => $row['method'],
-                        'col5' => $row['media'],
-                        'col6' => '',
-                        'col7' => ''
+                        'col0' => $row['time'],
+                        'col1' => $row['phase'],
+                        'col2' => $row['step'],
+                        'col3' => $row['method'],
+                        'col4' => $row['media'],
+                        'col5' => '',
+                        'col6' => ''
                     ];
                 }
 
