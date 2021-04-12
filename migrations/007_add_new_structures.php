@@ -18,7 +18,7 @@ class AddNewStructures extends Migration
 
         $db->exec("
         INSERT INTO `du_structures` (id, parent_id, name,  mkdate, chdate)
-        VALUES ('37', '1', 'Stellung fer Stunde in der Unterrichtseinheit', '', '')
+        VALUES ('37', '1', 'Stellung der Stunde in der Unterrichtseinheit', '', '')
         ");
 
         SimpleORMap::expireTableScheme();
