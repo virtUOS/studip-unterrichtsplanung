@@ -22,7 +22,13 @@
                         <span class="add-note-text">Richtziel hinzufügen</span>
                     </button>
                 </div>
-                <Summary :structureName="structureName" :structureId="structureId" :structureText="structureText" />
+                <Summary
+                    :structureName="structureName"
+                    :structureId="structureId"
+                    :structureText="structureText"
+                    @summaryEmpty="showEmptyWarning = true"
+                    @summaryFilled="showEmptyWarning = false"
+                />
             </div>
             <div class="box-wrapper">
                 <InterdepBox :structures_id="structureId" :title="'Interdependenzen'" />
@@ -150,11 +156,6 @@ export default {
             this.elements.forEach(
                 element => (text = text + view.indicativeStructureTexts.find(x => x.id == element.id).text)
             );
-            if(text == '') {
-                this.showEmptyWarning = true;
-            } else {
-                this.showEmptyWarning = false;
-            }
             this.structureText = text;
         },
         resetInfo() {

@@ -36,9 +36,11 @@
 <script>
 import axios from 'axios';
 import Spinner from './components/Spinner.vue';
+import mixin from './mixins/mixin.js';
 
 export default {
     name: 'AdminApp',
+    mixins: [mixin],
     components: {
         Spinner
     },
@@ -116,7 +118,7 @@ export default {
             this.structures.forEach(structure => {
                 let listElement = {};
                 listElement.id = structure.id;
-                listElement.name = structure.attributes.name;
+                listElement.name = this.getStructureNameByTemplate(structure, this.selectedDiadactics);
                 listElement.text = '';
                 listElement.text_id = null;
                 let text = this.infoTexts.find(x => x.attributes.structures_id == structure.id);
@@ -199,6 +201,15 @@ export default {
             this.elementList.sort((a, b) => {
                 if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                 if (b.name.toLowerCase() > a.name.toLowerCase()) return -1;
+            });
+            let view = this;
+            this.elementList = this.elementList.filter((element) => {
+                if (view.selectedDiadactics == 2) {
+                    let discard = ['25', '26', '27', '28', '32', '33', '34', '35'];
+                    return !discard.includes(element.id);
+                } else {
+                    return true;
+                }
             });
             this.selectedStructure = this.elementList[0].id;
             this.selectElement();

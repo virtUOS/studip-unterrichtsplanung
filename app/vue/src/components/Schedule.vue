@@ -111,7 +111,9 @@ export default {
                             view.colTitles = content.titles;
                             delete content.titles;
                         }
-                        view.rows = content.rows;
+                       if(content.rows !== undefined) {
+                           view.rows = content.rows;
+                       }
                     }
                 })
                 .catch(error => {

@@ -40,7 +40,6 @@ export default {
     },
 
     mounted() {
-        let view = this;
         this.getSummary();
     },
     methods: {
@@ -88,14 +87,16 @@ export default {
         },
         autoSave: function(text) {
             let view = this;
+            this.showSpinner = true;
             axios
                 .put('./api/summary/' + view.summaryElement.id, {
                     structures_id: view.structureId,
                     text: text,
                     plans_id: view.$store.state.plan.id
                 })
-                .then(function() {
-                    view.showSpinner = true;
+                .then(response => {
+                    view.summaryElement = response.data;
+                    view.showSpinner = false;
                 })
                 .catch(error => {
                     console.log(error);
@@ -116,6 +117,15 @@ export default {
                 var wysiwyg_editor = CKEDITOR.instances[this.$refs.summaryText.id];
                 wysiwyg_editor.setData(this.structureText);
                 this.autoSave(wysiwyg_editor.getData());
+            }
+        }
+    },
+    watch: {
+        summaryElement(newVal, oldVal) {
+            if (newVal.text && newVal.text !== '') {
+                this.$emit('summaryFilled');
+            } else {
+                this.$emit('summaryEmpty');
             }
         }
     }

@@ -2,7 +2,7 @@
     <div class="plan-media">
         <h1>
             <router-link to="/"><span class="nav home"></span></router-link> /
-            <router-link :to="'/plan/' + plan.id">{{ plan.attributes.name }} </router-link> / Medien
+            <router-link :to="'/plan/' + plan.id">{{ plan.attributes.name }} </router-link> / {{structureName}}
         </h1>
         <div class="content-wrapper">
             <div class="content-container">
@@ -27,7 +27,9 @@
                     :structureName="structureName"
                     :structureId="structureId"
                     :structureText="structureText"
-                ></Summary>
+                    @summaryEmpty="showEmptyWarning = true"
+                    @summaryFilled="showEmptyWarning = false"
+                />
             </div>
             <div class="box-wrapper">
                 <InterdepBox :structures_id="structureId" :title="'Interdependenzen'" />
@@ -155,11 +157,6 @@ export default {
                 text = text + '<h3>' + element.name + '</h3>';
                 text = text + '<p>' + element.attributes.text + '</p><br>';
             });
-            if(text == '') {
-                this.showEmptyWarning = true;
-            } else {
-                this.showEmptyWarning = false;
-            }
             this.structureText = text;
         },
         resetInfo() {

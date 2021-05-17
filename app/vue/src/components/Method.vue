@@ -40,7 +40,9 @@
                     :structureName="structureName"
                     :structureId="structureId"
                     :structureText="structureText"
-                ></Summary>
+                    @summaryEmpty="showEmptyWarning = true"
+                    @summaryFilled="showEmptyWarning = false"
+                />
             </div>
             <div class="box-wrapper">
                 <InterdepBox :structures_id="structureId" :title="'Interdependenzen'" />
@@ -204,12 +206,6 @@ export default {
                 text = text + '<h3>' + this.element.name + '</h3>';
                 text = text + '<p>' + this.element.attributes.text + '</p><br>';
             }
-            if(text == '') {
-                this.showEmptyWarning = true;
-            } else {
-                this.showEmptyWarning = false;
-            }
-
             this.structureText = text;
         },
         resetInfo() {

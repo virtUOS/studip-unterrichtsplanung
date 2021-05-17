@@ -62,7 +62,9 @@
                         :structureName="structureName"
                         :structureId="structureId"
                         :structureText="structureText"
-                    ></Summary>
+                        @summaryEmpty="showEmptyWarning = true"
+                        @summaryFilled="showEmptyWarning = false"
+                    />
                 </div>
             </div>
             <div class="box-wrapper">
@@ -309,12 +311,6 @@ export default {
             } else {
                 text = text + '<h3>' + this.didacticElement.name + '</h3>';
                 text = text + '<p>' + this.didacticElement.attributes.text + '</p><br>';
-            }
-
-            if(text == '') {
-                this.showEmptyWarning = true;
-            } else {
-                this.showEmptyWarning = false;
             }
             this.structureText = text;
         },

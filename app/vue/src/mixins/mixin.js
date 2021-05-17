@@ -31,6 +31,9 @@ export default {
             let plan = this.$store.state.plan;
             let template = plan.attributes.templates_id;
 
+            return this.getStructureNameByTemplate(element, template);
+        },
+        getStructureNameByTemplate(element, template) {
             if (template == 1) {
                 return element.attributes.name;
             }
@@ -45,26 +48,26 @@ export default {
 
             if (template == 3) { // Sport
                 switch(element.attributes.id) {
-                    case 7: 
+                    case '6': 
+                        return 'Medien, Geräte und Materialien';
+                        break;
+                    case '7': 
                         return 'Zusammensetzung der Klasse';
                         break;
-                    case 13:
+                    case '13':
                         return 'Vorwissen und Vorerfahrungen';
                         break;
-                    case 17:
+                    case '17':
                         return 'Körperliche Konstitution';
                         break;
                     default:
                         return element.attributes.name;
                 }
-
             }
 
             if (template == 4) { // Geographie
-
+                return element.attributes.name;
             }
-
-
-        },
+        }
     }
 };

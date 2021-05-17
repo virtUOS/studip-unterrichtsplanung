@@ -716,6 +716,7 @@ S C H E D U L E
     resize: none;
     scrollbar-width: thin;
     scrollbar-color: #28497c #fff;
+    height: 5em;
 }
 .schedule-table tr th input {
     font-weight: 700;
