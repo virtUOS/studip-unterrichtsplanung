@@ -207,9 +207,13 @@ export default {
                 if (view.selectedDiadactics == 2) {
                     let discard = ['25', '26', '27', '28', '32', '33', '34', '35'];
                     return !discard.includes(element.id);
-                } else {
-                    return true;
                 }
+                if(view.selectedDiadactics != 3) {
+                    let discard = ['36'];
+                    return !discard.includes(element.id);
+                }
+
+                return true;
             });
             this.selectedStructure = this.elementList[0].id;
             this.selectElement();

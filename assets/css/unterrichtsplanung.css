@@ -278,7 +278,8 @@ N O T E E L E M E N T
     text-align: center;
 }
 
-.note-element .ckeplaceholder {
+.note-element .ckeplaceholder,
+.note-element .ckplaceholder {
     height: 0 !important;
 }
 
