@@ -106,13 +106,6 @@ export default {
             })
             .catch(error => {console.log(error);})
         },
-        getTemplatesId(structuresId) {
-            if (parseInt(structuresId) == -1) {
-                return 1
-            } else {
-                return this.selectedDiadactics;
-            }
-        },
         setTextList() {
             this.elementList = [];
             this.structures.forEach(structure => {
@@ -129,9 +122,7 @@ export default {
                 if (listElement.text_id !== null) {
                     this.elementList.push(listElement);
                 } else {
-                    if(parseInt(structure.id) != -1) {
-                        this.createInfoText(listElement);
-                    }
+                    this.createInfoText(listElement);
                 }
             });
             this.initCKE();
@@ -143,7 +134,7 @@ export default {
             axios
                 .post('./api/infotexts',{
                     structures_id: listElement.id,
-                    templates_id: view.getTemplatesId(listElement.id),
+                    templates_id: view.selectedDiadactics,
                     text: ''
                 })
                 .then(response => {
@@ -189,7 +180,7 @@ export default {
             axios
             .put('./api/infotexts/' + view.selectedTextId, {
                 structures_id: view.selectedStructure,
-                templates_id: view.getTemplatesId(view.selectedStructure),
+                templates_id: view.selectedDiadactics,
                 text: view.selectedText
             })
             .then(function(){
