@@ -103,13 +103,11 @@ class ExportDoc extends UnterrichtsplanungController
             $schedule = json_decode($sched->content, true);
 
             $table->addRow();
-            $table->addCell(1400)->addText('Zeit', $table_header);
-            $table->addCell(3100)->addText('Phase', $table_header);
-            $table->addCell(3100)->addText('Handlungsschritte', $table_header);
-            $table->addCell(3100)->addText('Methodik', $table_header);
-            $table->addCell(3100)->addText('Medien', $table_header);
+            foreach ($schedule['titles'] as $key => $title) {
+                $table->addCell(2000)->addText($title, $table_header);
+            }
 
-            foreach ($schedule as $entry) {
+            foreach ($schedule['rows'] as $entry) {
                 $table->addRow();
                 foreach ($entry as $val) {
                      $table->addCell()->addText($val);
