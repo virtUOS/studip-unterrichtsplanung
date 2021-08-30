@@ -47,6 +47,47 @@ class ExportText extends UnterrichtsplanungController
             $text .= "\r\n";
         }
 
+        foreach ($plan->schedules as $sched) {
+            $schedule = json_decode($sched->content, true);
+
+            if (!empty($schedule)) {
+                $longest_text_by_column = [];
+
+                // get field length of field with longest text
+                foreach ($schedule['titles'] as $key => $title) {
+                    $longest_text_by_column[$key] = strlen($title);
+
+                    foreach ($schedule['rows'] as $row) {
+                        $longest_text_by_column[$key] = max(
+                            $longest_text_by_column[$key], strlen($row[$key])
+                        );
+                    }
+                }
+
+                $text .= "\r\n";
+                $text .= 'Verlaufsplan' . "\r\n\r\n";
+
+                foreach ($schedule['titles'] as $key => $title) {
+                    $text .=  str_pad($title, $longest_text_by_column[$key], ' ') .' | ';
+                }
+                $text .= "\r\n";
+
+                foreach ($schedule['titles'] as $key => $title) {
+                    $text .=  str_pad('', $longest_text_by_column[$key], '-') .' | ';
+                }
+                $text .= "\r\n";
+
+                foreach ($schedule['rows'] as $row) {
+                    foreach ($row as $key => $content) {
+                        $text .=  str_pad($content, $longest_text_by_column[$key], ' ') .' | ';
+                    }
+                    $text .= "\r\n";
+                }
+
+                $text .= "\r\n";
+            }
+        }
+
         return $response->withHeader(
             'Content-Type', 'text/plain'
         )->withHeader(
