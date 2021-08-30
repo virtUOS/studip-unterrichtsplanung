@@ -56,19 +56,16 @@ class ExportPdf extends UnterrichtsplanungController
                 $document->addContent("\n");
 
                 $html = '<table border="1" cellpadding="3">';
-                $html .= '<tr>'
-                    . '<th width="12%" style="font-weight: bold">Zeit</th>'
-                    . '<th width="22%" style="font-weight: bold">Phase</th>'
-                    . '<th width="22%" style="font-weight: bold">Handlungsschritte</th>'
-                    . '<th width="22%" style="font-weight: bold">Methodik</th>'
-                    . '<th width="22%" style="font-weight: bold">Medien</th>'
-                    . '</tr>';
 
+                $html .= '<tr>';
+                foreach ($schedule['titles'] as $key => $title) {
+                    $html .=  '<th width="14%" style="font-weight: bold">' . $title .'</th>';
+                }
+                $html .= '</tr>';
 
-                foreach ($schedule as $entry) {
+                foreach ($schedule['rows'] as $row) {
                     $html .= '<tr>';
-                    foreach ($entry as $val) {
-
+                    foreach ($row as $val) {
                          $html .= '<td>'. $val .'</td>';
                     }
                     $html .= '</tr>';
