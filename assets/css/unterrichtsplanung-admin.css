@@ -1,13 +1,3 @@
-/********************
- P A G E L A Y O U T
-********************/
-#Unterrichtsplanung-admin #layout-sidebar {
-    display: none;
-}
-#Unterrichtsplanung-admin #page_title_container {
-    display: none;
-}
-
 /**************
 A D M I N B O X
 **************/
@@ -21,6 +11,15 @@ A D M I N B O X
 .admin-box-header {
     background-color: #d4dbe5;
     padding: 1em;
+}
+.admin-box-selects {
+    padding: 1em;
+    border-left: solid thin #d4dbe5;
+    border-right: solid thin #d4dbe5;
+}
+.admin-box-selects select{
+    display: block;
+    margin-bottom: 1em;
 }
 .admin-box-header span.headline {
     display: inline-block;
@@ -36,9 +35,6 @@ A D M I N B O X
     background-position-x: left;
     background-position-y: center;
     background-size: 24px;
-}
-.admin-box-header select {
-    float: right;
 }
 .selected-text-wrapper {
     border: solid thin #d4dbe5;

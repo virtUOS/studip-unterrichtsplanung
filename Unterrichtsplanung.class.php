@@ -29,16 +29,16 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
                     'Unterrichtsplanung_Admin'
                 )
             ) {
-                $admin = new Navigation(_('Administration'));
+                $admin = new Navigation(_('Unterrichtsplanung Administration'));
                 $admin->setURL(PluginEngine::getURL('unterrichtsplanung/admin'));
 
                 $main->addSubNavigation('admin', $admin);
-                Navigation::addItem('/start/unterrichtsplanung', $main);
+                Navigation::addItem('/contents/unterrichtsplanung', $main);
             } else {
-                Navigation::addItem('/start/unterrichtsplanung', $start);
+                Navigation::addItem('/contents/unterrichtsplanung', $start);
             }
 
-            Navigation::addItem('/unterrichtsplanung', $main);
+            Navigation::addItem('contents/unterrichtsplanung', $main);
 
             PageLayout::setHelpKeyword('Basis/Unterrichtsplanung'); // Hilfeseite im Hilfewiki
         }

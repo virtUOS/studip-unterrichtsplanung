@@ -5,16 +5,24 @@
                 <div class="admin-box-header">
                     <span class="headline">Infotexte bearbeiten</span>
                     <spinner :show="showSpinner" @done="showSpinner = false"/>
-                    <select @change="selectElement" v-model="selectedStructure">
-                        <option v-for="element in elementList" :key="element.text_id" :value="element.id">
-                            {{element.name}}
-                        </option>
-                    </select>
-                    <select @change="selectDidactics" v-model="selectedDiadactics">
-                        <option v-for="diadactics in diadacticsList" :key="diadactics.id" :value="diadactics.id">
-                            {{diadactics.name}}
-                        </option>
-                    </select>
+                </div>
+                <div class="admin-box-selects">
+                    <label>
+                        <span>Infotext</span>
+                        <select @change="selectElement" v-model="selectedStructure">
+                            <option v-for="element in elementList" :key="element.text_id" :value="element.id">
+                                {{element.name}}
+                            </option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Fachdidaktik</span>
+                        <select @change="selectDidactics" v-model="selectedDiadactics">
+                            <option v-for="diadactics in diadacticsList" :key="diadactics.id" :value="diadactics.id">
+                                {{diadactics.name}}
+                            </option>
+                        </select>
+                    </label>
                 </div>
                 <div class="selected-text-wrapper">
                     <textarea v-model="selectedText" ref="selectedText" class="selected-text"/>
