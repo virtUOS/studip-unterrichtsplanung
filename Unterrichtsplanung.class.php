@@ -15,6 +15,7 @@ class Unterrichtsplanung extends \StudIPPlugin implements \SystemPlugin
             $main = new Navigation(_('Unterrichtsplanung'));
             $main->setImage(Icon::create('topic'));
             $main->setURL(PluginEngine::getURL('unterrichtsplanung/index'));
+            $main->setDescription(_('Erlernen der Strukturplanung von Unterricht und anlegen eigener Unterrichtsentwürfe'));
 
             $overview = new Navigation(_('Unterrichtsplanung'));
             $overview->setURL(PluginEngine::getURL('unterrichtsplanung/index'));
