@@ -43,11 +43,13 @@ export default {
         this.getSummary();
     },
     methods: {
-        initCKE() {
+        async initCKE() {
             let view = this;
             const textarea = this.$refs.summaryText;
             STUDIP.wysiwyg.replace(textarea);
-            let wysiwyg_editor = STUDIP.wysiwyg.getEditor(textarea);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            const wysiwyg_editor = STUDIP.wysiwyg.getEditor(textarea);
+            
             wysiwyg_editor.ui.focusTracker.on('change:isFocused', (evt, name, isFocused) => {
                 if ( !isFocused ) {
                     view.autoSave(wysiwyg_editor.getData());
