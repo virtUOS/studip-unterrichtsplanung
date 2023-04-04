@@ -159,7 +159,8 @@ export default {
             this.selectedName = element.name.trim();
             this.selectedText = element.text;
             this.selectedTextId = element.text_id;
-            var wysiwyg_editor = CKEDITOR.instances[this.$refs.selectedText.id];
+            const textarea = this.$refs.selectedText;
+            let wysiwyg_editor = STUDIP.wysiwyg.getEditor(textarea);
             wysiwyg_editor.setData(this.selectedText);
         },
         selectDidactics() {
@@ -167,23 +168,17 @@ export default {
         },
         initCKE() {
             let view = this;
-            if (CKEDITOR.instances['wysiwyg0'] == undefined) {
-                STUDIP.wysiwyg.replace(view.$refs.selectedText);
+            const textarea = this.$refs.selectedText;
+            let wysiwyg_editor = STUDIP.wysiwyg.getEditor(textarea);
+            if (wysiwyg_editor === null) {
+                STUDIP.wysiwyg.replace(textarea);
             }
-            let wysiwyg_editor = CKEDITOR.instances[view.$refs.selectedText.id];
-
-            wysiwyg_editor.on('change', function() {
-                view.selectedText = wysiwyg_editor.getData();
-            });
-            wysiwyg_editor.on('blur', function() {
-            });
-            wysiwyg_editor.on('instanceReady', function(e) {
-            });
         },
         storeText() {
             let view = this;
-            let wysiwyg_editor = CKEDITOR.instances[view.$refs.selectedText.id];
-            let text = wysiwyg_editor.getData();
+            const textarea = this.$refs.selectedText;
+            let wysiwyg_editor = STUDIP.wysiwyg.getEditor(textarea);
+            view.selectedText = wysiwyg_editor.getData();
 
             axios
             .put('./api/infotexts/' + view.selectedTextId, {
@@ -193,6 +188,7 @@ export default {
             })
             .then(function(){
                 view.showSpinner = true;
+                view.getStructures();
             })
             .catch(error => console.log(error));
         },

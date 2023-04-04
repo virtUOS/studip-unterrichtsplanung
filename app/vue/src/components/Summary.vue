@@ -45,12 +45,15 @@ export default {
     methods: {
         initCKE() {
             let view = this;
-            STUDIP.wysiwyg.replace(view.$refs.summaryText);
-            let wysiwyg_editor = CKEDITOR.instances[view.$refs.summaryText.id];
-            wysiwyg_editor.on('blur', function() {
-                view.autoSave(wysiwyg_editor.getData());
+            const textarea = this.$refs.summaryText;
+            STUDIP.wysiwyg.replace(textarea);
+            let wysiwyg_editor = STUDIP.wysiwyg.getEditor(textarea);
+            wysiwyg_editor.ui.focusTracker.on('change:isFocused', (evt, name, isFocused) => {
+                if ( !isFocused ) {
+                    view.autoSave(wysiwyg_editor.getData());
+                }
             });
-            wysiwyg_editor.on('change', function() {
+            wysiwyg_editor.model.document.on('change:data', () => {
                 view.countChars();
             });
         },
@@ -103,7 +106,8 @@ export default {
                 });
         },
         countChars() {
-            var wysiwyg_editor = CKEDITOR.instances[this.$refs.summaryText.id];
+            const textarea = this.$refs.summaryText;
+            let wysiwyg_editor = STUDIP.wysiwyg.getEditor(textarea);
             let string = wysiwyg_editor.getData();
             string = string.replace(/<[^>]*>/g, '').replace(/\r?\n|\r/g, '').replace(/&nbsp;/g, '');
             this.charCounter = string.length;
@@ -114,7 +118,8 @@ export default {
                     'Möchten Sie den Inhalt aus allen Textfeldern einfügen? Der aktuelle Inhalt wird überschrieben!'
                 )
             ) {
-                var wysiwyg_editor = CKEDITOR.instances[this.$refs.summaryText.id];
+                const textarea = this.$refs.summaryText;
+                let wysiwyg_editor = STUDIP.wysiwyg.getEditor(textarea);
                 wysiwyg_editor.setData(this.structureText);
                 this.autoSave(wysiwyg_editor.getData());
             }
